@@ -18,7 +18,7 @@ public class FirstPersonCamera : MonoBehaviour
 
     private void LateUpdate()
     {
-        if(m_target == null)
+        if (m_target == null)
         {
             return;
         }
@@ -28,12 +28,20 @@ public class FirstPersonCamera : MonoBehaviour
         float mouseX = Input.GetAxis("Mouse X");
         float mouseY = Input.GetAxis("Mouse Y");
 
+        // Update vertical and horizontal rotation
         m_verticalRot -= mouseY * m_mouseSensitivity;
         m_verticalRot = Mathf.Clamp(m_verticalRot, -70f, 70);
 
         m_horizontalRot += mouseX * m_mouseSensitivity;
 
-        transform.rotation = Quaternion.Euler(m_verticalRot, m_horizontalRot, 0f);
+        // Smooth the rotation using Lerp
+        float smoothFactor = 0.1f;  // Adjust this value for more or less smoothing
+        float smoothedVerticalRot = Mathf.LerpAngle(transform.eulerAngles.x, m_verticalRot, smoothFactor);
+        float smoothedHorizontalRot = Mathf.LerpAngle(transform.eulerAngles.y, m_horizontalRot, smoothFactor);
+
+        // Apply the smoothed rotation
+        transform.rotation = Quaternion.Euler(smoothedVerticalRot, smoothedHorizontalRot, 0f);
     }
+
 
 }

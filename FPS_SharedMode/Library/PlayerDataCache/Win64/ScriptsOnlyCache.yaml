@@ -1,6 +1,7 @@
 ScriptsOnlyBuild:
   usedScripts:
     Assembly-CSharp:
+    - Bullet
     - PlayerMovement
     - PlayerWeapon
     Assembly-CSharp.dll:
@@ -83,6 +84,7 @@ ScriptsOnlyBuild:
     - Fusion.NetworkEvents/ShutdownEvent
     - Fusion.NetworkEvents/SimulationMessageEvent
     - Fusion.NetworkObjectGuid
+    - Fusion.NetworkPrefabRef
     - Fusion.NetworkPrefabTableOptions
     - Fusion.NetworkProjectConfig
     - Fusion.NetworkProjectConfigAsset/SerializableSimulationBehaviourMeta
@@ -120,12 +122,6 @@ ScriptsOnlyBuild:
     fullTypeName: Fusion.Statistics.FusionStatsGraphBase
     methodName: ToggleRenderDisplay
   - assembly: Fusion.Unity
-    fullTypeName: Fusion.Statistics.FusionNetworkObjectStatsGraphCombine
-    methodName: ToggleRenderDisplay
-  - assembly: Fusion.Unity
-    fullTypeName: Fusion.Statistics.FusionNetworkObjectStatsGraphCombine
-    methodName: DestroyCombinedGraph
-  - assembly: Fusion.Unity
     fullTypeName: Fusion.Statistics.FusionStatsConfig
     methodName: ToggleConfigPanel
   - assembly: Fusion.Unity
@@ -140,6 +136,12 @@ ScriptsOnlyBuild:
   - assembly: Fusion.Unity
     fullTypeName: Fusion.Statistics.FusionStatsConfig
     methodName: SetWorldCanvasScale
+  - assembly: Fusion.Unity
+    fullTypeName: Fusion.Statistics.FusionNetworkObjectStatsGraphCombine
+    methodName: ToggleRenderDisplay
+  - assembly: Fusion.Unity
+    fullTypeName: Fusion.Statistics.FusionNetworkObjectStatsGraphCombine
+    methodName: DestroyCombinedGraph
   sceneClasses:
     Assets/Scenes/SampleScene.unity:
     - Class: 1
@@ -173,76 +175,80 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 606}
     - Class: 114
-      Script: {instanceID: 16624}
-    - Class: 114
-      Script: {instanceID: 16626}
-    - Class: 114
-      Script: {instanceID: 16628}
-    - Class: 114
-      Script: {instanceID: 16630}
-    - Class: 114
       Script: {instanceID: 16672}
     - Class: 114
-      Script: {instanceID: 17846}
+      Script: {instanceID: 16848}
     - Class: 114
-      Script: {instanceID: 18286}
+      Script: {instanceID: 17780}
     - Class: 114
-      Script: {instanceID: 18850}
+      Script: {instanceID: 17878}
     - Class: 114
-      Script: {instanceID: 19064}
+      Script: {instanceID: 17896}
     - Class: 114
-      Script: {instanceID: 19890}
+      Script: {instanceID: 18200}
     - Class: 114
-      Script: {instanceID: 19938}
+      Script: {instanceID: 18230}
     - Class: 114
-      Script: {instanceID: 21010}
+      Script: {instanceID: 18270}
     - Class: 114
-      Script: {instanceID: 21398}
+      Script: {instanceID: 18360}
     - Class: 114
-      Script: {instanceID: 22014}
+      Script: {instanceID: 18376}
     - Class: 114
-      Script: {instanceID: 22788}
+      Script: {instanceID: 18952}
     - Class: 114
-      Script: {instanceID: 22792}
+      Script: {instanceID: 19176}
     - Class: 114
-      Script: {instanceID: 22796}
+      Script: {instanceID: 20028}
     - Class: 114
-      Script: {instanceID: 22798}
+      Script: {instanceID: 20078}
     - Class: 114
-      Script: {instanceID: 22800}
+      Script: {instanceID: 20400}
     - Class: 114
-      Script: {instanceID: 22802}
+      Script: {instanceID: 20540}
     - Class: 114
-      Script: {instanceID: 22820}
+      Script: {instanceID: 20712}
     - Class: 114
-      Script: {instanceID: 22894}
+      Script: {instanceID: 20836}
     - Class: 114
-      Script: {instanceID: 22978}
+      Script: {instanceID: 20840}
     - Class: 114
-      Script: {instanceID: 23006}
+      Script: {instanceID: 20844}
     - Class: 114
-      Script: {instanceID: 23050}
+      Script: {instanceID: 20846}
     - Class: 114
-      Script: {instanceID: 23066}
+      Script: {instanceID: 20848}
     - Class: 114
-      Script: {instanceID: 23070}
+      Script: {instanceID: 20850}
     - Class: 114
-      Script: {instanceID: 23098}
+      Script: {instanceID: 21252}
     - Class: 114
-      Script: {instanceID: 23156}
+      Script: {instanceID: 21654}
     - Class: 114
-      Script: {instanceID: 23176}
+      Script: {instanceID: 21934}
     - Class: 114
-      Script: {instanceID: 25634}
+      Script: {instanceID: 22032}
     - Class: 114
-      Script: {instanceID: 25896}
+      Script: {instanceID: 22112}
     - Class: 114
-      Script: {instanceID: 26614}
+      Script: {instanceID: 22302}
     - Class: 114
-      Script: {instanceID: 26990}
+      Script: {instanceID: 22334}
+    - Class: 114
+      Script: {instanceID: 22518}
+    - Class: 114
+      Script: {instanceID: 22592}
+    - Class: 114
+      Script: {instanceID: 22628}
+    - Class: 114
+      Script: {instanceID: 23022}
+    - Class: 114
+      Script: {instanceID: 26092}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
+      Script: {instanceID: 0}
+    - Class: 135
       Script: {instanceID: 0}
     - Class: 136
       Script: {instanceID: 0}
@@ -261,30 +267,6 @@ ScriptsOnlyBuild:
     - Class: 224
       Script: {instanceID: 0}
   scriptHashData:
-  - hash:
-      serializedVersion: 2
-      Hash: b5007673bbbdb9d12597a1d8201370f5
-    assemblyName: UnityEngine.UI
-    namespaceName: UnityEngine.UI
-    className: Text
-  - hash:
-      serializedVersion: 2
-      Hash: 540882762544409cc4530e60db00e951
-    assemblyName: UnityEngine.UI
-    namespaceName: UnityEngine.UI
-    className: CanvasScaler
-  - hash:
-      serializedVersion: 2
-      Hash: 915204dac8acad99f076d6e72ada0a0f
-    assemblyName: UnityEngine.UI
-    namespaceName: UnityEngine.UI
-    className: Button
-  - hash:
-      serializedVersion: 2
-      Hash: 5ebc58ec194dd44630b25fcc270ad4af
-    assemblyName: UnityEngine.UI
-    namespaceName: UnityEngine.UI
-    className: Dropdown
   - hash:
       serializedVersion: 2
       Hash: 55060a7bf226ac385ce19ebd450f199f
@@ -323,6 +305,12 @@ ScriptsOnlyBuild:
     className: Selectable
   - hash:
       serializedVersion: 2
+      Hash: 79112e8264b56e6d89ff3bad7b10b728
+    assemblyName: Assembly-CSharp
+    namespaceName: 
+    className: FirstPersonCamera
+  - hash:
+      serializedVersion: 2
       Hash: 8703b6ae2b0eefd9dafbc44d8d333fb1
     assemblyName: UnityEngine.UI
     namespaceName: UnityEngine.UI
@@ -345,6 +333,12 @@ ScriptsOnlyBuild:
     assemblyName: Unity.VisualScripting.Core
     namespaceName: Unity.VisualScripting
     className: UnityOnTriggerEnterMessageListener
+  - hash:
+      serializedVersion: 2
+      Hash: d49f2cfabf362aaa97e5b57e33860de3
+    assemblyName: Fusion.Unity
+    namespaceName: Fusion
+    className: FusionBasicBillboard
   - hash:
       serializedVersion: 2
       Hash: 0c6de72eaf8c1070da824268c4bfad9d
@@ -425,10 +419,34 @@ ScriptsOnlyBuild:
     className: UnityMessageListener
   - hash:
       serializedVersion: 2
+      Hash: 4efcb4847fad1aae1da83e4bd566f736
+    assemblyName: Fusion.Unity
+    namespaceName: Fusion
+    className: RunnerAOIGizmos
+  - hash:
+      serializedVersion: 2
+      Hash: ead531ee99cf4fa6c5045fe85a8dd728
+    assemblyName: Fusion.Unity
+    namespaceName: Fusion.Statistics
+    className: FusionNetworkObjectStatsGraphCombine
+  - hash:
+      serializedVersion: 2
+      Hash: a7f9239e0d0115f7467131a0d30f18b9
+    assemblyName: Fusion.Unity
+    namespaceName: Fusion
+    className: RunnerVisibilityLinksRoot
+  - hash:
+      serializedVersion: 2
       Hash: fce9b835d1e8b08e7ecea8da19f21986
     assemblyName: Unity.VisualScripting.Core
     namespaceName: Unity.VisualScripting
     className: CoroutineRunner
+  - hash:
+      serializedVersion: 2
+      Hash: 7b4bbd9a5693b4c988c235752bb3f86b
+    assemblyName: Fusion.Unity
+    namespaceName: Fusion.Statistics
+    className: FusionStatsConfig
   - hash:
       serializedVersion: 2
       Hash: 6ddf94363c6ce4b02d9fdd51290cb0f9
@@ -491,10 +509,28 @@ ScriptsOnlyBuild:
     className: ToggleGroup
   - hash:
       serializedVersion: 2
+      Hash: 915204dac8acad99f076d6e72ada0a0f
+    assemblyName: UnityEngine.UI
+    namespaceName: UnityEngine.UI
+    className: Button
+  - hash:
+      serializedVersion: 2
+      Hash: 6bdfd34dccbab9ba5c9da0358eb0510c
+    assemblyName: Assembly-CSharp
+    namespaceName: 
+    className: PlayerWeapon
+  - hash:
+      serializedVersion: 2
       Hash: d90629714fa6b0145fcaffc87f5c6559
     assemblyName: Unity.VisualScripting.Core
     namespaceName: Unity.VisualScripting
     className: UnityOnInputFieldValueChangedMessageListener
+  - hash:
+      serializedVersion: 2
+      Hash: abe1479ce3503d1c44c5b87997046de0
+    assemblyName: Fusion.Unity
+    namespaceName: Fusion.Statistics
+    className: FusionStatsCanvas
   - hash:
       serializedVersion: 2
       Hash: bb8d968ef4474e71aaad4a4dce279f90
@@ -519,6 +555,18 @@ ScriptsOnlyBuild:
     assemblyName: Unity.VisualScripting.Core
     namespaceName: Unity.VisualScripting
     className: UnityOnTransformParentChangedMessageListener
+  - hash:
+      serializedVersion: 2
+      Hash: 49f4b331696016c4991bcea785800c27
+    assemblyName: Fusion.Unity
+    namespaceName: Fusion.Statistics
+    className: FusionNetworkObjectStatistics
+  - hash:
+      serializedVersion: 2
+      Hash: 07773a177ece4bf8b900aa442000733a
+    assemblyName: Assembly-CSharp
+    namespaceName: 
+    className: PlayerMovement
   - hash:
       serializedVersion: 2
       Hash: d41ab9b5ea92474f9c0a6937a0607ce1
@@ -605,6 +653,12 @@ ScriptsOnlyBuild:
     className: Mask
   - hash:
       serializedVersion: 2
+      Hash: e425a6626218038a7a24591be8f9f5a4
+    assemblyName: Fusion.Unity
+    namespaceName: Fusion
+    className: FusionAddressablePrefabsPreloader
+  - hash:
+      serializedVersion: 2
       Hash: 4718916586b3818eb69bf65df61f0f3a
     assemblyName: Unity.VisualScripting.Core
     namespaceName: Unity.VisualScripting
@@ -671,6 +725,12 @@ ScriptsOnlyBuild:
     className: TMP_SubMeshUI
   - hash:
       serializedVersion: 2
+      Hash: b5384ebbd394221e5ffd841367b89435
+    assemblyName: Fusion.Unity
+    namespaceName: Fusion
+    className: NetworkObjectProviderDefault
+  - hash:
+      serializedVersion: 2
       Hash: 9078325c2a6f6a2d9612ade897511860
     assemblyName: Unity.TextMeshPro
     namespaceName: TMPro
@@ -693,6 +753,12 @@ ScriptsOnlyBuild:
     assemblyName: Unity.Timeline
     namespaceName: UnityEngine.Timeline
     className: ActivationPlayableAsset
+  - hash:
+      serializedVersion: 2
+      Hash: b977e69ee5247a7f013a8bc8aec5112c
+    assemblyName: Fusion.Unity
+    namespaceName: Fusion
+    className: RunnerVisibilityLink
   - hash:
       serializedVersion: 2
       Hash: e402a382f213255c22bda9254dd831b3
@@ -809,10 +875,28 @@ ScriptsOnlyBuild:
     className: GroupTrack
   - hash:
       serializedVersion: 2
+      Hash: 4adb9d15d7da32d29082f72fc502a136
+    assemblyName: Fusion.Unity
+    namespaceName: Fusion
+    className: NetworkCharacterController
+  - hash:
+      serializedVersion: 2
       Hash: bf0842d88681628b29beb00b5e2ab785
     assemblyName: Unity.VisualScripting.Core
     namespaceName: Unity.VisualScripting
     className: UnityOnDeselectMessageListener
+  - hash:
+      serializedVersion: 2
+      Hash: b5007673bbbdb9d12597a1d8201370f5
+    assemblyName: UnityEngine.UI
+    namespaceName: UnityEngine.UI
+    className: Text
+  - hash:
+      serializedVersion: 2
+      Hash: 80b42d1627c2477af3bed92115ea9993
+    assemblyName: Fusion.Unity
+    namespaceName: Fusion
+    className: EnableOnSingleRunner
   - hash:
       serializedVersion: 2
       Hash: 1ce63d97d1ca25cba2d91d5f32fd5f79
@@ -821,16 +905,100 @@ ScriptsOnlyBuild:
     className: StateGraphAsset
   - hash:
       serializedVersion: 2
+      Hash: 540882762544409cc4530e60db00e951
+    assemblyName: UnityEngine.UI
+    namespaceName: UnityEngine.UI
+    className: CanvasScaler
+  - hash:
+      serializedVersion: 2
       Hash: ef38c1407dba8c1f5d69f5db61a694fe
     assemblyName: Unity.VisualScripting.Core
     namespaceName: Unity.VisualScripting
     className: AnimatorMessageListener
   - hash:
       serializedVersion: 2
+      Hash: 12df3b8a5cdc9f0d652a1e226494f2a1
+    assemblyName: Fusion.Unity
+    namespaceName: Fusion
+    className: RunnerEnableVisibility
+  - hash:
+      serializedVersion: 2
       Hash: 33656f83bb0079184b2206a69690ec46
     assemblyName: UnityEngine.UI
     namespaceName: UnityEngine.UI
     className: AspectRatioFitter
+  - hash:
+      serializedVersion: 2
+      Hash: 8b9c974a3b8ba7111ff5eccc22485178
+    assemblyName: Fusion.Runtime.dll
+    namespaceName: Fusion
+    className: Hitbox
+  - hash:
+      serializedVersion: 2
+      Hash: df6d43cd4698328924cdef1c2b520daa
+    assemblyName: Fusion.Runtime.dll
+    namespaceName: Fusion
+    className: HitboxManager
+  - hash:
+      serializedVersion: 2
+      Hash: 5a0cdec984cf5009a0a064cd1821d216
+    assemblyName: Fusion.Runtime.dll
+    namespaceName: Fusion
+    className: HitboxRoot
+  - hash:
+      serializedVersion: 2
+      Hash: c57798df720c2fa5f1d455f03dbece33
+    assemblyName: Fusion.Runtime.dll
+    namespaceName: Fusion
+    className: NetworkEvents
+  - hash:
+      serializedVersion: 2
+      Hash: 4ad06b5be78ec35a60bb6454dfbf7f60
+    assemblyName: Fusion.Runtime.dll
+    namespaceName: Fusion
+    className: NetworkMecanimAnimator
+  - hash:
+      serializedVersion: 2
+      Hash: a7c5807031c85504bd8059244c2265d9
+    assemblyName: Fusion.Runtime.dll
+    namespaceName: Fusion
+    className: NetworkObject
+  - hash:
+      serializedVersion: 2
+      Hash: 372258579915f03ee94b68fb4876f6c4
+    assemblyName: Fusion.Runtime.dll
+    namespaceName: Fusion
+    className: NetworkObjectInactivityGuard
+  - hash:
+      serializedVersion: 2
+      Hash: afadf34bddb6d7576d3cd3918d94f12a
+    assemblyName: Fusion.Runtime.dll
+    namespaceName: Fusion
+    className: NetworkObjectPrefabData
+  - hash:
+      serializedVersion: 2
+      Hash: af918d390b7f9162a53202901e558022
+    assemblyName: Fusion.Runtime.dll
+    namespaceName: Fusion
+    className: NetworkProjectConfigAsset
+  - hash:
+      serializedVersion: 2
+      Hash: c18b7a706e2a4e329ca8810463e15881
+    assemblyName: Fusion.Runtime.dll
+    namespaceName: Fusion
+    className: NetworkRunner
+  - hash:
+      serializedVersion: 2
+      Hash: 6661edce1017c149e4240de47ddc6fc8
+    assemblyName: Fusion.Runtime.dll
+    namespaceName: Fusion
+    className: NetworkTransform
+  - hash:
+      serializedVersion: 2
+      Hash: ac79e8ac3d3deafe51caf9f6541c400f
+    assemblyName: Fusion.Runtime.dll
+    namespaceName: Fusion
+    className: NetworkTRSP
   - hash:
       serializedVersion: 2
       Hash: 9637dcdf3068a91dfe653e61bb82f13d
@@ -879,6 +1047,12 @@ ScriptsOnlyBuild:
     assemblyName: UnityEngine.TestRunner
     namespaceName: UnityEngine.TestTools
     className: BeforeAfterTestCommandState
+  - hash:
+      serializedVersion: 2
+      Hash: b2269c3e77c2350989559f76de1fe215
+    assemblyName: Fusion.Unity
+    namespaceName: Fusion
+    className: RunnerLagCompensationGizmos
   - hash:
       serializedVersion: 2
       Hash: 8bbce9932f67ad8e7f4eefec87800f94
@@ -965,6 +1139,12 @@ ScriptsOnlyBuild:
     className: UnityOnPointerDownMessageListener
   - hash:
       serializedVersion: 2
+      Hash: 163e6659a6cffffaf22f733c43f0ee7d
+    assemblyName: Fusion.Unity
+    namespaceName: Fusion
+    className: FusionBootstrapDebugGUI
+  - hash:
+      serializedVersion: 2
       Hash: ee34255e3e86289bde9bad5e07b84cbc
     assemblyName: Unity.VisualScripting.Core
     namespaceName: Unity.VisualScripting
@@ -989,16 +1169,64 @@ ScriptsOnlyBuild:
     className: UnityOnSubmitMessageListener
   - hash:
       serializedVersion: 2
+      Hash: 5ebc58ec194dd44630b25fcc270ad4af
+    assemblyName: UnityEngine.UI
+    namespaceName: UnityEngine.UI
+    className: Dropdown
+  - hash:
+      serializedVersion: 2
+      Hash: af528f4fce6feec2ed7e176d650baec6
+    assemblyName: Fusion.Realtime.dll
+    namespaceName: Fusion.Photon.Realtime
+    className: ConnectionHandler
+  - hash:
+      serializedVersion: 2
+      Hash: 6c7c2d4f4f1929db651f08a0df52b293
+    assemblyName: Fusion.Realtime.dll
+    namespaceName: Fusion.Photon.Realtime
+    className: MonoBehaviourEmpty
+  - hash:
+      serializedVersion: 2
+      Hash: 9c4b490f84f41b87b5e3e3d1f3e16271
+    assemblyName: Fusion.Realtime.dll
+    namespaceName: Fusion.Photon.Realtime
+    className: PhotonAppSettings
+  - hash:
+      serializedVersion: 2
+      Hash: 90c0c7db02023ec49be636a69b9ffdd5
+    assemblyName: Fusion.Realtime.dll
+    namespaceName: Fusion.Photon.Realtime
+    className: SupportLogger
+  - hash:
+      serializedVersion: 2
       Hash: 4728e3d21cc2a12e391e71ec9b7eed0b
     assemblyName: Unity.Timeline
     namespaceName: UnityEngine.Timeline
     className: SignalTrack
   - hash:
       serializedVersion: 2
+      Hash: 89cdcdb3e1180a6b485d5a6e33868001
+    assemblyName: Fusion.Unity
+    namespaceName: Fusion.Statistics
+    className: FusionStatsWorldAnchor
+  - hash:
+      serializedVersion: 2
       Hash: 67272c9c30c50b68ef1ce72ac0191c57
     assemblyName: Unity.VisualScripting.Core
     namespaceName: Unity.VisualScripting
     className: UnityOnMoveMessageListener
+  - hash:
+      serializedVersion: 2
+      Hash: 262c3152c215e2cdeef703d813966afb
+    assemblyName: Fusion.Unity
+    namespaceName: Fusion.Statistics
+    className: FusionStatistics
+  - hash:
+      serializedVersion: 2
+      Hash: b08ad5bd47c9b58a65f7c820ef56eff5
+    assemblyName: Fusion.Unity
+    namespaceName: Fusion.Statistics
+    className: FusionStatsGraphDefault
   - hash:
       serializedVersion: 2
       Hash: d0392b7f3f52d5af537ade186b4f51f1
@@ -1013,6 +1241,18 @@ ScriptsOnlyBuild:
     className: ScrollRect
   - hash:
       serializedVersion: 2
+      Hash: 42c0d3b8f069847026156a95d22a5923
+    assemblyName: Fusion.Unity
+    namespaceName: Fusion
+    className: NetworkSceneManagerDefault
+  - hash:
+      serializedVersion: 2
+      Hash: c927779b6a85752066d1d4af13377809
+    assemblyName: Fusion.Unity
+    namespaceName: Fusion
+    className: FusionBootstrap
+  - hash:
+      serializedVersion: 2
       Hash: 9a174471d4db2c0c6d3ac47d2f818db1
     assemblyName: Unity.VisualScripting.Core
     namespaceName: Unity.VisualScripting
@@ -1025,10 +1265,22 @@ ScriptsOnlyBuild:
     className: UnityOnMouseOverMessageListener
   - hash:
       serializedVersion: 2
+      Hash: 8623e574b381acdd0564b28d8352f20f
+    assemblyName: Fusion.Unity
+    namespaceName: Fusion.Statistics
+    className: FusionStatsPanelHeader
+  - hash:
+      serializedVersion: 2
       Hash: 2c583ad0ac85d03e8700dd05fdcb46cb
     assemblyName: Unity.VisualScripting.Core
     namespaceName: Unity.VisualScripting
     className: Variables
+  - hash:
+      serializedVersion: 2
+      Hash: f63ae2baee2952008966faf3f110b8c2
+    assemblyName: Fusion.Unity
+    namespaceName: Fusion.Statistics
+    className: FusionNetworkObjectStatsGraph
   - hash:
       serializedVersion: 2
       Hash: b30c8635462e66ac20f4241106119f77
@@ -1073,6 +1325,12 @@ ScriptsOnlyBuild:
     className: TouchInputModule
   - hash:
       serializedVersion: 2
+      Hash: 63b2bdcb5fdff374aae622e997151ca6
+    assemblyName: Assembly-CSharp
+    namespaceName: 
+    className: PlayerSpawner
+  - hash:
+      serializedVersion: 2
       Hash: 00eef92bf387da2c9009267123d9d674
     assemblyName: Unity.VisualScripting.Core
     namespaceName: Unity.VisualScripting
@@ -1085,257 +1343,11 @@ ScriptsOnlyBuild:
     className: UnityOnSliderValueChangedMessageListener
   - hash:
       serializedVersion: 2
-      Hash: 8b9c974a3b8ba7111ff5eccc22485178
-    assemblyName: Fusion.Runtime.dll
-    namespaceName: Fusion
-    className: Hitbox
-  - hash:
-      serializedVersion: 2
-      Hash: df6d43cd4698328924cdef1c2b520daa
-    assemblyName: Fusion.Runtime.dll
-    namespaceName: Fusion
-    className: HitboxManager
-  - hash:
-      serializedVersion: 2
-      Hash: 5a0cdec984cf5009a0a064cd1821d216
-    assemblyName: Fusion.Runtime.dll
-    namespaceName: Fusion
-    className: HitboxRoot
-  - hash:
-      serializedVersion: 2
-      Hash: c57798df720c2fa5f1d455f03dbece33
-    assemblyName: Fusion.Runtime.dll
-    namespaceName: Fusion
-    className: NetworkEvents
-  - hash:
-      serializedVersion: 2
-      Hash: 4ad06b5be78ec35a60bb6454dfbf7f60
-    assemblyName: Fusion.Runtime.dll
-    namespaceName: Fusion
-    className: NetworkMecanimAnimator
-  - hash:
-      serializedVersion: 2
-      Hash: a7c5807031c85504bd8059244c2265d9
-    assemblyName: Fusion.Runtime.dll
-    namespaceName: Fusion
-    className: NetworkObject
-  - hash:
-      serializedVersion: 2
-      Hash: 372258579915f03ee94b68fb4876f6c4
-    assemblyName: Fusion.Runtime.dll
-    namespaceName: Fusion
-    className: NetworkObjectInactivityGuard
-  - hash:
-      serializedVersion: 2
-      Hash: afadf34bddb6d7576d3cd3918d94f12a
-    assemblyName: Fusion.Runtime.dll
-    namespaceName: Fusion
-    className: NetworkObjectPrefabData
-  - hash:
-      serializedVersion: 2
-      Hash: af918d390b7f9162a53202901e558022
-    assemblyName: Fusion.Runtime.dll
-    namespaceName: Fusion
-    className: NetworkProjectConfigAsset
-  - hash:
-      serializedVersion: 2
-      Hash: c18b7a706e2a4e329ca8810463e15881
-    assemblyName: Fusion.Runtime.dll
-    namespaceName: Fusion
-    className: NetworkRunner
-  - hash:
-      serializedVersion: 2
-      Hash: 6661edce1017c149e4240de47ddc6fc8
-    assemblyName: Fusion.Runtime.dll
-    namespaceName: Fusion
-    className: NetworkTransform
-  - hash:
-      serializedVersion: 2
-      Hash: ac79e8ac3d3deafe51caf9f6541c400f
-    assemblyName: Fusion.Runtime.dll
-    namespaceName: Fusion
-    className: NetworkTRSP
-  - hash:
-      serializedVersion: 2
-      Hash: af528f4fce6feec2ed7e176d650baec6
-    assemblyName: Fusion.Realtime.dll
-    namespaceName: Fusion.Photon.Realtime
-    className: ConnectionHandler
-  - hash:
-      serializedVersion: 2
-      Hash: 6c7c2d4f4f1929db651f08a0df52b293
-    assemblyName: Fusion.Realtime.dll
-    namespaceName: Fusion.Photon.Realtime
-    className: MonoBehaviourEmpty
-  - hash:
-      serializedVersion: 2
-      Hash: 9c4b490f84f41b87b5e3e3d1f3e16271
-    assemblyName: Fusion.Realtime.dll
-    namespaceName: Fusion.Photon.Realtime
-    className: PhotonAppSettings
-  - hash:
-      serializedVersion: 2
-      Hash: 90c0c7db02023ec49be636a69b9ffdd5
-    assemblyName: Fusion.Realtime.dll
-    namespaceName: Fusion.Photon.Realtime
-    className: SupportLogger
-  - hash:
-      serializedVersion: 2
-      Hash: b5384ebbd394221e5ffd841367b89435
-    assemblyName: Fusion.Unity
-    namespaceName: Fusion
-    className: NetworkObjectProviderDefault
-  - hash:
-      serializedVersion: 2
-      Hash: 42c0d3b8f069847026156a95d22a5923
-    assemblyName: Fusion.Unity
-    namespaceName: Fusion
-    className: NetworkSceneManagerDefault
-  - hash:
-      serializedVersion: 2
-      Hash: 4efcb4847fad1aae1da83e4bd566f736
-    assemblyName: Fusion.Unity
-    namespaceName: Fusion
-    className: RunnerAOIGizmos
-  - hash:
-      serializedVersion: 2
-      Hash: b08ad5bd47c9b58a65f7c820ef56eff5
-    assemblyName: Fusion.Unity
-    namespaceName: Fusion.Statistics
-    className: FusionStatsGraphDefault
-  - hash:
-      serializedVersion: 2
-      Hash: 49f4b331696016c4991bcea785800c27
-    assemblyName: Fusion.Unity
-    namespaceName: Fusion.Statistics
-    className: FusionNetworkObjectStatistics
-  - hash:
-      serializedVersion: 2
-      Hash: a7f9239e0d0115f7467131a0d30f18b9
-    assemblyName: Fusion.Unity
-    namespaceName: Fusion
-    className: RunnerVisibilityLinksRoot
-  - hash:
-      serializedVersion: 2
-      Hash: abe1479ce3503d1c44c5b87997046de0
-    assemblyName: Fusion.Unity
-    namespaceName: Fusion.Statistics
-    className: FusionStatsCanvas
-  - hash:
-      serializedVersion: 2
-      Hash: d49f2cfabf362aaa97e5b57e33860de3
-    assemblyName: Fusion.Unity
-    namespaceName: Fusion
-    className: FusionBasicBillboard
-  - hash:
-      serializedVersion: 2
-      Hash: b2269c3e77c2350989559f76de1fe215
-    assemblyName: Fusion.Unity
-    namespaceName: Fusion
-    className: RunnerLagCompensationGizmos
-  - hash:
-      serializedVersion: 2
-      Hash: 8623e574b381acdd0564b28d8352f20f
-    assemblyName: Fusion.Unity
-    namespaceName: Fusion.Statistics
-    className: FusionStatsPanelHeader
-  - hash:
-      serializedVersion: 2
-      Hash: 4adb9d15d7da32d29082f72fc502a136
-    assemblyName: Fusion.Unity
-    namespaceName: Fusion
-    className: NetworkCharacterController
-  - hash:
-      serializedVersion: 2
-      Hash: b977e69ee5247a7f013a8bc8aec5112c
-    assemblyName: Fusion.Unity
-    namespaceName: Fusion
-    className: RunnerVisibilityLink
-  - hash:
-      serializedVersion: 2
-      Hash: 80b42d1627c2477af3bed92115ea9993
-    assemblyName: Fusion.Unity
-    namespaceName: Fusion
-    className: EnableOnSingleRunner
-  - hash:
-      serializedVersion: 2
-      Hash: 7b4bbd9a5693b4c988c235752bb3f86b
-    assemblyName: Fusion.Unity
-    namespaceName: Fusion.Statistics
-    className: FusionStatsConfig
-  - hash:
-      serializedVersion: 2
-      Hash: c927779b6a85752066d1d4af13377809
-    assemblyName: Fusion.Unity
-    namespaceName: Fusion
-    className: FusionBootstrap
-  - hash:
-      serializedVersion: 2
-      Hash: 12df3b8a5cdc9f0d652a1e226494f2a1
-    assemblyName: Fusion.Unity
-    namespaceName: Fusion
-    className: RunnerEnableVisibility
-  - hash:
-      serializedVersion: 2
-      Hash: ead531ee99cf4fa6c5045fe85a8dd728
-    assemblyName: Fusion.Unity
-    namespaceName: Fusion.Statistics
-    className: FusionNetworkObjectStatsGraphCombine
-  - hash:
-      serializedVersion: 2
-      Hash: 89cdcdb3e1180a6b485d5a6e33868001
-    assemblyName: Fusion.Unity
-    namespaceName: Fusion.Statistics
-    className: FusionStatsWorldAnchor
-  - hash:
-      serializedVersion: 2
-      Hash: 163e6659a6cffffaf22f733c43f0ee7d
-    assemblyName: Fusion.Unity
-    namespaceName: Fusion
-    className: FusionBootstrapDebugGUI
-  - hash:
-      serializedVersion: 2
-      Hash: f63ae2baee2952008966faf3f110b8c2
-    assemblyName: Fusion.Unity
-    namespaceName: Fusion.Statistics
-    className: FusionNetworkObjectStatsGraph
-  - hash:
-      serializedVersion: 2
-      Hash: 262c3152c215e2cdeef703d813966afb
-    assemblyName: Fusion.Unity
-    namespaceName: Fusion.Statistics
-    className: FusionStatistics
-  - hash:
-      serializedVersion: 2
-      Hash: e425a6626218038a7a24591be8f9f5a4
-    assemblyName: Fusion.Unity
-    namespaceName: Fusion
-    className: FusionAddressablePrefabsPreloader
-  - hash:
-      serializedVersion: 2
-      Hash: 63b2bdcb5fdff374aae622e997151ca6
+      Hash: a46fe1e76c039cb61633a236240ad79b
     assemblyName: Assembly-CSharp
     namespaceName: 
-    className: PlayerSpawner
-  - hash:
-      serializedVersion: 2
-      Hash: 3f5656757cc02e453ec67acd33409922
-    assemblyName: Assembly-CSharp
-    namespaceName: 
-    className: PlayerMovement
-  - hash:
-      serializedVersion: 2
-      Hash: 79112e8264b56e6d89ff3bad7b10b728
-    assemblyName: Assembly-CSharp
-    namespaceName: 
-    className: FirstPersonCamera
-  - hash:
-      serializedVersion: 2
-      Hash: 4f7d3f734bbd19564895db1c1dd0e8e8
-    assemblyName: Assembly-CSharp
-    namespaceName: 
-    className: PlayerWeapon
+    className: Bullet
   platform: 19
   scenePathNames:
   - Assets/Scenes/SampleScene.unity
-  playerPath: C:/Users/Jaden/Documents/MyUnityProjects/FPS_SharedMode/TestBuild/FPS_SharedMode.exe
+  playerPath: C:/Users/Jaden/Documents/MyUnityProjects/FPS_Shooter/FPS_SharedMode/TestBuild/FPS_SharedMode.exe

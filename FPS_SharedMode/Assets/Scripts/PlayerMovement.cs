@@ -7,9 +7,12 @@ public class PlayerMovement : NetworkBehaviour
 {
 
     private CharacterController m_controller;
+    [SerializeField] private Transform m_camPos;
+    [SerializeField] private PlayerWeapon m_weapon;
     private Camera m_camera;
-    private PlayerWeapon m_weapon;
-    [SerializeField] private Transform m_weaponRotator;
+    public Camera Cam { get { return m_camera; } }
+    [SerializeField] private GameObject m_weaponHolder;
+    public NetworkObject WeaponHolder;
 
     private Vector3 m_velocity;
     private bool m_jumpPressed;
@@ -22,7 +25,6 @@ public class PlayerMovement : NetworkBehaviour
     private void Awake()
     {
         m_controller = GetComponent<CharacterController>();
-        m_weapon = GetComponent<PlayerWeapon>();
     }
 
     public override void Spawned()
@@ -31,16 +33,7 @@ public class PlayerMovement : NetworkBehaviour
         if (HasStateAuthority)
         {
             m_camera = Camera.main;
-            m_camera.GetComponent<FirstPersonCamera>().SetTarget(transform);
-
-            // Move the weapon the camera camera for the local client
-            m_weaponRotator.parent = m_camera.transform;
-            m_weaponRotator.localPosition = Vector3.zero;
-        }
-        else
-        {
-            // Move the weapon to the hierarchy if not the local client
-            m_weaponRotator.parent = null;
+            m_camera.GetComponent<FirstPersonCamera>().SetTarget(m_camPos);
         }
     }
 
@@ -68,7 +61,8 @@ public class PlayerMovement : NetworkBehaviour
         gameObject.transform.rotation = camRotY;
         transform.position += move;
 
-        RPC_SendWeaponTransform(m_weaponRotator.position, m_weaponRotator.rotation);
+        Quaternion camRotX = Quaternion.Euler(m_camera.transform.rotation.eulerAngles.x, m_camera.transform.rotation.eulerAngles.y, 0);
+        m_weapon.transform.rotation = camRotX;
 
         m_velocity.y += m_gravity * Runner.DeltaTime;
         if (m_jumpPressed && m_controller.isGrounded)
@@ -79,14 +73,6 @@ public class PlayerMovement : NetworkBehaviour
         m_controller.Move(move + m_velocity * Runner.DeltaTime);
 
         m_jumpPressed = false;
-    }
-
-    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
-    public void RPC_SendWeaponTransform(Vector3 pos, Quaternion rot)
-    {
-        // Update the weapon's position & rotation on all clients
-        m_weaponRotator.position = Vector3.Lerp(m_weaponRotator.position, pos, 10 * Time.deltaTime);
-        m_weaponRotator.rotation = Quaternion.Slerp(m_weaponRotator.rotation, rot, 10 * Time.deltaTime);
     }
 
 }

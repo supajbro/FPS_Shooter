@@ -308,7 +308,7 @@
       "DisplayName": "Writing boot.config_tyr4.info",
       "ActionType": "WriteFile",
       "PayloadOffset": 83,
-      "PayloadLength": 16705,
+      "PayloadLength": 16909,
       "PayloadDebugContentSnippet": "{\"System.Object\":null,\"Bee.Tun",
       "Inputs": [],
       "Outputs": [
@@ -403,23 +403,23 @@
         "C:/Program Files/Unity/Hub/Editor/2022.3.17f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/Variations/mono/Managed/UnityEngine.WindModule.dll",
         "C:/Program Files/Unity/Hub/Editor/2022.3.17f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/Variations/mono/Managed/UnityEngine.XRModule.dll",
         "C:/Program Files/Unity/Hub/Editor/2022.3.17f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/Variations/mono/Managed/UnityEngine.dll",
-        "C:/Users/Jaden/Documents/MyUnityProjects/FPS_SharedMode/Library/Bee/PlayerScriptAssemblies/Assembly-CSharp.dll",
-        "C:/Users/Jaden/Documents/MyUnityProjects/FPS_SharedMode/Library/Bee/PlayerScriptAssemblies/Unity.Timeline.dll",
-        "C:/Users/Jaden/Documents/MyUnityProjects/FPS_SharedMode/Library/Bee/PlayerScriptAssemblies/UnityEngine.UI.dll",
-        "C:/Users/Jaden/Documents/MyUnityProjects/FPS_SharedMode/Library/Bee/PlayerScriptAssemblies/Fusion.Unity.dll",
-        "C:/Users/Jaden/Documents/MyUnityProjects/FPS_SharedMode/Library/Bee/PlayerScriptAssemblies/Unity.TextMeshPro.dll",
-        "C:/Users/Jaden/Documents/MyUnityProjects/FPS_SharedMode/Library/Bee/PlayerScriptAssemblies/Unity.VisualScripting.Core.dll",
-        "C:/Users/Jaden/Documents/MyUnityProjects/FPS_SharedMode/Library/Bee/PlayerScriptAssemblies/Unity.VisualScripting.State.dll",
-        "C:/Users/Jaden/Documents/MyUnityProjects/FPS_SharedMode/Library/Bee/PlayerScriptAssemblies/Unity.VisualScripting.Flow.dll",
-        "C:/Users/Jaden/Documents/MyUnityProjects/FPS_SharedMode/Assets/Photon/Fusion/Assemblies/Fusion.Log.dll",
-        "C:/Users/Jaden/Documents/MyUnityProjects/FPS_SharedMode/Assets/Photon/PhotonLibs/WebSocket/websocket-sharp.dll",
-        "C:/Users/Jaden/Documents/MyUnityProjects/FPS_SharedMode/Assets/Photon/Fusion/Assemblies/Fusion.Common.dll",
-        "C:/Users/Jaden/Documents/MyUnityProjects/FPS_SharedMode/Assets/Photon/Fusion/Plugins/NanoSockets/NanoSockets/Dynamic/NanoSockets.dll",
-        "C:/Users/Jaden/Documents/MyUnityProjects/FPS_SharedMode/Assets/Photon/Fusion/Assemblies/Fusion.Sockets.dll",
-        "C:/Users/Jaden/Documents/MyUnityProjects/FPS_SharedMode/Assets/Photon/Fusion/Assemblies/Fusion.Runtime.dll",
-        "C:/Users/Jaden/Documents/MyUnityProjects/FPS_SharedMode/Library/PackageCache/com.unity.visualscripting@1.9.1/Runtime/VisualScripting.Flow/Dependencies/NCalc/Unity.VisualScripting.Antlr3.Runtime.dll",
-        "C:/Users/Jaden/Documents/MyUnityProjects/FPS_SharedMode/Assets/Photon/PhotonLibs/netstandard2.0/Photon3Unity3D.dll",
-        "C:/Users/Jaden/Documents/MyUnityProjects/FPS_SharedMode/Assets/Photon/Fusion/Assemblies/Fusion.Realtime.dll",
+        "C:/Users/Jaden/Documents/MyUnityProjects/FPS_Shooter/FPS_SharedMode/Library/Bee/PlayerScriptAssemblies/Assembly-CSharp.dll",
+        "C:/Users/Jaden/Documents/MyUnityProjects/FPS_Shooter/FPS_SharedMode/Library/Bee/PlayerScriptAssemblies/Unity.Timeline.dll",
+        "C:/Users/Jaden/Documents/MyUnityProjects/FPS_Shooter/FPS_SharedMode/Library/Bee/PlayerScriptAssemblies/UnityEngine.UI.dll",
+        "C:/Users/Jaden/Documents/MyUnityProjects/FPS_Shooter/FPS_SharedMode/Library/Bee/PlayerScriptAssemblies/Fusion.Unity.dll",
+        "C:/Users/Jaden/Documents/MyUnityProjects/FPS_Shooter/FPS_SharedMode/Library/Bee/PlayerScriptAssemblies/Unity.TextMeshPro.dll",
+        "C:/Users/Jaden/Documents/MyUnityProjects/FPS_Shooter/FPS_SharedMode/Library/Bee/PlayerScriptAssemblies/Unity.VisualScripting.Core.dll",
+        "C:/Users/Jaden/Documents/MyUnityProjects/FPS_Shooter/FPS_SharedMode/Library/Bee/PlayerScriptAssemblies/Unity.VisualScripting.State.dll",
+        "C:/Users/Jaden/Documents/MyUnityProjects/FPS_Shooter/FPS_SharedMode/Library/Bee/PlayerScriptAssemblies/Unity.VisualScripting.Flow.dll",
+        "C:/Users/Jaden/Documents/MyUnityProjects/FPS_Shooter/FPS_SharedMode/Assets/Photon/Fusion/Assemblies/Fusion.Log.dll",
+        "C:/Users/Jaden/Documents/MyUnityProjects/FPS_Shooter/FPS_SharedMode/Assets/Photon/PhotonLibs/WebSocket/websocket-sharp.dll",
+        "C:/Users/Jaden/Documents/MyUnityProjects/FPS_Shooter/FPS_SharedMode/Assets/Photon/Fusion/Assemblies/Fusion.Common.dll",
+        "C:/Users/Jaden/Documents/MyUnityProjects/FPS_Shooter/FPS_SharedMode/Assets/Photon/Fusion/Plugins/NanoSockets/NanoSockets/Dynamic/NanoSockets.dll",
+        "C:/Users/Jaden/Documents/MyUnityProjects/FPS_Shooter/FPS_SharedMode/Assets/Photon/Fusion/Assemblies/Fusion.Sockets.dll",
+        "C:/Users/Jaden/Documents/MyUnityProjects/FPS_Shooter/FPS_SharedMode/Assets/Photon/Fusion/Assemblies/Fusion.Runtime.dll",
+        "C:/Users/Jaden/Documents/MyUnityProjects/FPS_Shooter/FPS_SharedMode/Library/PackageCache/com.unity.visualscripting@1.9.1/Runtime/VisualScripting.Flow/Dependencies/NCalc/Unity.VisualScripting.Antlr3.Runtime.dll",
+        "C:/Users/Jaden/Documents/MyUnityProjects/FPS_Shooter/FPS_SharedMode/Assets/Photon/PhotonLibs/netstandard2.0/Photon3Unity3D.dll",
+        "C:/Users/Jaden/Documents/MyUnityProjects/FPS_Shooter/FPS_SharedMode/Assets/Photon/Fusion/Assemblies/Fusion.Realtime.dll",
         "C:/Program Files/Unity/Hub/Editor/2022.3.17f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit-win32/Facades/netstandard.dll",
         "C:/Program Files/Unity/Hub/Editor/2022.3.17f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit-win32/Mono.Security.dll",
         "C:/Program Files/Unity/Hub/Editor/2022.3.17f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit-win32/System.ComponentModel.Composition.dll",
@@ -1337,7 +1337,7 @@
       "DisplayName": "Copying Assembly-CSharp.dll",
       "ActionType": "CopyFiles",
       "Inputs": [
-        "C:/Users/Jaden/Documents/MyUnityProjects/FPS_SharedMode/Library/Bee/PlayerScriptAssemblies/Assembly-CSharp.dll"
+        "C:/Users/Jaden/Documents/MyUnityProjects/FPS_Shooter/FPS_SharedMode/Library/Bee/PlayerScriptAssemblies/Assembly-CSharp.dll"
       ],
       "Outputs": [
         "TestBuild/FPS_SharedMode_Data/Managed/Assembly-CSharp.dll"
@@ -1349,7 +1349,7 @@
       "DisplayName": "Copying Unity.Timeline.dll",
       "ActionType": "CopyFiles",
       "Inputs": [
-        "C:/Users/Jaden/Documents/MyUnityProjects/FPS_SharedMode/Library/Bee/PlayerScriptAssemblies/Unity.Timeline.dll"
+        "C:/Users/Jaden/Documents/MyUnityProjects/FPS_Shooter/FPS_SharedMode/Library/Bee/PlayerScriptAssemblies/Unity.Timeline.dll"
       ],
       "Outputs": [
         "TestBuild/FPS_SharedMode_Data/Managed/Unity.Timeline.dll"
@@ -1361,7 +1361,7 @@
       "DisplayName": "Copying UnityEngine.UI.dll",
       "ActionType": "CopyFiles",
       "Inputs": [
-        "C:/Users/Jaden/Documents/MyUnityProjects/FPS_SharedMode/Library/Bee/PlayerScriptAssemblies/UnityEngine.UI.dll"
+        "C:/Users/Jaden/Documents/MyUnityProjects/FPS_Shooter/FPS_SharedMode/Library/Bee/PlayerScriptAssemblies/UnityEngine.UI.dll"
       ],
       "Outputs": [
         "TestBuild/FPS_SharedMode_Data/Managed/UnityEngine.UI.dll"
@@ -1373,7 +1373,7 @@
       "DisplayName": "Copying Fusion.Unity.dll",
       "ActionType": "CopyFiles",
       "Inputs": [
-        "C:/Users/Jaden/Documents/MyUnityProjects/FPS_SharedMode/Library/Bee/PlayerScriptAssemblies/Fusion.Unity.dll"
+        "C:/Users/Jaden/Documents/MyUnityProjects/FPS_Shooter/FPS_SharedMode/Library/Bee/PlayerScriptAssemblies/Fusion.Unity.dll"
       ],
       "Outputs": [
         "TestBuild/FPS_SharedMode_Data/Managed/Fusion.Unity.dll"
@@ -1385,7 +1385,7 @@
       "DisplayName": "Copying Unity.TextMeshPro.dll",
       "ActionType": "CopyFiles",
       "Inputs": [
-        "C:/Users/Jaden/Documents/MyUnityProjects/FPS_SharedMode/Library/Bee/PlayerScriptAssemblies/Unity.TextMeshPro.dll"
+        "C:/Users/Jaden/Documents/MyUnityProjects/FPS_Shooter/FPS_SharedMode/Library/Bee/PlayerScriptAssemblies/Unity.TextMeshPro.dll"
       ],
       "Outputs": [
         "TestBuild/FPS_SharedMode_Data/Managed/Unity.TextMeshPro.dll"
@@ -1397,7 +1397,7 @@
       "DisplayName": "Copying Unity.VisualScripting.Core.dll",
       "ActionType": "CopyFiles",
       "Inputs": [
-        "C:/Users/Jaden/Documents/MyUnityProjects/FPS_SharedMode/Library/Bee/PlayerScriptAssemblies/Unity.VisualScripting.Core.dll"
+        "C:/Users/Jaden/Documents/MyUnityProjects/FPS_Shooter/FPS_SharedMode/Library/Bee/PlayerScriptAssemblies/Unity.VisualScripting.Core.dll"
       ],
       "Outputs": [
         "TestBuild/FPS_SharedMode_Data/Managed/Unity.VisualScripting.Core.dll"
@@ -1409,7 +1409,7 @@
       "DisplayName": "Copying Unity.VisualScripting.State.dll",
       "ActionType": "CopyFiles",
       "Inputs": [
-        "C:/Users/Jaden/Documents/MyUnityProjects/FPS_SharedMode/Library/Bee/PlayerScriptAssemblies/Unity.VisualScripting.State.dll"
+        "C:/Users/Jaden/Documents/MyUnityProjects/FPS_Shooter/FPS_SharedMode/Library/Bee/PlayerScriptAssemblies/Unity.VisualScripting.State.dll"
       ],
       "Outputs": [
         "TestBuild/FPS_SharedMode_Data/Managed/Unity.VisualScripting.State.dll"
@@ -1421,7 +1421,7 @@
       "DisplayName": "Copying Unity.VisualScripting.Flow.dll",
       "ActionType": "CopyFiles",
       "Inputs": [
-        "C:/Users/Jaden/Documents/MyUnityProjects/FPS_SharedMode/Library/Bee/PlayerScriptAssemblies/Unity.VisualScripting.Flow.dll"
+        "C:/Users/Jaden/Documents/MyUnityProjects/FPS_Shooter/FPS_SharedMode/Library/Bee/PlayerScriptAssemblies/Unity.VisualScripting.Flow.dll"
       ],
       "Outputs": [
         "TestBuild/FPS_SharedMode_Data/Managed/Unity.VisualScripting.Flow.dll"
@@ -1433,7 +1433,7 @@
       "DisplayName": "Copying Fusion.Log.dll",
       "ActionType": "CopyFiles",
       "Inputs": [
-        "C:/Users/Jaden/Documents/MyUnityProjects/FPS_SharedMode/Assets/Photon/Fusion/Assemblies/Fusion.Log.dll"
+        "C:/Users/Jaden/Documents/MyUnityProjects/FPS_Shooter/FPS_SharedMode/Assets/Photon/Fusion/Assemblies/Fusion.Log.dll"
       ],
       "Outputs": [
         "TestBuild/FPS_SharedMode_Data/Managed/Fusion.Log.dll"
@@ -1445,7 +1445,7 @@
       "DisplayName": "Copying websocket-sharp.dll",
       "ActionType": "CopyFiles",
       "Inputs": [
-        "C:/Users/Jaden/Documents/MyUnityProjects/FPS_SharedMode/Assets/Photon/PhotonLibs/WebSocket/websocket-sharp.dll"
+        "C:/Users/Jaden/Documents/MyUnityProjects/FPS_Shooter/FPS_SharedMode/Assets/Photon/PhotonLibs/WebSocket/websocket-sharp.dll"
       ],
       "Outputs": [
         "TestBuild/FPS_SharedMode_Data/Managed/websocket-sharp.dll"
@@ -1457,7 +1457,7 @@
       "DisplayName": "Copying Fusion.Common.dll",
       "ActionType": "CopyFiles",
       "Inputs": [
-        "C:/Users/Jaden/Documents/MyUnityProjects/FPS_SharedMode/Assets/Photon/Fusion/Assemblies/Fusion.Common.dll"
+        "C:/Users/Jaden/Documents/MyUnityProjects/FPS_Shooter/FPS_SharedMode/Assets/Photon/Fusion/Assemblies/Fusion.Common.dll"
       ],
       "Outputs": [
         "TestBuild/FPS_SharedMode_Data/Managed/Fusion.Common.dll"
@@ -1469,7 +1469,7 @@
       "DisplayName": "Copying NanoSockets.dll",
       "ActionType": "CopyFiles",
       "Inputs": [
-        "C:/Users/Jaden/Documents/MyUnityProjects/FPS_SharedMode/Assets/Photon/Fusion/Plugins/NanoSockets/NanoSockets/Dynamic/NanoSockets.dll"
+        "C:/Users/Jaden/Documents/MyUnityProjects/FPS_Shooter/FPS_SharedMode/Assets/Photon/Fusion/Plugins/NanoSockets/NanoSockets/Dynamic/NanoSockets.dll"
       ],
       "Outputs": [
         "TestBuild/FPS_SharedMode_Data/Managed/NanoSockets.dll"
@@ -1481,7 +1481,7 @@
       "DisplayName": "Copying Fusion.Sockets.dll",
       "ActionType": "CopyFiles",
       "Inputs": [
-        "C:/Users/Jaden/Documents/MyUnityProjects/FPS_SharedMode/Assets/Photon/Fusion/Assemblies/Fusion.Sockets.dll"
+        "C:/Users/Jaden/Documents/MyUnityProjects/FPS_Shooter/FPS_SharedMode/Assets/Photon/Fusion/Assemblies/Fusion.Sockets.dll"
       ],
       "Outputs": [
         "TestBuild/FPS_SharedMode_Data/Managed/Fusion.Sockets.dll"
@@ -1493,7 +1493,7 @@
       "DisplayName": "Copying Fusion.Runtime.dll",
       "ActionType": "CopyFiles",
       "Inputs": [
-        "C:/Users/Jaden/Documents/MyUnityProjects/FPS_SharedMode/Assets/Photon/Fusion/Assemblies/Fusion.Runtime.dll"
+        "C:/Users/Jaden/Documents/MyUnityProjects/FPS_Shooter/FPS_SharedMode/Assets/Photon/Fusion/Assemblies/Fusion.Runtime.dll"
       ],
       "Outputs": [
         "TestBuild/FPS_SharedMode_Data/Managed/Fusion.Runtime.dll"
@@ -1505,7 +1505,7 @@
       "DisplayName": "Copying Unity.VisualScripting.Antlr3.Runtime.dll",
       "ActionType": "CopyFiles",
       "Inputs": [
-        "C:/Users/Jaden/Documents/MyUnityProjects/FPS_SharedMode/Library/PackageCache/com.unity.visualscripting@1.9.1/Runtime/VisualScripting.Flow/Dependencies/NCalc/Unity.VisualScripting.Antlr3.Runtime.dll"
+        "C:/Users/Jaden/Documents/MyUnityProjects/FPS_Shooter/FPS_SharedMode/Library/PackageCache/com.unity.visualscripting@1.9.1/Runtime/VisualScripting.Flow/Dependencies/NCalc/Unity.VisualScripting.Antlr3.Runtime.dll"
       ],
       "Outputs": [
         "TestBuild/FPS_SharedMode_Data/Managed/Unity.VisualScripting.Antlr3.Runtime.dll"
@@ -1517,7 +1517,7 @@
       "DisplayName": "Copying Photon3Unity3D.dll",
       "ActionType": "CopyFiles",
       "Inputs": [
-        "C:/Users/Jaden/Documents/MyUnityProjects/FPS_SharedMode/Assets/Photon/PhotonLibs/netstandard2.0/Photon3Unity3D.dll"
+        "C:/Users/Jaden/Documents/MyUnityProjects/FPS_Shooter/FPS_SharedMode/Assets/Photon/PhotonLibs/netstandard2.0/Photon3Unity3D.dll"
       ],
       "Outputs": [
         "TestBuild/FPS_SharedMode_Data/Managed/Photon3Unity3D.dll"
@@ -1529,7 +1529,7 @@
       "DisplayName": "Copying Fusion.Realtime.dll",
       "ActionType": "CopyFiles",
       "Inputs": [
-        "C:/Users/Jaden/Documents/MyUnityProjects/FPS_SharedMode/Assets/Photon/Fusion/Assemblies/Fusion.Realtime.dll"
+        "C:/Users/Jaden/Documents/MyUnityProjects/FPS_Shooter/FPS_SharedMode/Assets/Photon/Fusion/Assemblies/Fusion.Realtime.dll"
       ],
       "Outputs": [
         "TestBuild/FPS_SharedMode_Data/Managed/Fusion.Realtime.dll"
@@ -1792,7 +1792,7 @@
       "Annotation": "WriteText Library/Bee/artifacts/WinPlayerBuildProgram/Data/app.info",
       "DisplayName": "Writing app.info",
       "ActionType": "WriteFile",
-      "PayloadOffset": 16877,
+      "PayloadOffset": 17081,
       "PayloadLength": 29,
       "PayloadDebugContentSnippet": "DefaultCompany\nFPS_SharedMode",
       "Inputs": [],
@@ -2469,6 +2469,6 @@
   "SharedResources": [],
   "Scanners": [],
   "Identifier": "Library/Bee/Player79e1e5cd.dag.json",
-  "PayloadsFile": "C:/Users/Jaden/Documents/MyUnityProjects/FPS_SharedMode/Library/Bee/Player79e1e5cd.dag.payloads",
+  "PayloadsFile": "C:/Users/Jaden/Documents/MyUnityProjects/FPS_Shooter/FPS_SharedMode/Library/Bee/Player79e1e5cd.dag.payloads",
   "RelativePathToRoot": "../.."
 }
