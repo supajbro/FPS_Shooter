@@ -223,11 +223,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_camPos: {fileID: 5899094385578347027}
   m_weapon: {fileID: 881574144129456631}
-  m_weaponHolder: {fileID: 4110958673677404939, guid: c496a35fca92ab844bb3fffdeab04174, type: 3}
-  WeaponHolder: {fileID: 554690724874269946}
-  m_speed: 2
-  m_jumpForce: 5
+  m_groundLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  m_speed: 10
   m_gravity: -9.81
+  m_jumpForce: 2
+  m_maxJumpForce: 2
 --- !u!1001 &1411444753915192724
 PrefabInstance:
   m_ObjectHideFlags: 0

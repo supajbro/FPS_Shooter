@@ -164,6 +164,8 @@ ScriptsOnlyBuild:
       Script: {instanceID: 0}
     - Class: 64
       Script: {instanceID: 0}
+    - Class: 65
+      Script: {instanceID: 0}
     - Class: 81
       Script: {instanceID: 0}
     - Class: 89
@@ -563,7 +565,7 @@ ScriptsOnlyBuild:
     className: FusionNetworkObjectStatistics
   - hash:
       serializedVersion: 2
-      Hash: 07773a177ece4bf8b900aa442000733a
+      Hash: e4a62f7dd05afdd7e7db35e151fbaa2a
     assemblyName: Assembly-CSharp
     namespaceName: 
     className: PlayerMovement
