@@ -11,8 +11,18 @@ public class PlayerWeapon : NetworkBehaviour
 
     private bool m_shootPressed;
 
+    [Header("Ammo")]
+    private int m_ammoCount = 0;
+    private int m_maxAmmoCount = 1;
+
+    [Header("Reload")]
+    private bool m_reloading = false;
+    private float m_reloadTime = 0f;
+    private float m_maxReloadTime = 1f;
+
     public override void Spawned()
     {
+        m_ammoCount = m_maxAmmoCount;
     }
 
     private void Update()
@@ -25,13 +35,18 @@ public class PlayerWeapon : NetworkBehaviour
 
     public override void FixedUpdateNetwork()
     {
-        if (m_shootPressed)
+        if (m_shootPressed && m_ammoCount > 0)
         {
             m_shootPressed = false;
-            Debug.Log("Has shot bullet");
-            // Spawn the bullet
             SpawnBullet();
         }
+
+        if(m_ammoCount == 0)
+        {
+            m_reloading = true;
+        }
+
+        Reload();
     }
 
     private void SpawnBullet()
@@ -44,9 +59,26 @@ public class PlayerWeapon : NetworkBehaviour
             Object.InputAuthority,
             (runner, obj) =>
             {
-                // Initialize bullet properties after spawning
                 obj.GetComponent<Bullet>().Init(Camera.main.transform.forward);
             });
+
+        m_ammoCount--;
+    }
+
+    private void Reload()
+    {
+        if (!m_reloading)
+        {
+            return;
+        }
+
+        m_reloadTime += Runner.DeltaTime;
+        if(m_reloadTime >= m_maxReloadTime)
+        {
+            m_reloading = false;
+            m_reloadTime = 0f;
+            m_ammoCount = m_maxAmmoCount;
+        }
     }
 
 }

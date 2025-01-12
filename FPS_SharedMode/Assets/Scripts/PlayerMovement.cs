@@ -13,18 +13,16 @@ public class PlayerMovement : NetworkBehaviour
     private Camera m_camera;
     public Camera Cam { get { return m_camera; } }
 
-    private Vector3 m_velocity;
-    private bool m_jumpPressed;
-    private bool m_startedJump;
     [SerializeField] private LayerMask m_groundLayer;
 
     [Header("Values")]
     [SerializeField] private float m_speed = 2f;
-    [SerializeField] private float m_gravity = -9.81f;
+    private Vector3 m_velocity;
 
     [Header("Jump Values")]
     [SerializeField] private float m_jumpForce = 5f;
     [SerializeField] private float m_maxJumpForce = 5f;
+    private bool m_jumpPressed;
 
     public bool isGrounded => IsGrounded();
 
@@ -40,6 +38,9 @@ public class PlayerMovement : NetworkBehaviour
         {
             m_camera = Camera.main;
             m_camera.GetComponent<FirstPersonCamera>().SetTarget(m_camPos);
+
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
         }
     }
 

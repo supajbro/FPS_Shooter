@@ -84,8 +84,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc1540399d9ae634fbea57dd3ddf5522, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_bullet: {fileID: 1931450038609031073}
   m_speed: 50
   m_direction: {x: 0, y: 0, z: 0}
+  m_lifetime: 3
 --- !u!1 &1526275721319079695
 GameObject:
   m_ObjectHideFlags: 0
