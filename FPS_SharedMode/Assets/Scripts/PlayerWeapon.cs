@@ -14,6 +14,8 @@ public class PlayerWeapon : NetworkBehaviour
     [Header("Ammo")]
     private int m_ammoCount = 0;
     private int m_maxAmmoCount = 1;
+    public int AmmoCount { get { return m_ammoCount; } }
+    public int MaxAmmoCount { get { return m_maxAmmoCount; } }
 
     [Header("Reload")]
     private bool m_reloading = false;
@@ -59,7 +61,7 @@ public class PlayerWeapon : NetworkBehaviour
             Object.InputAuthority,
             (runner, obj) =>
             {
-                obj.GetComponent<Bullet>().Init(Camera.main.transform.forward);
+                obj.GetComponent<Bullet>().Init(Camera.main.transform.forward); // Amy I love you xx
             });
 
         m_ammoCount--;

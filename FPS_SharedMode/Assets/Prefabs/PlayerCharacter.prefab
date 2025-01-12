@@ -221,15 +221,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78a6539cb844dd048997d2c6c476d655, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_playerMesh: {fileID: 4543176454799818269}
   m_camPos: {fileID: 5899094385578347027}
   m_weapon: {fileID: 881574144129456631}
   m_groundLayer:
     serializedVersion: 2
     m_Bits: 64
-  m_speed: 10
-  m_gravity: -9.81
+  m_speed: 25
   m_jumpForce: 2
   m_maxJumpForce: 2
+  m_maxHealth: 100
+  _CurrentHealth: 0
 --- !u!1001 &1411444753915192724
 PrefabInstance:
   m_ObjectHideFlags: 0

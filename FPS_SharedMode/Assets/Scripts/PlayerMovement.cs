@@ -7,8 +7,10 @@ public class PlayerMovement : NetworkBehaviour
 {
 
     private CharacterController m_controller;
+    [SerializeField] private MeshRenderer m_playerMesh;
     [SerializeField] private Transform m_camPos;
     [SerializeField] private PlayerWeapon m_weapon;
+    public PlayerWeapon Weapon { get { return m_weapon; } }
 
     private Camera m_camera;
     public Camera Cam { get { return m_camera; } }
@@ -24,6 +26,16 @@ public class PlayerMovement : NetworkBehaviour
     [SerializeField] private float m_maxJumpForce = 5f;
     private bool m_jumpPressed;
 
+    [Header("Health Values")]
+    [SerializeField] private float m_maxHealth = 100f;
+    public float MaxHealth { get { return m_maxHealth; } }
+    [Networked] public float CurrentHealth { get; set; }
+
+    [Header("Respawn Values")]
+    private bool m_respawning = false;
+    private float m_respawnTimer = 0f;
+    private float m_maxRespawnTime = 3f;
+
     public bool isGrounded => IsGrounded();
 
     private void Awake()
@@ -36,11 +48,19 @@ public class PlayerMovement : NetworkBehaviour
         // Is local player
         if (HasStateAuthority)
         {
+            GameManager.instance.SetLocalPlayer(this);
+
+            // Allow player to be set in init position
+            m_controller.enabled = false;
+            m_controller.enabled = true;
+
             m_camera = Camera.main;
             m_camera.GetComponent<FirstPersonCamera>().SetTarget(m_camPos);
 
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
+
+            CurrentHealth = m_maxHealth;
         }
     }
 
@@ -88,6 +108,8 @@ public class PlayerMovement : NetworkBehaviour
         }
 
         m_controller.Move(move + m_velocity * Runner.DeltaTime);
+
+        Respawn();
     }
 
     private bool IsGrounded()
@@ -103,6 +125,55 @@ public class PlayerMovement : NetworkBehaviour
 
         Debug.DrawRay(transform.position, Vector3.down * groundCheckDistance, Color.red);
         return false;
+    }
+
+    public void Respawn()
+    {
+        if (!m_respawning)
+        {
+            return;
+        }
+
+        m_respawnTimer += Runner.DeltaTime;
+        if(m_respawnTimer >= m_maxRespawnTime)
+        {
+            m_controller.enabled = false;
+            var randSpawnPos = Random.Range(0, GameManager.instance.spawnPoints.Count);
+            transform.position = GameManager.instance.spawnPoints[randSpawnPos].position;
+            m_controller.enabled = true;
+            CurrentHealth = m_maxHealth;
+            RPC_ChangeMesh(true);
+            m_respawning = false;
+            m_respawnTimer = 0;
+        }
+    }
+
+    [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
+    public void RPC_TakeDamage(float damage)
+    {
+        if (!HasStateAuthority)
+        {
+            return;
+        }
+
+        CurrentHealth = Mathf.Clamp(CurrentHealth - damage, 0, CurrentHealth);
+
+        if (CurrentHealth <= 0)
+        {
+            m_respawning = true;
+            RPC_ChangeMesh(false);
+        }
+    }
+
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+    public void RPC_ChangeMesh(bool on)
+    {
+        if (on)
+        {
+            m_playerMesh.enabled = true;
+            return;
+        }
+        m_playerMesh.enabled = false;
     }
 
 }
