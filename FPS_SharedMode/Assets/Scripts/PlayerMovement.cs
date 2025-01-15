@@ -39,6 +39,7 @@ public class PlayerMovement : NetworkBehaviour
 
     [Header("Balloons")]
     [SerializeField] private List<GameObject> m_balloons;
+    public List<GameObject> Ballons { get { return m_balloons; } }
     [Networked] public int ActiveBallons { get; set; }
 
     public bool isGrounded => IsGrounded();
@@ -161,6 +162,7 @@ public class PlayerMovement : NetworkBehaviour
     public void SetJumpHeight()
     {
         m_maxJumpForce = m_initialMaxJumpForce;
+        ActiveBallons = m_balloons.Count;
 
         for (int i = 0; i < ActiveBallons; i++)
         {
@@ -168,23 +170,18 @@ public class PlayerMovement : NetworkBehaviour
         }
     }
 
-    GameObject m_destroyedBalloon;
-    public void DestroyBalloon(GameObject balloon)
+    //[Rpc(RpcSources.All, RpcTargets.StateAuthority)]
+    [Rpc(RpcSources.All, RpcTargets.All)]
+    public void RPC_DestroyBalloon(NetworkBehaviour balloon)
     {
-        m_destroyedBalloon = balloon;
-        RPC_DestroyBalloon();
-    }
-
-    [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
-    public void RPC_DestroyBalloon()
-    {
-        if (!HasStateAuthority)
+        var balloonObject = Runner.TryGetNetworkedBehaviourId(balloon);
+        if (balloonObject != null)
         {
-            return;
+            m_balloons.Remove(balloon.gameObject);
+            balloon.GetComponent<MeshRenderer>().enabled = false;
         }
 
-        m_balloons.Remove(m_destroyedBalloon);
-        m_destroyedBalloon.SetActive(false);
+        SetJumpHeight();
     }
 
     [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
