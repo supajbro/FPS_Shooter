@@ -270,6 +270,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   m_speed: 25
+  m_speedIncreaseScale: 0.5
+  m_minMoveVelocity: 0.25
+  m_maxMoveVelocity: 1
   m_jumpForce: 2
   m_maxJumpForce: 2
   m_initialMaxJumpForce: 2
@@ -281,6 +284,7 @@ MonoBehaviour:
   - {fileID: 7427820170179333631}
   - {fileID: 8508229597919847077}
   - {fileID: 2855262224309701007}
+  m_ballonHeightIncrease: 0.75
   _ActiveBallons: 0
 --- !u!1001 &828010423199658451
 PrefabInstance:
@@ -295,12 +299,24 @@ PrefabInstance:
       value: Balloon (2)
       objectReference: {fileID: 0}
     - target: {fileID: 3580653895840422466, guid: ef8d3fa5e5599124bbeb9dece2dd7091, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3580653895840422466, guid: ef8d3fa5e5599124bbeb9dece2dd7091, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3580653895840422466, guid: ef8d3fa5e5599124bbeb9dece2dd7091, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3580653895840422466, guid: ef8d3fa5e5599124bbeb9dece2dd7091, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3580653895840422466, guid: ef8d3fa5e5599124bbeb9dece2dd7091, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.18
+      value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: 3580653895840422466, guid: ef8d3fa5e5599124bbeb9dece2dd7091, type: 3}
       propertyPath: m_LocalPosition.z
@@ -479,6 +495,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Balloon
       objectReference: {fileID: 0}
+    - target: {fileID: 3234220920804522076, guid: ef8d3fa5e5599124bbeb9dece2dd7091, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3580653895840422466, guid: ef8d3fa5e5599124bbeb9dece2dd7091, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1.5
@@ -562,8 +582,20 @@ PrefabInstance:
       value: Balloon (1)
       objectReference: {fileID: 0}
     - target: {fileID: 3580653895840422466, guid: ef8d3fa5e5599124bbeb9dece2dd7091, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3580653895840422466, guid: ef8d3fa5e5599124bbeb9dece2dd7091, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3580653895840422466, guid: ef8d3fa5e5599124bbeb9dece2dd7091, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3580653895840422466, guid: ef8d3fa5e5599124bbeb9dece2dd7091, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.75
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3580653895840422466, guid: ef8d3fa5e5599124bbeb9dece2dd7091, type: 3}
       propertyPath: m_LocalPosition.y
@@ -643,9 +675,25 @@ PrefabInstance:
       propertyPath: m_Name
       value: Balloon (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 3234220920804522076, guid: ef8d3fa5e5599124bbeb9dece2dd7091, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3580653895840422466, guid: ef8d3fa5e5599124bbeb9dece2dd7091, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3580653895840422466, guid: ef8d3fa5e5599124bbeb9dece2dd7091, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3580653895840422466, guid: ef8d3fa5e5599124bbeb9dece2dd7091, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3580653895840422466, guid: ef8d3fa5e5599124bbeb9dece2dd7091, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.75
+      value: -2
       objectReference: {fileID: 0}
     - target: {fileID: 3580653895840422466, guid: ef8d3fa5e5599124bbeb9dece2dd7091, type: 3}
       propertyPath: m_LocalPosition.y
@@ -724,6 +772,10 @@ PrefabInstance:
     - target: {fileID: 3234220920804522076, guid: ef8d3fa5e5599124bbeb9dece2dd7091, type: 3}
       propertyPath: m_Name
       value: Balloon (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3234220920804522076, guid: ef8d3fa5e5599124bbeb9dece2dd7091, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3580653895840422466, guid: ef8d3fa5e5599124bbeb9dece2dd7091, type: 3}
       propertyPath: m_LocalPosition.x

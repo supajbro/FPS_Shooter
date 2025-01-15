@@ -20,6 +20,10 @@ public class PlayerMovement : NetworkBehaviour
     [Header("Values")]
     [SerializeField] private float m_speed = 2f;
     private Vector3 m_velocity;
+    private float m_moveVelocity = 0f;
+    [SerializeField] private float m_speedIncreaseScale = 0.75f;
+    [SerializeField] private float m_minMoveVelocity = 0.25f;
+    [SerializeField] private float m_maxMoveVelocity = 1f;
 
     [Header("Jump Values")]
     [SerializeField] private float m_jumpForce;
@@ -39,6 +43,7 @@ public class PlayerMovement : NetworkBehaviour
 
     [Header("Balloons")]
     [SerializeField] private List<GameObject> m_balloons;
+    [SerializeField] private float m_ballonHeightIncrease = 1f;
     public List<GameObject> Ballons { get { return m_balloons; } }
     [Networked] public int ActiveBallons { get; set; }
 
@@ -84,10 +89,18 @@ public class PlayerMovement : NetworkBehaviour
 
     public override void FixedUpdateNetwork()
     {
-        // FixedUpdateNetwork is only executed on the StateAuthority
+        // Set the movement velocity
+        m_moveVelocity = Mathf.Clamp(m_moveVelocity + Runner.DeltaTime * m_speedIncreaseScale, m_minMoveVelocity, m_maxMoveVelocity);
 
         Quaternion camRotY = Quaternion.Euler(0, m_camera.transform.rotation.eulerAngles.y, 0);
         Vector3 moveInput = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+        if (moveInput.magnitude == 0f)
+        {
+            m_moveVelocity = 0f;
+            Debug.Log("MOVE: " + moveInput.magnitude);
+        }
+        moveInput *= m_moveVelocity;
+
         Vector3 move = camRotY * moveInput * Runner.DeltaTime * m_speed;
 
         gameObject.transform.rotation = camRotY;
@@ -166,7 +179,7 @@ public class PlayerMovement : NetworkBehaviour
 
         for (int i = 0; i < ActiveBallons; i++)
         {
-            m_maxJumpForce += 0.5f;
+            m_maxJumpForce += m_ballonHeightIncrease;
         }
     }
 
