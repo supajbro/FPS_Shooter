@@ -50,7 +50,12 @@ public class Bullet : NetworkBehaviour
                 return;
             }
 
-            player.RPC_TakeDamage(damage: m_damage);
+            //player.RPC_TakeDamage(damage: m_damage);
+        }
+
+        if(other.gameObject.tag == "Balloon")
+        {
+            other.GetComponentInParent<PlayerMovement>().DestroyBalloon(other.gameObject);
         }
 
         m_bulletModel.SetActive(false);

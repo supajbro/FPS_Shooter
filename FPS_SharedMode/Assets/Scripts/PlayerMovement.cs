@@ -22,8 +22,9 @@ public class PlayerMovement : NetworkBehaviour
     private Vector3 m_velocity;
 
     [Header("Jump Values")]
-    [SerializeField] private float m_jumpForce = 5f;
-    [SerializeField] private float m_maxJumpForce = 5f;
+    [SerializeField] private float m_jumpForce;
+    [SerializeField] private float m_maxJumpForce;
+    [SerializeField] private float m_initialMaxJumpForce = 2f;
     private bool m_jumpPressed;
 
     [Header("Health Values")]
@@ -35,6 +36,10 @@ public class PlayerMovement : NetworkBehaviour
     private bool m_respawning = false;
     private float m_respawnTimer = 0f;
     private float m_maxRespawnTime = 3f;
+
+    [Header("Balloons")]
+    [SerializeField] private List<GameObject> m_balloons;
+    [Networked] public int ActiveBallons { get; set; }
 
     public bool isGrounded => IsGrounded();
 
@@ -61,6 +66,10 @@ public class PlayerMovement : NetworkBehaviour
             Cursor.visible = false;
 
             CurrentHealth = m_maxHealth;
+            ActiveBallons = m_balloons.Count;
+
+            SetJumpHeight();
+
         }
     }
 
@@ -146,6 +155,36 @@ public class PlayerMovement : NetworkBehaviour
             m_respawning = false;
             m_respawnTimer = 0;
         }
+    }
+
+    // Set the jump height by how many balloons you have
+    public void SetJumpHeight()
+    {
+        m_maxJumpForce = m_initialMaxJumpForce;
+
+        for (int i = 0; i < ActiveBallons; i++)
+        {
+            m_maxJumpForce += 0.5f;
+        }
+    }
+
+    GameObject m_destroyedBalloon;
+    public void DestroyBalloon(GameObject balloon)
+    {
+        m_destroyedBalloon = balloon;
+        RPC_DestroyBalloon();
+    }
+
+    [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
+    public void RPC_DestroyBalloon()
+    {
+        if (!HasStateAuthority)
+        {
+            return;
+        }
+
+        m_balloons.Remove(m_destroyedBalloon);
+        m_destroyedBalloon.SetActive(false);
     }
 
     [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
