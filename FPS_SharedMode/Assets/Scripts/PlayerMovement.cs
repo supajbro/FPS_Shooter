@@ -119,7 +119,14 @@ public class PlayerMovement : NetworkBehaviour
         // Update the jump force when the player is off the ground
         if (!IsGrounded())
         {
-            m_jumpForce -= Runner.DeltaTime * 7.5f;
+            // Change the velocity the player is falling if they are about to fall down and have balloons attached
+            float fallForce = 7.5f;
+            if(m_jumpForce < 1.0f && ActiveBallons > 0)
+            {
+                fallForce = 1.5f;
+            }
+
+            m_jumpForce -= Runner.DeltaTime * fallForce;
             m_jumpForce = Mathf.Clamp(m_jumpForce, -m_maxJumpForce, m_maxJumpForce);
         }
 
