@@ -48,6 +48,7 @@ public class PlayerMovement : NetworkBehaviour
     [Networked] public int ActiveBallons { get; set; }
 
     public bool isGrounded => IsGrounded();
+    private bool m_canMove = true;
 
     private void Awake()
     {
@@ -64,6 +65,7 @@ public class PlayerMovement : NetworkBehaviour
             // Allow player to be set in init position
             m_controller.enabled = false;
             m_controller.enabled = true;
+            m_canMove = true;
 
             m_camera = Camera.main;
             m_camera.GetComponent<FirstPersonCamera>().SetTarget(m_camPos);
@@ -92,13 +94,19 @@ public class PlayerMovement : NetworkBehaviour
         // Set the movement velocity
         m_moveVelocity = Mathf.Clamp(m_moveVelocity + Runner.DeltaTime * m_speedIncreaseScale, m_minMoveVelocity, m_maxMoveVelocity);
 
-        Quaternion camRotY = Quaternion.Euler(0, m_camera.transform.rotation.eulerAngles.y, 0);
-        Vector3 moveInput = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-        if (moveInput.magnitude == 0f)
+        Quaternion camRotY = Quaternion.identity;
+        Vector3 moveInput = Vector3.zero;
+
+        if (m_canMove)
         {
-            m_moveVelocity = 0f;
+            camRotY = Quaternion.Euler(0, m_camera.transform.rotation.eulerAngles.y, 0);
+            moveInput = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+            if (moveInput.magnitude == 0f)
+            {
+                m_moveVelocity = 0f;
+            }
+            moveInput *= m_moveVelocity;
         }
-        moveInput *= m_moveVelocity;
 
         Vector3 move = camRotY * moveInput * Runner.DeltaTime * m_speed;
 
@@ -240,12 +248,12 @@ public class PlayerMovement : NetworkBehaviour
         }
 
         CurrentHealth = 0;
-        m_controller.enabled = false;
+        m_canMove = false;
         Debug.Log("Player: " + this.name + " has died");
 
         if (CurrentHealth <= 0)
         {
-            m_respawning = true;
+            //m_respawning = true;
             RPC_ChangeMesh(false);
         }
     }
