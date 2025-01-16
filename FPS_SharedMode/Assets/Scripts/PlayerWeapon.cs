@@ -22,9 +22,15 @@ public class PlayerWeapon : NetworkBehaviour
     private float m_reloadTime = 0f;
     private float m_maxReloadTime = 1f;
 
+    private void Awake()
+    {
+        m_reloading = true;
+    }
+
     public override void Spawned()
     {
         m_ammoCount = m_maxAmmoCount;
+        Reload();
     }
 
     private void Update()
@@ -40,7 +46,7 @@ public class PlayerWeapon : NetworkBehaviour
         if (m_shootPressed && m_ammoCount > 0)
         {
             m_shootPressed = false;
-            SpawnBullet();
+            ShootBullet();
         }
 
         if(m_ammoCount == 0)
@@ -51,6 +57,15 @@ public class PlayerWeapon : NetworkBehaviour
         Reload();
     }
 
+    private void ShootBullet()
+    {
+        m_bullet.transform.parent = null;
+        m_bullet.GetComponent<Bullet>().Init(Camera.main.transform.forward); // Amy I love you xx
+        m_bullet = null;
+        m_ammoCount--;
+    }
+
+    NetworkObject m_bullet;
     private void SpawnBullet()
     {
         // Spawn the bullet at the spawn point with the correct rotation
@@ -61,10 +76,10 @@ public class PlayerWeapon : NetworkBehaviour
             Object.InputAuthority,
             (runner, obj) =>
             {
-                obj.GetComponent<Bullet>().Init(Camera.main.transform.forward); // Amy I love you xx
+                m_bullet = obj;
+                m_bullet.GetComponent<Bullet>().SetInit(m_bulletSpawnPoint); // Amy I love you xx
+                m_bullet.transform.parent = m_bulletSpawnPoint;
             });
-
-        m_ammoCount--;
     }
 
     private void Reload()
@@ -80,6 +95,7 @@ public class PlayerWeapon : NetworkBehaviour
             m_reloading = false;
             m_reloadTime = 0f;
             m_ammoCount = m_maxAmmoCount;
+            SpawnBullet();
         }
     }
 

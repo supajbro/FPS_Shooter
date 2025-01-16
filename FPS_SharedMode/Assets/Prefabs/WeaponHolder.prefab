@@ -9,6 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 872001739594360440}
+  - component: {fileID: 6120455799512991979}
+  - component: {fileID: 3011654538017562549}
   m_Layer: 0
   m_Name: BulletSpawnPos
   m_TagString: Untagged
@@ -31,6 +33,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1141660871944883648}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6120455799512991979
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1040822863483517458}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SortKey: 2274741442
+  ObjectInterest: 1
+  Flags: 262145
+  NestedObjects: []
+  NetworkedBehaviours:
+  - {fileID: 3011654538017562549}
+  ForceRemoteRenderTimeframe: 0
+--- !u!114 &3011654538017562549
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1040822863483517458}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ed93039e1bc52040b0b74c1ecc8041c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1397458257018451979
 GameObject:
   m_ObjectHideFlags: 0
@@ -148,6 +181,7 @@ MonoBehaviour:
   Flags: 262145
   NestedObjects:
   - {fileID: 1716328543034228265}
+  - {fileID: 6120455799512991979}
   NetworkedBehaviours:
   - {fileID: 2282637291806882915}
   - {fileID: 1508925300583141396}

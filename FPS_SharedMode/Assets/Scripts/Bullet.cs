@@ -12,23 +12,41 @@ public class Bullet : NetworkBehaviour
     [SerializeField] private Vector3 m_direction = Vector3.zero;
     [SerializeField] private float m_lifetime = 3.0f;
     [SerializeField] private float m_damage = 100f;
+    private Transform initPos;
+    [Networked] public Vector3 UpdatedPos { get; set; }
 
-    private bool m_isActive = true;
+    private bool m_isActive => m_direction != Vector3.zero;
+    private bool m_hitTarget = false;
 
     public void Init(Vector3 dir)
     {
-        m_isActive = true;
-        m_direction = dir.normalized;
+        m_direction = dir;
+    }
+
+    public void SetInit(Transform pos)
+    {
+        initPos = pos;
+        //RPC_SetInit();
+    }
+
+    [Rpc(RpcSources.All, RpcTargets.All)]
+    public void RPC_SetInit()
+    {
+        transform.parent = initPos;
     }
 
     public override void FixedUpdateNetwork()
     {
         if (m_direction != Vector3.zero)
         {
-            transform.position += m_direction * m_speed * Runner.DeltaTime;
+            transform.localPosition += m_direction * m_speed * Runner.DeltaTime;
+        }
+        else
+        {
+            //transform.localPosition = initPos.position;
         }
 
-        m_lifetime -= Runner.DeltaTime;
+        m_lifetime = (m_direction != Vector3.zero) ? m_lifetime -Runner.DeltaTime : 3.0f;
         if (m_lifetime <= 0.0f)
         {
             Runner.Despawn(m_bullet);
@@ -37,7 +55,12 @@ public class Bullet : NetworkBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!m_isActive)
+        if (m_hitTarget)
+        {
+            return;
+        }
+
+        if(other.gameObject.tag == "Bullet")
         {
             return;
         }
@@ -63,8 +86,10 @@ public class Bullet : NetworkBehaviour
             }
         }
 
+        Debug.Log("NAME: " + other.name + ", " + transform.position);
+
         m_bulletModel.SetActive(false);
-        m_isActive = false;
+        m_hitTarget = true;
     }
 
 }
