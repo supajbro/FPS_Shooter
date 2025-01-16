@@ -270,7 +270,7 @@ MonoBehaviour:
   m_groundLayer:
     serializedVersion: 2
     m_Bits: 64
-  m_speed: 25
+  m_speed: 35
   m_speedIncreaseScale: 0.5
   m_minMoveVelocity: 0.25
   m_maxMoveVelocity: 1
@@ -283,7 +283,7 @@ MonoBehaviour:
   - {fileID: 7427820170179333631}
   - {fileID: 8508229597919847077}
   - {fileID: 2855262224309701007}
-  m_ballonHeightIncrease: 0.5
+  m_ballonHeightIncrease: 1
   _ActiveBallons: 0
 --- !u!1001 &828010423199658451
 PrefabInstance:
@@ -409,15 +409,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5567579551131511450, guid: c496a35fca92ab844bb3fffdeab04174, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 0.21999931
       objectReference: {fileID: 0}
     - target: {fileID: 5567579551131511450, guid: c496a35fca92ab844bb3fffdeab04174, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.8
+      value: 0.9920001
       objectReference: {fileID: 0}
     - target: {fileID: 5567579551131511450, guid: c496a35fca92ab844bb3fffdeab04174, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -0.09
       objectReference: {fileID: 0}
     - target: {fileID: 5567579551131511450, guid: c496a35fca92ab844bb3fffdeab04174, type: 3}
       propertyPath: m_LocalRotation.w

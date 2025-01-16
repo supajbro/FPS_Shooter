@@ -110,12 +110,6 @@ public class PlayerMovement : NetworkBehaviour
 
         Vector3 move = camRotY * moveInput * Runner.DeltaTime * m_speed;
 
-        gameObject.transform.rotation = camRotY;
-        transform.position += move;
-
-        Quaternion camRotX = Quaternion.Euler(m_camera.transform.rotation.eulerAngles.x, m_camera.transform.rotation.eulerAngles.y, 0);
-        m_weapon.transform.rotation = camRotX;
-
         // Initialise the jump
         if (m_jumpPressed && IsGrounded())
         {
@@ -126,16 +120,32 @@ public class PlayerMovement : NetworkBehaviour
         // Update the jump force when the player is off the ground
         if (!IsGrounded())
         {
+            // Restrict the movement of the player when in the air
+            if (move.magnitude > 0.5f)
+            {
+                move = move.normalized * 0.5f;
+            }
+
             // Change the velocity the player is falling if they are about to fall down and have balloons attached
             float fallForce = 7.5f;
             if(m_jumpForce < 1.0f && ActiveBallons > 0)
             {
                 fallForce = 1.5f;
             }
+            else if(ActiveBallons <= 0)
+            {
+                fallForce *= 1.5f;
+            }
 
             m_jumpForce -= Runner.DeltaTime * fallForce;
             m_jumpForce = Mathf.Clamp(m_jumpForce, -m_maxJumpForce, m_maxJumpForce);
         }
+
+        gameObject.transform.rotation = camRotY;
+        transform.position += move;
+
+        Quaternion camRotX = Quaternion.Euler(m_camera.transform.rotation.eulerAngles.x, m_camera.transform.rotation.eulerAngles.y, 0);
+        m_weapon.transform.rotation = camRotX;
 
         // Update the y velocity and reset it to 0 if player is grounded
         m_velocity.y += m_jumpForce;
