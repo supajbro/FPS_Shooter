@@ -97,7 +97,6 @@ public class PlayerMovement : NetworkBehaviour
         if (moveInput.magnitude == 0f)
         {
             m_moveVelocity = 0f;
-            Debug.Log("MOVE: " + moveInput.magnitude);
         }
         moveInput *= m_moveVelocity;
 
@@ -230,6 +229,25 @@ public class PlayerMovement : NetworkBehaviour
             return;
         }
         m_playerMesh.enabled = false;
+    }
+
+    [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
+    public void RPC_PlayerDie()
+    {
+        if (!HasStateAuthority)
+        {
+            return;
+        }
+
+        CurrentHealth = 0;
+        m_controller.enabled = false;
+        Debug.Log("Player: " + this.name + " has died");
+
+        if (CurrentHealth <= 0)
+        {
+            m_respawning = true;
+            RPC_ChangeMesh(false);
+        }
     }
 
 }
