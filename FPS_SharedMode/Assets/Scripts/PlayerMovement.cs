@@ -19,7 +19,7 @@ public class PlayerMovement : NetworkBehaviour
 
     [Header("Values")]
     [SerializeField] private float m_speed = 2f;
-    private Vector3 m_velocity;
+    public Vector3 m_velocity;
     private float m_moveVelocity = 0f;
     [SerializeField] private float m_speedIncreaseScale = 0.75f;
     [SerializeField] private float m_minMoveVelocity = 0.25f;
@@ -27,6 +27,7 @@ public class PlayerMovement : NetworkBehaviour
 
     [Header("Jump Values")]
     [SerializeField] private float m_jumpForce;
+    public void SetJumpForce(float value) {  m_jumpForce = value; }
     [SerializeField] private float m_maxJumpForce;
     [SerializeField] private float m_initialMaxJumpForce = 2f;
     private bool m_jumpPressed;
@@ -40,6 +41,11 @@ public class PlayerMovement : NetworkBehaviour
     private bool m_respawning = false;
     private float m_respawnTimer = 0f;
     private float m_maxRespawnTime = 3f;
+
+    [Header("Knockback Values")]
+    [SerializeField] private float KnockbackPwr = 10.0f;
+    private bool m_knockback = false;
+    private float m_knockbackTime = 1.0f;
 
     [Header("Balloons")]
     [SerializeField] private List<GameObject> m_balloons;
@@ -89,6 +95,7 @@ public class PlayerMovement : NetworkBehaviour
         }
     }
 
+    Vector3 m_groundedForward;
     public override void FixedUpdateNetwork()
     {
         // Set the movement velocity
@@ -97,7 +104,7 @@ public class PlayerMovement : NetworkBehaviour
         Quaternion camRotY = Quaternion.identity;
         Vector3 moveInput = Vector3.zero;
 
-        if (m_canMove)
+        if (m_canMove && !m_knockback)
         {
             camRotY = Quaternion.Euler(0, m_camera.transform.rotation.eulerAngles.y, 0);
             moveInput = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
@@ -140,6 +147,22 @@ public class PlayerMovement : NetworkBehaviour
             m_jumpForce -= Runner.DeltaTime * fallForce;
             m_jumpForce = Mathf.Clamp(m_jumpForce, -m_maxJumpForce, m_maxJumpForce);
         }
+        else if(!m_knockback)
+        {
+            m_groundedForward = transform.forward;
+        }
+
+        m_knockbackTime -= Runner.DeltaTime;
+        if (m_knockback && m_knockbackTime > 0.0f)
+        {
+            Vector3 knockbackDirection = -m_groundedForward; // Move backwards relative to the player's forward direction
+            float knockbackSpeed = KnockbackPwr; // Adjust this value for desired knockback speed
+            move += knockbackDirection * knockbackSpeed * Runner.DeltaTime;
+        }
+        else if(m_knockbackTime <= 0.0f)
+        {
+            m_knockback = false;
+        }
 
         gameObject.transform.rotation = camRotY;
         transform.position += move;
@@ -157,6 +180,17 @@ public class PlayerMovement : NetworkBehaviour
         m_controller.Move(move + m_velocity * Runner.DeltaTime);
 
         Respawn();
+    }
+
+    public void KnockPlayerBack()
+    {
+        if (IsGrounded())
+        {
+            return;
+        }
+
+        m_knockback = true;
+        m_knockbackTime = 1.0f;
     }
 
     private bool IsGrounded()

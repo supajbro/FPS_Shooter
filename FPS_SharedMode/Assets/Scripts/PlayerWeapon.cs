@@ -82,6 +82,8 @@ public class PlayerWeapon : NetworkBehaviour
         m_bullet.GetComponent<Bullet>().Init(shootDirection/*Camera.main.transform.forward*/); // Amy I love you xx
         m_bullet = null;
         m_ammoCount--;
+
+        GetComponentInParent<PlayerMovement>().KnockPlayerBack();//
     }
 
     NetworkObject m_bullet;
