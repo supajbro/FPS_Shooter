@@ -96,6 +96,7 @@ public class PlayerMovement : NetworkBehaviour
     }
 
     Vector3 m_groundedForward;
+    Vector3 m_lastMoveOnGround;
     public override void FixedUpdateNetwork()
     {
         // Set the movement velocity
@@ -116,6 +117,15 @@ public class PlayerMovement : NetworkBehaviour
         }
 
         Vector3 move = camRotY * moveInput * Runner.DeltaTime * m_speed;
+
+        if (IsGrounded())
+        {
+            m_lastMoveOnGround = move;
+        }
+        else
+        {
+            move = m_lastMoveOnGround;
+        }
 
         // Initialise the jump
         if (m_jumpPressed && IsGrounded())
