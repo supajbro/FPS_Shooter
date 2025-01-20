@@ -280,7 +280,7 @@ MonoBehaviour:
   m_initialMaxJumpForce: 2
   m_maxHealth: 100
   _CurrentHealth: 0
-  KnockbackPwr: 25
+  KnockbackPwr: 10
   m_balloons:
   - {fileID: 7427820170179333631}
   - {fileID: 8508229597919847077}

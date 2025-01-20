@@ -149,30 +149,31 @@ public class PlayerMovement : NetworkBehaviour
             }
 
             // Change the velocity the player is falling if they are about to fall down and have balloons attached
-            float fallForce = 7.5f;
+            const float InitialFallVelocity = 7.5f;
+            const float LowestFallVelocity = 3.5f;
+            const float MiddleFallVelocity = 5.5f;
+            const float HighestFallVelocity = 7.5f;
 
-            if(m_jumpForce > 1.0f)
+            float fallForce = InitialFallVelocity;
+
+            if (m_jumpForce > 1.0f)
             {
-                if(ActiveBallons == 3)
+                switch (ActiveBallons)
                 {
-                    fallForce = 4.5f;
-                }
-                else if (ActiveBallons == 2)
-                {
-                    fallForce = 5.5f;
-                }
-                else if (ActiveBallons == 1)
-                {
-                    fallForce = 6.5f;
+                    case 3:
+                        fallForce = LowestFallVelocity;
+                        break;
+                    case 2:
+                        fallForce = MiddleFallVelocity;
+                        break;
+                    case 1:
+                        fallForce = HighestFallVelocity;
+                        break;
                 }
             }
-            else if(m_jumpForce < 1.0f && ActiveBallons > 0)
+            else if (m_jumpForce < 1.0f) // If player starts falling, change fall velocity dependant if player has balloons
             {
-                fallForce = 1.5f;
-            }
-            else if(ActiveBallons <= 0)
-            {
-                fallForce *= 1.5f;
+                fallForce = (ActiveBallons > 0) ? 1.5f : fallForce * 1.5f;
             }
 
             m_jumpForce -= Runner.DeltaTime * fallForce;
@@ -184,13 +185,14 @@ public class PlayerMovement : NetworkBehaviour
         }
 
         m_knockbackTime -= Runner.DeltaTime;
-        if (m_knockback && m_knockbackTime > 0.0f)
+        if (m_knockback && m_knockbackTime > 0.0f && !IsGrounded())
         {
-            Vector3 knockbackDirection = -m_groundedForward; // Move backwards relative to the player's forward direction
+            Vector3 knockbackDirection = -m_knockbackForwardDir; // Move backwards relative to the player's forward direction
             float knockbackSpeed = KnockbackPwr; // Adjust this value for desired knockback speed
             move += knockbackDirection * knockbackSpeed * Runner.DeltaTime;
+            m_lastMoveOnGround = move;
         }
-        else if(m_knockbackTime <= 0.0f)
+        else if(m_knockbackTime <= 0.0f || IsGrounded())
         {
             m_knockback = false;
         }
@@ -213,6 +215,7 @@ public class PlayerMovement : NetworkBehaviour
         Respawn();
     }
 
+    Vector3 m_knockbackForwardDir = Vector3.zero;
     public void KnockPlayerBack()
     {
         if (IsGrounded())
@@ -220,6 +223,7 @@ public class PlayerMovement : NetworkBehaviour
             return;
         }
 
+        m_knockbackForwardDir = transform.forward;
         m_knockback = true;
         m_knockbackTime = 1.0f;
     }
