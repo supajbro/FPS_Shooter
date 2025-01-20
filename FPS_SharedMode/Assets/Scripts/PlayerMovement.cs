@@ -93,6 +93,11 @@ public class PlayerMovement : NetworkBehaviour
         {
             m_jumpPressed = true;
         }
+
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            DestroyRandomBalloon();
+        }
     }
 
     Vector3 m_groundedForward;
@@ -145,7 +150,23 @@ public class PlayerMovement : NetworkBehaviour
 
             // Change the velocity the player is falling if they are about to fall down and have balloons attached
             float fallForce = 7.5f;
-            if(m_jumpForce < 1.0f && ActiveBallons > 0)
+
+            if(m_jumpForce > 1.0f)
+            {
+                if(ActiveBallons == 3)
+                {
+                    fallForce = 4.5f;
+                }
+                else if (ActiveBallons == 2)
+                {
+                    fallForce = 5.5f;
+                }
+                else if (ActiveBallons == 1)
+                {
+                    fallForce = 6.5f;
+                }
+            }
+            else if(m_jumpForce < 1.0f && ActiveBallons > 0)
             {
                 fallForce = 1.5f;
             }
@@ -249,6 +270,12 @@ public class PlayerMovement : NetworkBehaviour
         {
             m_maxJumpForce += m_ballonHeightIncrease;
         }
+    }
+
+    private void DestroyRandomBalloon()
+    {
+        int randBalloon = Random.Range(0, ActiveBallons);
+        RPC_DestroyBalloon(m_balloons[randBalloon].GetComponent<NetworkBehaviour>());
     }
 
     //[Rpc(RpcSources.All, RpcTargets.StateAuthority)]
