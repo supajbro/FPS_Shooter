@@ -152,7 +152,7 @@ public class PlayerMovement : NetworkBehaviour
             const float InitialFallVelocity = 7.5f;
             const float LowestFallVelocity = 3.5f;
             const float MiddleFallVelocity = 5.5f;
-            const float HighestFallVelocity = 7.5f;
+            const float HighestFallVelocity = 10f;
 
             float fallForce = InitialFallVelocity;
 
