@@ -8,6 +8,7 @@ public class PlayerMovement : NetworkBehaviour
 
     private CharacterController m_controller;
     [SerializeField] private MeshRenderer m_playerMesh;
+    [SerializeField] private GameObject m_playerSpine;
     [SerializeField] private Transform m_camPos;
     [SerializeField] private PlayerWeapon m_weapon;
     public PlayerWeapon Weapon { get { return m_weapon; } }
@@ -200,8 +201,10 @@ public class PlayerMovement : NetworkBehaviour
         gameObject.transform.rotation = camRotY;
         transform.position += move;
 
-        Quaternion camRotX = Quaternion.Euler(m_camera.transform.rotation.eulerAngles.x, m_camera.transform.rotation.eulerAngles.y, 0);
-        m_weapon.transform.rotation = camRotX;
+        // Rotate the weapon
+        Quaternion weaponRot = Quaternion.Euler(m_camera.transform.rotation.eulerAngles.x, 0, 0);
+        m_playerSpine.transform.localRotation = weaponRot;
+        //m_weapon.transform.rotation = camRotX;
 
         // Update the y velocity and reset it to 0 if player is grounded
         m_velocity.y += m_jumpForce;
