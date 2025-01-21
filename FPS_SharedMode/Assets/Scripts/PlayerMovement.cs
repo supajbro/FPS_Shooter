@@ -313,6 +313,18 @@ public class PlayerMovement : NetworkBehaviour
         }
     }
 
+    [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
+    public void RPC_Respawn()
+    {
+        m_controller.enabled = false;
+        m_canMove = false;
+        m_velocity.y = 0;
+        var randSpawnPos = Random.Range(0, GameManager.instance.spawnPoints.Count);
+        transform.position = GameManager.instance.spawnPoints[randSpawnPos].position;
+        m_controller.enabled = true;
+        m_canMove = true;
+    }
+
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
     public void RPC_ChangeMesh(bool on)
     {
