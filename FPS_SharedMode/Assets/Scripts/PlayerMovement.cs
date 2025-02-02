@@ -103,6 +103,7 @@ public class PlayerMovement : NetworkBehaviour
 
     Vector3 m_groundedForward;
     Vector3 m_lastMoveOnGround;
+    float m_speedInAirScaler = 1.0f;
     public override void FixedUpdateNetwork()
     {
         // Set the movement velocity
@@ -127,6 +128,7 @@ public class PlayerMovement : NetworkBehaviour
         if (IsGrounded())
         {
             m_lastMoveOnGround = move;
+            m_speedInAirScaler = 1.0f;
         }
         else
         {
@@ -146,7 +148,8 @@ public class PlayerMovement : NetworkBehaviour
             // Restrict the movement of the player when in the air
             if (move.magnitude > 0.5f)
             {
-                move = move.normalized * 0.5f;
+                m_speedInAirScaler = (m_speedInAirScaler > 0.5f) ? m_speedInAirScaler - Runner.DeltaTime : 0.5f;
+                move = move.normalized * m_speedInAirScaler;
             }
 
             // Change the velocity the player is falling if they are about to fall down and have balloons attached
