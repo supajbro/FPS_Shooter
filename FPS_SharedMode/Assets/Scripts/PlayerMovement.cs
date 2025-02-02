@@ -26,6 +26,7 @@ public class PlayerMovement : NetworkBehaviour
     [SerializeField] private float m_speedIncreaseScale = 0.75f;
     [SerializeField] private float m_minMoveVelocity = 0.25f;
     [SerializeField] private float m_maxMoveVelocity = 1f;
+    private float m_timeOffGround = 0.0f;
 
     [Header("Jump Values")]
     [SerializeField] private float m_jumpForce;
@@ -33,6 +34,7 @@ public class PlayerMovement : NetworkBehaviour
     [SerializeField] private float m_maxJumpForce;
     [SerializeField] private float m_initialMaxJumpForce = 2f;
     private bool m_jumpPressed;
+    private bool m_canJump = true;
 
     [Header("Health Values")]
     [SerializeField] private float m_maxHealth = 100f;
@@ -87,7 +89,6 @@ public class PlayerMovement : NetworkBehaviour
             ActiveBallons = m_balloons.Count;
 
             SetJumpHeight();
-
         }
     }
 
@@ -104,7 +105,6 @@ public class PlayerMovement : NetworkBehaviour
         }
     }
 
-    Vector3 m_groundedForward;
     Vector3 m_lastMoveOnGround;
     float m_speedInAirScaler = 1.0f;
     public override void FixedUpdateNetwork()
@@ -132,15 +132,24 @@ public class PlayerMovement : NetworkBehaviour
         {
             m_lastMoveOnGround = move;
             m_speedInAirScaler = 1.0f;
+            m_canJump = true;
+            m_timeOffGround = 0.0f;
         }
         else
         {
             move = m_lastMoveOnGround;
+            m_timeOffGround += Runner.DeltaTime;
+
+            if(m_timeOffGround > 0.5f)
+            {
+                m_canJump = false;
+            }
         }
 
         // Initialise the jump
-        if (m_jumpPressed && IsGrounded())
+        if (m_jumpPressed && m_canJump)
         {
+            m_velocity.y = 0.0f;
             m_jumpPressed = false;
             m_jumpForce = m_maxJumpForce;
         }
@@ -185,10 +194,6 @@ public class PlayerMovement : NetworkBehaviour
 
             m_jumpForce -= Runner.DeltaTime * fallForce;
             m_jumpForce = Mathf.Clamp(m_jumpForce, -m_maxJumpForce, m_maxJumpForce);
-        }
-        else if(!m_knockback)
-        {
-            m_groundedForward = transform.forward;
         }
 
         m_knockbackTime -= Runner.DeltaTime;
