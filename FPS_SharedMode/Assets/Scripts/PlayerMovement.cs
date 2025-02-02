@@ -8,6 +8,7 @@ public class PlayerMovement : NetworkBehaviour
 
     private CharacterController m_controller;
     [SerializeField] private MeshRenderer m_playerMesh;
+    [SerializeField] private GameObject m_playerHead;
     [SerializeField] private GameObject m_playerSpine;
     [SerializeField] private Transform m_camPos;
     [SerializeField] private PlayerWeapon m_weapon;
@@ -68,6 +69,8 @@ public class PlayerMovement : NetworkBehaviour
         if (HasStateAuthority)
         {
             GameManager.instance.SetLocalPlayer(this);
+
+            m_playerHead.GetComponent<SkinnedMeshRenderer>().shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.ShadowsOnly;
 
             // Allow player to be set in init position
             m_controller.enabled = false;
