@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7373297897913263263}
   - component: {fileID: 4402498904452818098}
+  - component: {fileID: 1027113703208275616}
   m_Layer: 0
   m_Name: Pistol
   m_TagString: Untagged
@@ -52,6 +53,27 @@ MonoBehaviour:
   NestedObjects: []
   NetworkedBehaviours: []
   ForceRemoteRenderTimeframe: 0
+--- !u!95 &1027113703208275616
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2281814541868127292}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 2a78c0b8aa1a13f4db46b59e89071089, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &6467046993657798218
 GameObject:
   m_ObjectHideFlags: 0

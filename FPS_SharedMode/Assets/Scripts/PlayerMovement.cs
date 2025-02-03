@@ -16,14 +16,16 @@ public class PlayerMovement : NetworkBehaviour
     [SerializeField] private PlayerStates m_currentState;
     [SerializeField] private PlayerStates m_previousState;
 
-    private CharacterController m_controller;
+    [Header("Main Components")]
     [SerializeField] private MeshRenderer m_playerMesh;
     [SerializeField] private GameObject m_playerHead;
     [SerializeField] private GameObject m_playerSpine;
     [SerializeField] private Transform m_camPos;
     [SerializeField] private PlayerWeapon m_weapon;
+    [SerializeField] private GameObject m_weaponModel;
+    [SerializeField] private Animator m_weaponAnim;
     public PlayerWeapon Weapon { get { return m_weapon; } }
-
+    private CharacterController m_controller;
     private Camera m_camera;
     public Camera Cam { get { return m_camera; } }
 
@@ -40,7 +42,6 @@ public class PlayerMovement : NetworkBehaviour
 
     [Header("Jump Values")]
     [SerializeField] private float m_jumpForce;
-    public void SetJumpForce(float value) {  m_jumpForce = value; }
     [SerializeField] private float m_maxJumpForce;
     [SerializeField] private float m_initialMaxJumpForce = 2f;
     private bool m_jumpPressed;
@@ -128,9 +129,11 @@ public class PlayerMovement : NetworkBehaviour
         Quaternion camRotY = Quaternion.identity;
         Vector3 moveInput = Vector3.zero;
 
+        camRotY = Quaternion.Euler(0, m_camera.transform.rotation.eulerAngles.y, 0);
+
         if (m_canMove && !m_knockback)
         {
-            camRotY = Quaternion.Euler(0, m_camera.transform.rotation.eulerAngles.y, 0);
+            //camRotY = Quaternion.Euler(0, m_camera.transform.rotation.eulerAngles.y, 0);
             moveInput = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
             if (moveInput.magnitude == 0f)
             {
@@ -175,6 +178,7 @@ public class PlayerMovement : NetworkBehaviour
 
         KnockbackLogic(ref move);
 
+        // Rotate player to cam direction
         gameObject.transform.rotation = camRotY;
 
         // Rotate the weapon
@@ -215,6 +219,8 @@ public class PlayerMovement : NetworkBehaviour
         moveInput = Vector3.zero;
         move = Vector3.zero;
         m_velocity = Vector3.zero;
+
+        m_weaponAnim.SetInteger("Gun", 0);
     }
 
     private void WalkUpdate(Vector3 move)
@@ -226,6 +232,7 @@ public class PlayerMovement : NetworkBehaviour
 
         transform.position += move;
         m_controller.Move(move + m_velocity * Runner.DeltaTime);
+        m_weaponAnim.SetInteger("Gun", 1);
     }
 
     private void JumpUpdate(ref Vector3 move)
@@ -275,6 +282,8 @@ public class PlayerMovement : NetworkBehaviour
         m_jumpForce = Mathf.Clamp(m_jumpForce, -m_maxJumpForce, m_maxJumpForce);
 
         m_controller.Move(move + m_velocity * Runner.DeltaTime);
+
+        m_weaponAnim.SetInteger("Gun", 2);
     }
 
     private void KnockbackLogic(ref Vector3 move)

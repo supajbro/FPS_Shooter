@@ -826,11 +826,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78a6539cb844dd048997d2c6c476d655, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_currentState: 0
+  m_previousState: 0
   m_playerMesh: {fileID: 4543176454799818269}
   m_playerHead: {fileID: 5421096649283010455}
   m_playerSpine: {fileID: 6772914610885400448}
   m_camPos: {fileID: 5899094385578347027}
   m_weapon: {fileID: 881574144129456631}
+  m_weaponModel: {fileID: 2807318580548676403}
+  m_weaponAnim: {fileID: 3971665955968364975}
   m_groundLayer:
     serializedVersion: 2
     m_Bits: 64
@@ -845,10 +849,12 @@ MonoBehaviour:
   m_maxHealth: 100
   _CurrentHealth: 0
   KnockbackPwr: 10
+  m_knockbackTime: 1
   m_balloons:
   - {fileID: 6099745198808206571}
   - {fileID: 255731412502274645}
   - {fileID: 6449135308440493660}
+  m_destroyedBallons: []
   m_ballonHeightIncrease: 0.025
   _ActiveBallons: 0
 --- !u!95 &5071248153147366421
@@ -997,6 +1003,14 @@ PrefabInstance:
       propertyPath: SortKey
       value: 3999821258
       objectReference: {fileID: 0}
+    - target: {fileID: 1716328543034228265, guid: c496a35fca92ab844bb3fffdeab04174, type: 3}
+      propertyPath: NestedObjects.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1716328543034228265, guid: c496a35fca92ab844bb3fffdeab04174, type: 3}
+      propertyPath: NestedObjects.Array.data[0]
+      value: 
+      objectReference: {fileID: 5144887146226101631}
     - target: {fileID: 4110958673677404939, guid: c496a35fca92ab844bb3fffdeab04174, type: 3}
       propertyPath: m_Name
       value: WeaponHolder
@@ -1079,7 +1093,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1716328543034228265, guid: c496a35fca92ab844bb3fffdeab04174, type: 3}
   m_PrefabInstance: {fileID: 1411444753915192724}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 2807318580548676403}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
@@ -1107,6 +1121,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38fbd09a017c1a648ac9758e49a355df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &2807318580548676403 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3847178981535190695, guid: c496a35fca92ab844bb3fffdeab04174, type: 3}
+  m_PrefabInstance: {fileID: 1411444753915192724}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &3971665955968364975 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 2632429446404346939, guid: c496a35fca92ab844bb3fffdeab04174, type: 3}
+  m_PrefabInstance: {fileID: 1411444753915192724}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &4205797306807548449 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3011654538017562549, guid: c496a35fca92ab844bb3fffdeab04174, type: 3}
