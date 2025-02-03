@@ -158,9 +158,9 @@ public class PlayerMovement : NetworkBehaviour
         if (!IsGrounded())
         {
             // Restrict the movement of the player when in the air
-            if (move.magnitude > 0.5f)
+            if (move.magnitude > 0.75f)
             {
-                m_speedInAirScaler = (m_speedInAirScaler > 0.5f) ? m_speedInAirScaler - Runner.DeltaTime : 0.5f;
+                m_speedInAirScaler = (m_speedInAirScaler > 0.75f) ? m_speedInAirScaler - Runner.DeltaTime : 0.75f;
                 move = move.normalized * m_speedInAirScaler;
             }
 
@@ -189,7 +189,7 @@ public class PlayerMovement : NetworkBehaviour
             }
             else if (m_jumpForce < 1.0f) // If player starts falling, change fall velocity dependant if player has balloons
             {
-                fallForce = (ActiveBallons > 0) ? 1.5f : fallForce * 1.5f;
+                fallForce = (ActiveBallons > 0) ? 2.5f : fallForce * 1.5f;
             }
 
             m_jumpForce -= Runner.DeltaTime * fallForce;
