@@ -63,6 +63,7 @@ public class PlayerMovement : NetworkBehaviour
 
     [Header("Balloons")]
     [SerializeField] private List<GameObject> m_balloons;
+    [SerializeField] private List<GameObject> m_destroyedBallons = new();
     [SerializeField] private float m_ballonHeightIncrease = 1f;
     public List<GameObject> Ballons { get { return m_balloons; } }
     [Networked] public int ActiveBallons { get; set; }
@@ -183,7 +184,7 @@ public class PlayerMovement : NetworkBehaviour
         switch (m_currentState)
         {
             case PlayerStates.Idle:
-                IdleUpdate(moveInput);
+                IdleUpdate(ref moveInput, ref move);
                 break;
             case PlayerStates.Walk:
                 WalkUpdate(move);
@@ -203,13 +204,17 @@ public class PlayerMovement : NetworkBehaviour
         Respawn();
     }
 
-    private void IdleUpdate(Vector3 moveInput)
+    private void IdleUpdate(ref Vector3 moveInput, ref Vector3 move)
     {
-        Debug.Log("Move: " + moveInput.magnitude);
         if(moveInput.magnitude > 0f && IsGrounded())
         {
             SetCurrentState(PlayerStates.Walk);
+            return;
         }
+
+        moveInput = Vector3.zero;
+        move = Vector3.zero;
+        m_velocity = Vector3.zero;
     }
 
     private void WalkUpdate(Vector3 move)
@@ -329,8 +334,10 @@ public class PlayerMovement : NetworkBehaviour
         {
             m_controller.enabled = false;
             var randSpawnPos = Random.Range(0, GameManager.instance.spawnPoints.Count);
-            transform.position = GameManager.instance.spawnPoints[randSpawnPos].position;
+            var pos = GameManager.instance.spawnPoints[randSpawnPos].position;
+            transform.position = pos;
             m_controller.enabled = true;
+            m_velocity = Vector3.zero;
             CurrentHealth = m_maxHealth;
             RPC_ChangeMesh(true);
             m_respawning = false;
@@ -364,6 +371,7 @@ public class PlayerMovement : NetworkBehaviour
         if (balloonObject != null)
         {
             m_balloons.Remove(balloon.gameObject);
+            m_destroyedBallons.Add(balloon.gameObject);
             balloon.GetComponent<MeshRenderer>().enabled = false;
         }
 
@@ -392,11 +400,20 @@ public class PlayerMovement : NetworkBehaviour
     {
         m_controller.enabled = false;
         m_canMove = false;
-        m_velocity.y = 0;
         var randSpawnPos = Random.Range(0, GameManager.instance.spawnPoints.Count);
-        transform.position = GameManager.instance.spawnPoints[randSpawnPos].position;
+        var pos = GameManager.instance.spawnPoints[randSpawnPos].position;
+        transform.position = pos;
         m_controller.enabled = true;
         m_canMove = true;
+        SetCurrentState(PlayerStates.Idle);
+
+        foreach (var balloon in m_destroyedBallons)
+        {
+            m_balloons.Add(balloon);
+            balloon.GetComponent<MeshRenderer>().enabled = true;
+        }
+        m_destroyedBallons.Clear();
+        SetJumpHeight();
     }
 
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
