@@ -6,6 +6,16 @@ using UnityEngine;
 public class PlayerMovement : NetworkBehaviour
 {
 
+    public enum PlayerStates
+    {
+        Idle = 0,
+        Walk,
+        Run,
+        Jump
+    }
+    [SerializeField] private PlayerStates m_currentState;
+    [SerializeField] private PlayerStates m_previousState;
+
     private CharacterController m_controller;
     [SerializeField] private MeshRenderer m_playerMesh;
     [SerializeField] private GameObject m_playerHead;
@@ -49,7 +59,7 @@ public class PlayerMovement : NetworkBehaviour
     [Header("Knockback Values")]
     [SerializeField] private float KnockbackPwr = 10.0f;
     private bool m_knockback = false;
-    private float m_knockbackTime = 1.0f;
+    [SerializeField] private float m_knockbackTime = 1.0f;
 
     [Header("Balloons")]
     [SerializeField] private List<GameObject> m_balloons;
@@ -71,6 +81,8 @@ public class PlayerMovement : NetworkBehaviour
         if (HasStateAuthority)
         {
             GameManager.instance.SetLocalPlayer(this);
+
+            SetCurrentState(PlayerStates.Idle);
 
             m_playerHead.GetComponent<SkinnedMeshRenderer>().shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.ShadowsOnly;
 
@@ -157,45 +169,111 @@ public class PlayerMovement : NetworkBehaviour
         // Update the jump force when the player is off the ground
         if (!IsGrounded())
         {
-            // Restrict the movement of the player when in the air
-            if (move.magnitude > 0.75f)
-            {
-                m_speedInAirScaler = (m_speedInAirScaler > 0.75f) ? m_speedInAirScaler - Runner.DeltaTime : 0.75f;
-                move = move.normalized * m_speedInAirScaler;
-            }
-
-            // Change the velocity the player is falling if they are about to fall down and have balloons attached
-            const float InitialFallVelocity = 7.5f;
-            const float LowestFallVelocity = 3.5f;
-            const float MiddleFallVelocity = 5.5f;
-            const float HighestFallVelocity = 10f;
-
-            float fallForce = InitialFallVelocity;
-
-            if (m_jumpForce > 1.0f)
-            {
-                switch (ActiveBallons)
-                {
-                    case 3:
-                        fallForce = LowestFallVelocity;
-                        break;
-                    case 2:
-                        fallForce = MiddleFallVelocity;
-                        break;
-                    case 1:
-                        fallForce = HighestFallVelocity;
-                        break;
-                }
-            }
-            else if (m_jumpForce < 1.0f) // If player starts falling, change fall velocity dependant if player has balloons
-            {
-                fallForce = (ActiveBallons > 0) ? 2.5f : fallForce * 1.5f;
-            }
-
-            m_jumpForce -= Runner.DeltaTime * fallForce;
-            m_jumpForce = Mathf.Clamp(m_jumpForce, -m_maxJumpForce, m_maxJumpForce);
+            SetCurrentState(PlayerStates.Jump);
         }
 
+        KnockbackLogic(ref move);
+
+        gameObject.transform.rotation = camRotY;
+
+        // Rotate the weapon
+        Quaternion weaponRot = Quaternion.Euler(m_camera.transform.rotation.eulerAngles.x, 0, 0);
+        m_playerSpine.transform.localRotation = weaponRot;
+
+        switch (m_currentState)
+        {
+            case PlayerStates.Idle:
+                IdleUpdate(moveInput);
+                break;
+            case PlayerStates.Walk:
+                WalkUpdate(move);
+                break;
+            case PlayerStates.Jump:
+                JumpUpdate(ref move);
+                break;
+        }
+
+        // Update the y velocity and reset it to 0 if player is grounded
+        m_velocity.y += m_jumpForce;
+        if (IsGrounded() && m_jumpForce != m_maxJumpForce)
+        {
+            m_velocity.y = 0f;
+        }
+
+        Respawn();
+    }
+
+    private void IdleUpdate(Vector3 moveInput)
+    {
+        Debug.Log("Move: " + moveInput.magnitude);
+        if(moveInput.magnitude > 0f && IsGrounded())
+        {
+            SetCurrentState(PlayerStates.Walk);
+        }
+    }
+
+    private void WalkUpdate(Vector3 move)
+    {
+        if(move.magnitude <= 0.0f && IsGrounded())
+        {
+            SetCurrentState(PlayerStates.Idle);
+        }
+
+        transform.position += move;
+        m_controller.Move(move + m_velocity * Runner.DeltaTime);
+    }
+
+    private void JumpUpdate(ref Vector3 move)
+    {
+        if (IsGrounded())
+        {
+            SetCurrentState(PlayerStates.Idle);
+            return;
+        }
+
+        // Restrict the movement of the player when in the air
+        if (move.magnitude > 0.75f)
+        {
+            m_speedInAirScaler = (m_speedInAirScaler > 0.75f) ? m_speedInAirScaler - Runner.DeltaTime : 0.75f;
+            move = move.normalized * m_speedInAirScaler;
+        }
+
+        // Change the velocity the player is falling if they are about to fall down and have balloons attached
+        const float InitialFallVelocity = 7.5f;
+        const float LowestFallVelocity = 3.5f;
+        const float MiddleFallVelocity = 5.5f;
+        const float HighestFallVelocity = 10f;
+
+        float fallForce = InitialFallVelocity;
+
+        if (m_jumpForce > 1.0f)
+        {
+            switch (ActiveBallons)
+            {
+                case 3:
+                    fallForce = LowestFallVelocity;
+                    break;
+                case 2:
+                    fallForce = MiddleFallVelocity;
+                    break;
+                case 1:
+                    fallForce = HighestFallVelocity;
+                    break;
+            }
+        }
+        else if (m_jumpForce < 1.0f) // If player starts falling, change fall velocity dependant if player has balloons
+        {
+            fallForce = (ActiveBallons > 0) ? 2.5f : fallForce * 1.5f;
+        }
+
+        m_jumpForce -= Runner.DeltaTime * fallForce;
+        m_jumpForce = Mathf.Clamp(m_jumpForce, -m_maxJumpForce, m_maxJumpForce);
+
+        m_controller.Move(move + m_velocity * Runner.DeltaTime);
+    }
+
+    private void KnockbackLogic(ref Vector3 move)
+    {
         m_knockbackTime -= Runner.DeltaTime;
         if (m_knockback && m_knockbackTime > 0.0f && !IsGrounded())
         {
@@ -204,29 +282,10 @@ public class PlayerMovement : NetworkBehaviour
             move += knockbackDirection * knockbackSpeed * Runner.DeltaTime;
             m_lastMoveOnGround = move;
         }
-        else if(m_knockbackTime <= 0.0f || IsGrounded())
+        else if (m_knockbackTime <= 0.0f || IsGrounded())
         {
             m_knockback = false;
         }
-
-        gameObject.transform.rotation = camRotY;
-        transform.position += move;
-
-        // Rotate the weapon
-        Quaternion weaponRot = Quaternion.Euler(m_camera.transform.rotation.eulerAngles.x, 0, 0);
-        m_playerSpine.transform.localRotation = weaponRot;
-        //m_weapon.transform.rotation = camRotX;
-
-        // Update the y velocity and reset it to 0 if player is grounded
-        m_velocity.y += m_jumpForce;
-        if(IsGrounded() && m_jumpForce != m_maxJumpForce)
-        {
-            m_velocity.y = 0f;
-        }
-
-        m_controller.Move(move + m_velocity * Runner.DeltaTime);
-
-        Respawn();
     }
 
     Vector3 m_knockbackForwardDir = Vector3.zero;
@@ -240,6 +299,7 @@ public class PlayerMovement : NetworkBehaviour
         m_knockbackForwardDir = transform.forward;
         m_knockback = true;
         m_knockbackTime = 1.0f;
+        //SetCurrentState(PlayerStates.Knockback);
     }
 
     private bool IsGrounded()
@@ -367,6 +427,12 @@ public class PlayerMovement : NetworkBehaviour
             //m_respawning = true;
             RPC_ChangeMesh(false);
         }
+    }
+
+    public void SetCurrentState(PlayerStates state)
+    {
+        m_previousState = m_currentState;
+        m_currentState = state;
     }
 
 }
