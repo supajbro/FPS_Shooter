@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMovement : NetworkBehaviour
+public class PlayerMovement : NetworkBehaviour, IHealth
 {
 
     public enum PlayerStates
@@ -48,9 +48,10 @@ public class PlayerMovement : NetworkBehaviour
     private bool m_canJump = true;
 
     [Header("Health Values")]
+    [SerializeField] private float m_currentHealth = 100f;
     [SerializeField] private float m_maxHealth = 100f;
-    public float MaxHealth { get { return m_maxHealth; } }
-    [Networked] public float CurrentHealth { get; set; }
+    public float MaxHealth => m_maxHealth;
+    public float Health => m_currentHealth;
 
     [Header("Respawn Values")]
     private bool m_respawning = false;
@@ -70,6 +71,7 @@ public class PlayerMovement : NetworkBehaviour
     [Networked] public int ActiveBallons { get; set; }
 
     public bool isGrounded => IsGrounded();
+
     private bool m_canMove = true;
 
     private void Awake()
@@ -99,7 +101,7 @@ public class PlayerMovement : NetworkBehaviour
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
 
-            CurrentHealth = m_maxHealth;
+            m_currentHealth = m_maxHealth;
             ActiveBallons = m_balloons.Count;
 
             SetJumpHeight();
@@ -303,6 +305,8 @@ public class PlayerMovement : NetworkBehaviour
     }
 
     Vector3 m_knockbackForwardDir = Vector3.zero;
+
+
     public void KnockPlayerBack()
     {
         if (IsGrounded())
@@ -347,7 +351,7 @@ public class PlayerMovement : NetworkBehaviour
             transform.position = pos;
             m_controller.enabled = true;
             m_velocity = Vector3.zero;
-            CurrentHealth = m_maxHealth;
+            m_currentHealth = m_maxHealth;
             RPC_ChangeMesh(true);
             m_respawning = false;
             m_respawnTimer = 0;
@@ -388,16 +392,16 @@ public class PlayerMovement : NetworkBehaviour
     }
 
     [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
-    public void RPC_TakeDamage(float damage)
+    private void RPC_TakeDamage(float damage)
     {
         if (!HasStateAuthority)
         {
             return;
         }
 
-        CurrentHealth = Mathf.Clamp(CurrentHealth - damage, 0, CurrentHealth);
+        m_currentHealth = Mathf.Clamp(m_currentHealth - damage, 0, m_currentHealth);
 
-        if (CurrentHealth <= 0)
+        if (m_currentHealth <= 0)
         {
             m_respawning = true;
             RPC_ChangeMesh(false);
@@ -444,11 +448,11 @@ public class PlayerMovement : NetworkBehaviour
             return;
         }
 
-        CurrentHealth = 0;
+        m_currentHealth = 0;
         m_canMove = false;
         Debug.Log("Player: " + this.name + " has died");
 
-        if (CurrentHealth <= 0)
+        if (m_currentHealth <= 0)
         {
             //m_respawning = true;
             RPC_ChangeMesh(false);
@@ -461,4 +465,13 @@ public class PlayerMovement : NetworkBehaviour
         m_currentState = state;
     }
 
+    public void TakeDamage(float amount)
+    {
+        RPC_TakeDamage(amount);
+    }
+
+    public void Heal(float amount)
+    {
+        m_currentHealth += amount;
+    }
 }

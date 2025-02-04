@@ -14,7 +14,7 @@ public class PlayerInfo : MonoBehaviour
         if (GameManager.instance.GetLocalPlayer())
         {
             m_ammoCount.text = $"{GameManager.instance.GetLocalPlayer().Weapon.AmmoCount}/{GameManager.instance.GetLocalPlayer().Weapon.MaxAmmoCount}";
-            m_currentHealth.text = $"{GameManager.instance.GetLocalPlayer().CurrentHealth}/{GameManager.instance.GetLocalPlayer().MaxHealth}";
+            m_currentHealth.text = $"{GameManager.instance.GetLocalPlayer().Health}/{GameManager.instance.GetLocalPlayer().MaxHealth}";
         }
     }
 
