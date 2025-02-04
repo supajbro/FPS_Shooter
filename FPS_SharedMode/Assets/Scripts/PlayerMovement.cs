@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMovement : NetworkBehaviour, IHealth
+public class PlayerMovement : NetworkBehaviour, IHealth, IPlayerController
 {
 
     public enum PlayerStates
@@ -17,41 +17,65 @@ public class PlayerMovement : NetworkBehaviour, IHealth
     [SerializeField] private PlayerStates m_previousState;
 
     [Header("Main Components")]
+    private CharacterController m_controller;
+    private Camera m_camera;
+
+    [Header("Player Body Parts")]
     [SerializeField] private MeshRenderer m_playerMesh;
     [SerializeField] private GameObject m_playerHead;
     [SerializeField] private GameObject m_playerSpine;
+
+    [Header("Camera & Movement")]
     [SerializeField] private Transform m_camPos;
+    [SerializeField] private LayerMask m_groundLayer;
+
+    [Header("Weapon Components")]
     [SerializeField] private PlayerWeapon m_weapon;
     [SerializeField] private GameObject m_weaponModel;
     [SerializeField] private Animator m_weaponAnim;
-    public PlayerWeapon Weapon { get { return m_weapon; } }
-    private CharacterController m_controller;
-    private Camera m_camera;
-    public Camera Cam { get { return m_camera; } }
 
-    [SerializeField] private LayerMask m_groundLayer;
+    public PlayerWeapon Weapon => m_weapon;
 
-    [Header("Values")]
-    [SerializeField] private float m_speed = 2f;
-    public Vector3 m_velocity;
+    [Header("Movement")]
+    [SerializeField] private float m_speed = 35f;
+    [SerializeField] private Vector3 m_velocity;
     private float m_moveVelocity = 0f;
-    [SerializeField] private float m_speedIncreaseScale = 0.75f;
+
+    [Header("Jumping")]
+    [SerializeField] private float m_jumpForce = 2f;
+    [SerializeField] private float m_maxJumpForce = 2f;
+    [SerializeField] private float m_initialMaxJumpForce = 2f;
+
+    #region Player Controller Properties
+    public float Speed => m_speed;
+    public Vector3 Velocity => m_velocity;
+    public float MoveVelocity => m_moveVelocity;
+    public float JumpForce => m_jumpForce;
+    public float MaxJumpForce => m_maxJumpForce;
+    public float InitialMaxJumpForce => m_initialMaxJumpForce;
+    #endregion
+
+    [Header("Movement Values")]
+    [SerializeField] private float m_speedIncreaseScale = 0.5f;
     [SerializeField] private float m_minMoveVelocity = 0.25f;
     [SerializeField] private float m_maxMoveVelocity = 1f;
     private float m_timeOffGround = 0.0f;
+    private bool m_canMove = true;
+
+    public bool isGrounded => IsGrounded();
 
     [Header("Jump Values")]
-    [SerializeField] private float m_jumpForce;
-    [SerializeField] private float m_maxJumpForce;
-    [SerializeField] private float m_initialMaxJumpForce = 2f;
     private bool m_jumpPressed;
     private bool m_canJump = true;
 
     [Header("Health Values")]
     [SerializeField] private float m_currentHealth = 100f;
     [SerializeField] private float m_maxHealth = 100f;
+
+    #region Health Properties
     public float MaxHealth => m_maxHealth;
     public float Health => m_currentHealth;
+    #endregion
 
     [Header("Respawn Values")]
     private bool m_respawning = false;
@@ -68,11 +92,8 @@ public class PlayerMovement : NetworkBehaviour, IHealth
     [SerializeField] private List<GameObject> m_destroyedBallons = new();
     [SerializeField] private float m_ballonHeightIncrease = 1f;
     public List<GameObject> Ballons { get { return m_balloons; } }
+
     [Networked] public int ActiveBallons { get; set; }
-
-    public bool isGrounded => IsGrounded();
-
-    private bool m_canMove = true;
 
     private void Awake()
     {
