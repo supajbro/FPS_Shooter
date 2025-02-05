@@ -25,11 +25,6 @@ public class CamFOV : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            InitFOVScale(85);
-        }
-
         ScaleFOVUpdate();
     }
 
@@ -58,6 +53,10 @@ public class CamFOV : MonoBehaviour
 
     public void InitFOVScale(float scaleTo)
     {
+        if (m_scaleFOV)
+        {
+            return;
+        }
         m_initValue = m_cam.fieldOfView;
         m_scaleFOV = true;
         m_toScaleValue = scaleTo;
