@@ -19,6 +19,7 @@ public class PlayerMovement : NetworkBehaviour, IHealth, IPlayerController
     [Header("Main Components")]
     private CharacterController m_controller;
     private Camera m_camera;
+    private CamFOV m_camFOV;
 
     [Header("Player Body Parts")]
     [SerializeField] private MeshRenderer m_playerMesh;
@@ -136,6 +137,7 @@ public class PlayerMovement : NetworkBehaviour, IHealth, IPlayerController
     {
         m_camera = Camera.main;
         m_camera.GetComponent<FirstPersonCamera>().SetTarget(m_camPos);
+        m_camFOV = m_camera.GetComponent<CamFOV>();
     }
 
     private void ConfigureCursor()
@@ -394,7 +396,7 @@ public class PlayerMovement : NetworkBehaviour, IHealth, IPlayerController
         m_knockbackForwardDir = transform.forward;
         m_knockback = true;
         m_knockbackTime = 1.0f;
-        //SetCurrentState(PlayerStates.Knockback);
+        m_camFOV.InitFOVScale(77.5f);
     }
 
     private bool IsGrounded()
