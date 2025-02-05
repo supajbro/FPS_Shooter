@@ -95,6 +95,7 @@ public class PlayerMovement : NetworkBehaviour, IHealth, IPlayerController
 
     [Networked] public int ActiveBallons { get; set; }
 
+    #region - Init Properties -
     private void Awake()
     {
         m_controller = GetComponent<CharacterController>();
@@ -102,71 +103,112 @@ public class PlayerMovement : NetworkBehaviour, IHealth, IPlayerController
 
     public override void Spawned()
     {
-        // Is local player
-        if (HasStateAuthority)
-        {
-            GameManager.instance.SetLocalPlayer(this);
+        if (!HasStateAuthority) return;
 
-            SetCurrentState(PlayerStates.Idle);
-
-            m_playerHead.GetComponent<SkinnedMeshRenderer>().shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.ShadowsOnly;
-
-            // Allow player to be set in init position
-            m_controller.enabled = false;
-            m_controller.enabled = true;
-            m_canMove = true;
-
-            m_camera = Camera.main;
-            m_camera.GetComponent<FirstPersonCamera>().SetTarget(m_camPos);
-
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
-
-            m_currentHealth = m_maxHealth;
-            ActiveBallons = m_balloons.Count;
-
-            SetJumpHeight();
-        }
+        InitLocalPlayer();
+        ConfigurePlayerVisuals();
+        InitMovement();
+        InitCamera();
+        ConfigureCursor();
+        InitPlayerStats();
     }
 
+    private void InitLocalPlayer()
+    {
+        GameManager.instance.SetLocalPlayer(this);
+        SetCurrentState(PlayerStates.Idle);
+    }
+
+    private void ConfigurePlayerVisuals()
+    {
+        var skinnedMeshRenderer = m_playerHead.GetComponent<SkinnedMeshRenderer>();
+        skinnedMeshRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.ShadowsOnly;
+    }
+
+    private void InitMovement()
+    {
+        m_controller.enabled = false;
+        m_controller.enabled = true;
+        m_canMove = true;
+    }
+
+    private void InitCamera()
+    {
+        m_camera = Camera.main;
+        m_camera.GetComponent<FirstPersonCamera>().SetTarget(m_camPos);
+    }
+
+    private void ConfigureCursor()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+    }
+
+    private void InitPlayerStats()
+    {
+        m_currentHealth = m_maxHealth;
+        ActiveBallons = m_balloons.Count;
+        SetJumpHeight();
+    }
+    #endregion
+
+    #region - Update Properties -
     private void Update()
     {
+        // Jump input check
         if (Input.GetKeyDown(KeyCode.Space))
         {
             m_jumpPressed = true;
         }
 
+        // DEBUG
         if (Input.GetKeyDown(KeyCode.Q))
         {
             DestroyRandomBalloon();
         }
     }
 
-    Vector3 m_lastMoveOnGround;
-    float m_speedInAirScaler = 1.0f;
+    private Vector3 m_lastMoveOnGround;
+    private float m_speedInAirScaler = 1.0f;
     public override void FixedUpdateNetwork()
     {
-        // Set the movement velocity
-        m_moveVelocity = Mathf.Clamp(m_moveVelocity + Runner.DeltaTime * m_speedIncreaseScale, m_minMoveVelocity, m_maxMoveVelocity);
-
-        Quaternion camRotY = Quaternion.identity;
-        Vector3 moveInput = Vector3.zero;
-
-        camRotY = Quaternion.Euler(0, m_camera.transform.rotation.eulerAngles.y, 0);
-
-        if (m_canMove && !m_knockback)
-        {
-            //camRotY = Quaternion.Euler(0, m_camera.transform.rotation.eulerAngles.y, 0);
-            moveInput = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-            if (moveInput.magnitude == 0f)
-            {
-                m_moveVelocity = 0f;
-            }
-            moveInput *= m_moveVelocity;
-        }
+        UpdateMoveVelocity();
+        Quaternion camRotY = Quaternion.Euler(0, m_camera.transform.rotation.eulerAngles.y, 0);
+        Vector3 moveInput = GetMoveInput();
 
         Vector3 move = camRotY * moveInput * Runner.DeltaTime * m_speed;
 
+        HandleGroundState(ref move);
+        ProcessJump();
+        ApplyKnockback(ref move);
+        RotatePlayer(camRotY);
+        RotateWeapon();
+
+        UpdatePlayerState(ref moveInput, ref move);
+        UpdateVelocity();
+        Respawn();
+    }
+
+    private void UpdateMoveVelocity()
+    {
+        m_moveVelocity = Mathf.Clamp(m_moveVelocity + Runner.DeltaTime * m_speedIncreaseScale, m_minMoveVelocity, m_maxMoveVelocity);
+    }
+
+    private Vector3 GetMoveInput()
+    {
+        if (!m_canMove || m_knockback) return Vector3.zero;
+
+        Vector3 moveInput = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+        if (moveInput.magnitude == 0f)
+        {
+            m_moveVelocity = 0f;
+        }
+
+        return moveInput * m_moveVelocity;
+    }
+
+    private void HandleGroundState(ref Vector3 move)
+    {
         if (IsGrounded())
         {
             m_lastMoveOnGround = move;
@@ -179,13 +221,15 @@ public class PlayerMovement : NetworkBehaviour, IHealth, IPlayerController
             move = m_lastMoveOnGround;
             m_timeOffGround += Runner.DeltaTime;
 
-            if(m_timeOffGround > 0.5f)
+            if (m_timeOffGround > 0.5f)
             {
                 m_canJump = false;
             }
         }
+    }
 
-        // Initialise the jump
+    private void ProcessJump()
+    {
         if (m_jumpPressed && m_canJump)
         {
             m_velocity.y = 0.0f;
@@ -193,21 +237,30 @@ public class PlayerMovement : NetworkBehaviour, IHealth, IPlayerController
             m_jumpForce = m_maxJumpForce;
         }
 
-        // Update the jump force when the player is off the ground
         if (!IsGrounded())
         {
             SetCurrentState(PlayerStates.Jump);
         }
+    }
 
+    private void ApplyKnockback(ref Vector3 move)
+    {
         KnockbackLogic(ref move);
+    }
 
-        // Rotate player to cam direction
-        gameObject.transform.rotation = camRotY;
+    private void RotatePlayer(Quaternion camRotY)
+    {
+        transform.rotation = camRotY;
+    }
 
-        // Rotate the weapon
+    private void RotateWeapon()
+    {
         Quaternion weaponRot = Quaternion.Euler(m_camera.transform.rotation.eulerAngles.x, 0, 0);
         m_playerSpine.transform.localRotation = weaponRot;
+    }
 
+    private void UpdatePlayerState(ref Vector3 moveInput, ref Vector3 move)
+    {
         switch (m_currentState)
         {
             case PlayerStates.Idle:
@@ -220,17 +273,19 @@ public class PlayerMovement : NetworkBehaviour, IHealth, IPlayerController
                 JumpUpdate(ref move);
                 break;
         }
+    }
 
-        // Update the y velocity and reset it to 0 if player is grounded
+    private void UpdateVelocity()
+    {
         m_velocity.y += m_jumpForce;
         if (IsGrounded() && m_jumpForce != m_maxJumpForce)
         {
             m_velocity.y = 0f;
         }
-
-        Respawn();
     }
+    #endregion
 
+    #region - Player Controller States -
     private void IdleUpdate(ref Vector3 moveInput, ref Vector3 move)
     {
         if(moveInput.magnitude > 0f && IsGrounded())
@@ -308,6 +363,7 @@ public class PlayerMovement : NetworkBehaviour, IHealth, IPlayerController
 
         m_weaponAnim.SetInteger("Gun", 2);
     }
+    #endregion
 
     private void KnockbackLogic(ref Vector3 move)
     {
@@ -397,6 +453,23 @@ public class PlayerMovement : NetworkBehaviour, IHealth, IPlayerController
         RPC_DestroyBalloon(m_balloons[randBalloon].GetComponent<NetworkBehaviour>());
     }
 
+    public void SetCurrentState(PlayerStates state)
+    {
+        m_previousState = m_currentState;
+        m_currentState = state;
+    }
+
+    public void TakeDamage(float amount)
+    {
+        RPC_TakeDamage(amount);
+    }
+
+    public void Heal(float amount)
+    {
+        m_currentHealth += amount;
+    }
+
+    #region - RPC Calls -
     //[Rpc(RpcSources.All, RpcTargets.StateAuthority)]
     [Rpc(RpcSources.All, RpcTargets.All)]
     public void RPC_DestroyBalloon(NetworkBehaviour balloon)
@@ -479,20 +552,5 @@ public class PlayerMovement : NetworkBehaviour, IHealth, IPlayerController
             RPC_ChangeMesh(false);
         }
     }
-
-    public void SetCurrentState(PlayerStates state)
-    {
-        m_previousState = m_currentState;
-        m_currentState = state;
-    }
-
-    public void TakeDamage(float amount)
-    {
-        RPC_TakeDamage(amount);
-    }
-
-    public void Heal(float amount)
-    {
-        m_currentHealth += amount;
-    }
+    #endregion
 }
