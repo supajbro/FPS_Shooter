@@ -63,8 +63,6 @@ public class PlayerMovement : NetworkBehaviour, IHealth, IPlayerController
     private float m_timeOffGround = 0.0f;
     private bool m_canMove = true;
 
-    public bool isGrounded => IsGrounded();
-
     [Header("Jump Values")]
     private bool m_jumpPressed;
     private bool m_canJump = true;
@@ -95,6 +93,8 @@ public class PlayerMovement : NetworkBehaviour, IHealth, IPlayerController
     public List<GameObject> Ballons { get { return m_balloons; } }
 
     [Networked] public int ActiveBallons { get; set; }
+
+    public bool isGrounded => IsGrounded();
 
     #region - Init Properties -
     private void Awake()
@@ -367,25 +367,36 @@ public class PlayerMovement : NetworkBehaviour, IHealth, IPlayerController
     }
     #endregion
 
+    #region - Knockback -
+    Vector3 knockbackDirection = Vector3.zero;
+    float initKnockbackDot = 0f;
     private void KnockbackLogic(ref Vector3 move)
     {
-        m_knockbackTime -= Runner.DeltaTime;
-        if (m_knockback && m_knockbackTime > 0.0f && !IsGrounded())
-        {
-            Vector3 knockbackDirection = -m_knockbackForwardDir; // Move backwards relative to the player's forward direction
-            float knockbackSpeed = KnockbackPwr; // Adjust this value for desired knockback speed
-            move += knockbackDirection * knockbackSpeed * Runner.DeltaTime;
-            m_lastMoveOnGround = move;
-        }
-        else if (m_knockbackTime <= 0.0f || IsGrounded())
+        m_knockbackTime = Mathf.Max(m_knockbackTime - Runner.DeltaTime, 0.0f);
+
+        if (!m_knockback || m_knockbackTime <= 0.0f || IsGrounded())
         {
             m_knockback = false;
+            return;
         }
+
+        // First frame set knockback dir and dot product
+        if (m_setInitKnockbackDir)
+        {
+            m_setInitKnockbackDir = false;
+            knockbackDirection = -m_knockbackForwardDir;
+            initKnockbackDot = Vector3.Dot(move.normalized, knockbackDirection);
+        }
+
+        // Apply knockback force
+        float knockbackSpeed = KnockbackPwr;
+        move = (initKnockbackDot > 0) ? move + (knockbackDirection * knockbackSpeed * Runner.DeltaTime) : knockbackDirection * knockbackSpeed * Runner.DeltaTime;
+        m_lastMoveOnGround = move;
     }
 
+
     Vector3 m_knockbackForwardDir = Vector3.zero;
-
-
+    private bool m_setInitKnockbackDir = false;
     public void KnockPlayerBack()
     {
         if (IsGrounded())
@@ -394,10 +405,12 @@ public class PlayerMovement : NetworkBehaviour, IHealth, IPlayerController
         }
 
         m_knockbackForwardDir = transform.forward;
+        m_setInitKnockbackDir = true;
         m_knockback = true;
         m_knockbackTime = 1.0f;
         m_camFOV.InitFOVScale(77.5f);
     }
+    #endregion
 
     private bool IsGrounded()
     {

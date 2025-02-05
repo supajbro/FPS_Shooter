@@ -36,19 +36,15 @@ public class CamFOV : MonoBehaviour
         }
 
         m_scaleElapsedTime += Time.deltaTime;
-
-        if(m_scaleElapsedTime < m_scaleDuration)
-        {
-            float t = m_scaleElapsedTime / m_scaleDuration;
-            float scaleFactor = m_scaleCurve.Evaluate(t);
-            float val = Mathf.LerpUnclamped(m_initValue, m_toScaleValue, scaleFactor);
-            m_cam.fieldOfView = val;
-        }
-        else
+        if (m_scaleElapsedTime >= m_scaleDuration)
         {
             m_scaleFOV = false;
             m_scaleElapsedTime = 0.0f;
+            return;
         }
+
+        float progress = m_scaleElapsedTime / m_scaleDuration;
+        m_cam.fieldOfView = Mathf.LerpUnclamped(m_initValue, m_toScaleValue, m_scaleCurve.Evaluate(progress));
     }
 
     public void InitFOVScale(float scaleTo)

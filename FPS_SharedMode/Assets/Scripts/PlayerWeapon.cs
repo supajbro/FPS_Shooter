@@ -83,7 +83,7 @@ public class PlayerWeapon : NetworkBehaviour
         m_bullet = null;
         m_ammoCount--;
 
-        GetComponentInParent<PlayerMovement>().KnockPlayerBack();//
+        GetComponentInParent<PlayerMovement>().KnockPlayerBack();
     }
 
     NetworkObject m_bullet;
