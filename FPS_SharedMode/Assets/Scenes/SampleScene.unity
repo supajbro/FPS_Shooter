@@ -5518,7 +5518,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ammoCount: {fileID: 1601313307}
-  m_currentHealth: {fileID: 1623886607}
+  m_ballonCount: {fileID: 1623886607}
 --- !u!114 &647919394
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12154,7 +12154,7 @@ GameObject:
   - component: {fileID: 1623886608}
   - component: {fileID: 1623886607}
   m_Layer: 5
-  m_Name: Current_Health
+  m_Name: Balloon_Count
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12199,7 +12199,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 100/100
+  m_text: 'Balloon: 0'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

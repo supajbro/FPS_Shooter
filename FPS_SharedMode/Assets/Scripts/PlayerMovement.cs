@@ -575,6 +575,7 @@ public class PlayerMovement : NetworkBehaviour, IHealth, IPlayerController, IBal
         {
             m_balloons.Add(balloon);
             balloon.GetComponent<MeshRenderer>().enabled = true;
+            m_balloonRespawnTime = 10.0f;
         }
         m_destroyedBallons.Clear();
         SetJumpHeight();
