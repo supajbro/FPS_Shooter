@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMovement : NetworkBehaviour, IHealth, IPlayerController
+public class PlayerMovement : NetworkBehaviour, IHealth, IPlayerController, IBalloons
 {
 
     public enum PlayerStates
@@ -67,15 +67,6 @@ public class PlayerMovement : NetworkBehaviour, IHealth, IPlayerController
     private bool m_jumpPressed;
     private bool m_canJump = true;
 
-    [Header("Health Values")]
-    [SerializeField] private float m_currentHealth = 100f;
-    [SerializeField] private float m_maxHealth = 100f;
-
-    #region Health Properties
-    public float MaxHealth => m_maxHealth;
-    public float Health => m_currentHealth;
-    #endregion
-
     [Header("Respawn Values")]
     private bool m_respawning = false;
     private float m_respawnTimer = 0f;
@@ -85,14 +76,6 @@ public class PlayerMovement : NetworkBehaviour, IHealth, IPlayerController
     [SerializeField] private float KnockbackPwr = 10.0f;
     private bool m_knockback = false;
     [SerializeField] private float m_knockbackTime = 1.0f;
-
-    [Header("Balloons")]
-    [SerializeField] private List<GameObject> m_balloons;
-    [SerializeField] private List<GameObject> m_destroyedBallons = new();
-    [SerializeField] private float m_ballonHeightIncrease = 1f;
-    public List<GameObject> Ballons { get { return m_balloons; } }
-
-    [Networked] public int ActiveBallons { get; set; }
 
     public bool isGrounded => IsGrounded();
 
@@ -168,6 +151,8 @@ public class PlayerMovement : NetworkBehaviour, IHealth, IPlayerController
         {
             DestroyRandomBalloon();
         }
+
+        RespawnBalloons();
     }
 
     private Vector3 m_lastMoveOnGround;
@@ -462,17 +447,19 @@ public class PlayerMovement : NetworkBehaviour, IHealth, IPlayerController
         }
     }
 
-    private void DestroyRandomBalloon()
-    {
-        int randBalloon = Random.Range(0, ActiveBallons);
-        RPC_DestroyBalloon(m_balloons[randBalloon].GetComponent<NetworkBehaviour>());
-    }
-
     public void SetCurrentState(PlayerStates state)
     {
         m_previousState = m_currentState;
         m_currentState = state;
     }
+
+    #region - Health Properties -
+    [Header("Health Values")]
+    [SerializeField] private float m_currentHealth = 100f;
+    [SerializeField] private float m_maxHealth = 100f;
+
+    public float MaxHealth => m_maxHealth;
+    public float Health => m_currentHealth;
 
     public void TakeDamage(float amount)
     {
@@ -483,6 +470,47 @@ public class PlayerMovement : NetworkBehaviour, IHealth, IPlayerController
     {
         m_currentHealth += amount;
     }
+    #endregion
+
+    #region - Balloon Properties -
+    [Header("Balloons")]
+    [SerializeField] private List<GameObject> m_balloons;
+    [SerializeField] private List<GameObject> m_destroyedBallons = new();
+    [SerializeField] private int m_maxBalloons = 3;
+    [SerializeField] private float m_ballonHeightIncrease = 1f;
+    [SerializeField] private float m_balloonRespawnTime = 10f;
+
+    public List<GameObject> Balloons => m_balloons;
+    public List<GameObject> DestroyedBalloons => m_destroyedBallons;
+    public int MaxBalloons => m_maxBalloons;
+    public float BalloonHeightIncrease => m_ballonHeightIncrease;
+    public float BalloonRespawnTime => m_balloonRespawnTime;
+
+    [Networked] public int ActiveBallons { get; set; }
+
+    public void DestroyRandomBalloon()
+    {
+        int randBalloon = Random.Range(0, ActiveBallons);
+        RPC_DestroyBalloon(m_balloons[randBalloon].GetComponent<NetworkBehaviour>());
+    }
+
+    public void RespawnBalloons()
+    {
+        if(ActiveBallons >= MaxBalloons)
+        {
+            return;
+        }
+
+        m_balloonRespawnTime -= Time.deltaTime;
+
+        if(m_balloonRespawnTime <= 0.0f)
+        {
+            var balloon = m_destroyedBallons[0];
+            RPC_RespawnBalloon(balloon.GetComponent<NetworkBehaviour>());
+            m_balloonRespawnTime = 10.0f;
+        }
+    }
+    #endregion
 
     #region - RPC Calls -
     //[Rpc(RpcSources.All, RpcTargets.StateAuthority)]
@@ -495,6 +523,20 @@ public class PlayerMovement : NetworkBehaviour, IHealth, IPlayerController
             m_balloons.Remove(balloon.gameObject);
             m_destroyedBallons.Add(balloon.gameObject);
             balloon.GetComponent<MeshRenderer>().enabled = false;
+        }
+
+        SetJumpHeight();
+    }
+
+    [Rpc(RpcSources.All, RpcTargets.All)]
+    public void RPC_RespawnBalloon(NetworkBehaviour balloon)
+    {
+        var balloonObject = Runner.TryGetNetworkedBehaviourId(balloon);
+        if (balloonObject != null)
+        {
+            m_balloons.Add(balloon.gameObject);
+            balloon.GetComponent<MeshRenderer>().enabled = true;
+            m_destroyedBallons.Remove(balloon.gameObject);
         }
 
         SetJumpHeight();
