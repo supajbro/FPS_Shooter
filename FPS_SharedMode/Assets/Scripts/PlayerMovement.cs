@@ -393,7 +393,7 @@ public class PlayerMovement : NetworkBehaviour, IHealth, IPlayerController, IBal
         m_setInitKnockbackDir = true;
         m_knockback = true;
         m_knockbackTime = 1.0f;
-        m_camFOV.InitFOVScale(77.5f);
+        m_camFOV.InitFOVScale(m_camera.fieldOfView + 2.5f, true);
     }
     #endregion
 

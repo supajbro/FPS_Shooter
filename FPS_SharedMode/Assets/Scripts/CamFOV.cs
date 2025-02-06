@@ -47,9 +47,9 @@ public class CamFOV : MonoBehaviour
         m_cam.fieldOfView = Mathf.LerpUnclamped(m_initValue, m_toScaleValue, m_scaleCurve.Evaluate(progress));
     }
 
-    public void InitFOVScale(float scaleTo)
+    public void InitFOVScale(float scaleTo, bool forceScale)
     {
-        if (m_scaleFOV)
+        if (m_scaleFOV && !forceScale)
         {
             return;
         }
