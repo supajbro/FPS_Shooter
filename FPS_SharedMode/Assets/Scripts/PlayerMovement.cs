@@ -179,7 +179,7 @@ public class PlayerMovement : NetworkBehaviour, IHealth, IPlayerController, IBal
         RotateWeapon();
 
         UpdatePlayerState(ref moveInput, ref move);
-        UpdateVelocity();
+        UpdateVelocity(move);
         Respawn();
     }
 
@@ -203,7 +203,7 @@ public class PlayerMovement : NetworkBehaviour, IHealth, IPlayerController, IBal
 
     private void HandleGroundState(ref Vector3 move)
     {
-        if (UpdateGroundCheck())
+        if (IsGrounded)
         {
             m_lastMoveOnGround = move;
             m_speedInAirScaler = 1.0f;
@@ -231,7 +231,7 @@ public class PlayerMovement : NetworkBehaviour, IHealth, IPlayerController, IBal
             m_jumpForce = m_maxJumpForce;
         }
 
-        if (!UpdateGroundCheck())
+        if (!IsGrounded)
         {
             SetCurrentState(PlayerStates.Jump);
         }
@@ -269,13 +269,14 @@ public class PlayerMovement : NetworkBehaviour, IHealth, IPlayerController, IBal
         }
     }
 
-    private void UpdateVelocity()
+    private void UpdateVelocity(Vector3 move)
     {
         m_velocity.y += m_jumpForce;
-        if (UpdateGroundCheck() && m_jumpForce != m_maxJumpForce)
+        if (IsGrounded && m_jumpForce != m_maxJumpForce)
         {
             m_velocity.y = 0f;
         }
+        m_controller.Move(move + m_velocity * Runner.DeltaTime);
     }
 
     private bool UpdateGroundCheck()
@@ -297,7 +298,7 @@ public class PlayerMovement : NetworkBehaviour, IHealth, IPlayerController, IBal
     #region - Player Controller States -
     private void IdleUpdate(ref Vector3 moveInput, ref Vector3 move)
     {
-        if(moveInput.magnitude > 0f && UpdateGroundCheck())
+        if(moveInput.magnitude > 0f && IsGrounded)
         {
             SetCurrentState(PlayerStates.Walk);
             return;
@@ -312,19 +313,18 @@ public class PlayerMovement : NetworkBehaviour, IHealth, IPlayerController, IBal
 
     private void WalkUpdate(Vector3 move)
     {
-        if(move.magnitude <= 0.0f && UpdateGroundCheck())
+        if(move.magnitude <= 0.0f && IsGrounded)
         {
             SetCurrentState(PlayerStates.Idle);
         }
 
         transform.position += move;
-        m_controller.Move(move + m_velocity * Runner.DeltaTime);
         m_weaponAnim.SetInteger("Gun", 1);
     }
 
     private void JumpUpdate(ref Vector3 move)
     {
-        if (UpdateGroundCheck())
+        if (IsGrounded)
         {
             SetCurrentState(PlayerStates.Idle);
             return;
@@ -368,8 +368,6 @@ public class PlayerMovement : NetworkBehaviour, IHealth, IPlayerController, IBal
         m_jumpForce -= Runner.DeltaTime * fallForce;
         m_jumpForce = Mathf.Clamp(m_jumpForce, -m_maxJumpForce, m_maxJumpForce);
 
-        m_controller.Move(move + m_velocity * Runner.DeltaTime);
-
         m_weaponAnim.SetInteger("Gun", 2);
     }
     #endregion
@@ -381,7 +379,7 @@ public class PlayerMovement : NetworkBehaviour, IHealth, IPlayerController, IBal
     {
         m_knockbackTime = Mathf.Max(m_knockbackTime - Runner.DeltaTime, 0.0f);
 
-        if (!m_knockback || m_knockbackTime <= 0.0f || UpdateGroundCheck())
+        if (!m_knockback || m_knockbackTime <= 0.0f || IsGrounded)
         {
             m_knockback = false;
             return;
@@ -406,7 +404,7 @@ public class PlayerMovement : NetworkBehaviour, IHealth, IPlayerController, IBal
     private bool m_setInitKnockbackDir = false;
     public void KnockPlayerBack()
     {
-        if (UpdateGroundCheck())
+        if (IsGrounded)
         {
             return;
         }
