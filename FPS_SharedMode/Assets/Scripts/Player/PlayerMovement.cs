@@ -330,6 +330,8 @@ public class PlayerMovement : NetworkBehaviour, IHealth, IPlayerController, IBal
             return;
         }
 
+        m_moveVelocity = 0.5f;
+
         // Restrict the movement of the player when in the air
         if (move.magnitude > 0.75f)
         {
@@ -512,7 +514,6 @@ public class PlayerMovement : NetworkBehaviour, IHealth, IPlayerController, IBal
     #endregion
 
     #region - RPC Calls -
-    //[Rpc(RpcSources.All, RpcTargets.StateAuthority)]
     [Rpc(RpcSources.All, RpcTargets.All)]
     public void RPC_DestroyBalloon(NetworkBehaviour balloon)
     {
