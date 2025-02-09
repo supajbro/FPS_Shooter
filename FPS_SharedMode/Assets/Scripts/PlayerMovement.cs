@@ -6,6 +6,7 @@ using UnityEngine;
 public class PlayerMovement : NetworkBehaviour, IHealth, IPlayerController, IBalloons
 {
 
+    #region - States -
     public enum PlayerStates
     {
         Idle = 0,
@@ -15,6 +16,12 @@ public class PlayerMovement : NetworkBehaviour, IHealth, IPlayerController, IBal
     }
     [SerializeField] private PlayerStates m_currentState;
     [SerializeField] private PlayerStates m_previousState;
+    public void SetCurrentState(PlayerStates state)
+    {
+        m_previousState = m_currentState;
+        m_currentState = state;
+    }
+    #endregion
 
     [Header("Main Components")]
     private CharacterController m_controller;
@@ -77,7 +84,7 @@ public class PlayerMovement : NetworkBehaviour, IHealth, IPlayerController, IBal
     private bool m_knockback = false;
     [SerializeField] private float m_knockbackTime = 1.0f;
 
-    public bool isGrounded => IsGrounded();
+    public bool IsGrounded => UpdateGroundCheck();
 
     #region - Init Properties -
     private void Awake()
@@ -196,7 +203,7 @@ public class PlayerMovement : NetworkBehaviour, IHealth, IPlayerController, IBal
 
     private void HandleGroundState(ref Vector3 move)
     {
-        if (IsGrounded())
+        if (UpdateGroundCheck())
         {
             m_lastMoveOnGround = move;
             m_speedInAirScaler = 1.0f;
@@ -224,7 +231,7 @@ public class PlayerMovement : NetworkBehaviour, IHealth, IPlayerController, IBal
             m_jumpForce = m_maxJumpForce;
         }
 
-        if (!IsGrounded())
+        if (!UpdateGroundCheck())
         {
             SetCurrentState(PlayerStates.Jump);
         }
@@ -265,17 +272,32 @@ public class PlayerMovement : NetworkBehaviour, IHealth, IPlayerController, IBal
     private void UpdateVelocity()
     {
         m_velocity.y += m_jumpForce;
-        if (IsGrounded() && m_jumpForce != m_maxJumpForce)
+        if (UpdateGroundCheck() && m_jumpForce != m_maxJumpForce)
         {
             m_velocity.y = 0f;
         }
+    }
+
+    private bool UpdateGroundCheck()
+    {
+        const float groundCheckDistance = 1.5f;
+
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, Vector3.down, out hit, groundCheckDistance, m_groundLayer))
+        {
+            Debug.DrawRay(transform.position, Vector3.down * groundCheckDistance, Color.blue);
+            return true;
+        }
+
+        Debug.DrawRay(transform.position, Vector3.down * groundCheckDistance, Color.red);
+        return false;
     }
     #endregion
 
     #region - Player Controller States -
     private void IdleUpdate(ref Vector3 moveInput, ref Vector3 move)
     {
-        if(moveInput.magnitude > 0f && IsGrounded())
+        if(moveInput.magnitude > 0f && UpdateGroundCheck())
         {
             SetCurrentState(PlayerStates.Walk);
             return;
@@ -290,7 +312,7 @@ public class PlayerMovement : NetworkBehaviour, IHealth, IPlayerController, IBal
 
     private void WalkUpdate(Vector3 move)
     {
-        if(move.magnitude <= 0.0f && IsGrounded())
+        if(move.magnitude <= 0.0f && UpdateGroundCheck())
         {
             SetCurrentState(PlayerStates.Idle);
         }
@@ -302,7 +324,7 @@ public class PlayerMovement : NetworkBehaviour, IHealth, IPlayerController, IBal
 
     private void JumpUpdate(ref Vector3 move)
     {
-        if (IsGrounded())
+        if (UpdateGroundCheck())
         {
             SetCurrentState(PlayerStates.Idle);
             return;
@@ -359,7 +381,7 @@ public class PlayerMovement : NetworkBehaviour, IHealth, IPlayerController, IBal
     {
         m_knockbackTime = Mathf.Max(m_knockbackTime - Runner.DeltaTime, 0.0f);
 
-        if (!m_knockback || m_knockbackTime <= 0.0f || IsGrounded())
+        if (!m_knockback || m_knockbackTime <= 0.0f || UpdateGroundCheck())
         {
             m_knockback = false;
             return;
@@ -384,7 +406,7 @@ public class PlayerMovement : NetworkBehaviour, IHealth, IPlayerController, IBal
     private bool m_setInitKnockbackDir = false;
     public void KnockPlayerBack()
     {
-        if (IsGrounded())
+        if (UpdateGroundCheck())
         {
             return;
         }
@@ -396,21 +418,6 @@ public class PlayerMovement : NetworkBehaviour, IHealth, IPlayerController, IBal
         m_camFOV.InitFOVScale(m_camera.fieldOfView + 2.5f, true);
     }
     #endregion
-
-    private bool IsGrounded()
-    {
-        const float groundCheckDistance = 1.5f;
-
-        RaycastHit hit;
-        if (Physics.Raycast(transform.position, Vector3.down, out hit, groundCheckDistance, m_groundLayer))
-        {
-            Debug.DrawRay(transform.position, Vector3.down * groundCheckDistance, Color.blue);
-            return true;
-        }
-
-        Debug.DrawRay(transform.position, Vector3.down * groundCheckDistance, Color.red);
-        return false;
-    }
 
     public void Respawn()
     {
@@ -445,12 +452,6 @@ public class PlayerMovement : NetworkBehaviour, IHealth, IPlayerController, IBal
         {
             m_maxJumpForce += m_ballonHeightIncrease;
         }
-    }
-
-    public void SetCurrentState(PlayerStates state)
-    {
-        m_previousState = m_currentState;
-        m_currentState = state;
     }
 
     #region - Health Properties -
