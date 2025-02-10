@@ -341,9 +341,9 @@ public class PlayerMovement : NetworkBehaviour, IHealth, IPlayerController, IBal
 
         // Change the velocity the player is falling if they are about to fall down and have balloons attached
         const float InitialFallVelocity = 7.5f;
-        const float LowestFallVelocity = 3.5f;
-        const float MiddleFallVelocity = 5.5f;
-        const float HighestFallVelocity = 10f;
+        const float LowestFallVelocity = 3.5f; // For 3 balloons
+        const float MiddleFallVelocity = 6f; // For 2 balloons
+        const float HighestFallVelocity = 10f; // For 1 balloons
 
         float fallForce = InitialFallVelocity;
 
