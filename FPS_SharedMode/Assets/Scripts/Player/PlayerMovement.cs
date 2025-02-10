@@ -27,6 +27,7 @@ public class PlayerMovement : NetworkBehaviour, IHealth, IPlayerController, IBal
     private CharacterController m_controller;
     private Camera m_camera;
     private CamFOV m_camFOV;
+    private PlayerParticles m_particles;
 
     [Header("Player Body Parts")]
     [SerializeField] private MeshRenderer m_playerMesh;
@@ -90,6 +91,7 @@ public class PlayerMovement : NetworkBehaviour, IHealth, IPlayerController, IBal
     private void Awake()
     {
         m_controller = GetComponent<CharacterController>();
+        m_particles = GetComponent<PlayerParticles>();
     }
 
     public override void Spawned()
@@ -327,6 +329,7 @@ public class PlayerMovement : NetworkBehaviour, IHealth, IPlayerController, IBal
         if (IsGrounded)
         {
             SetCurrentState(PlayerStates.Idle);
+            m_particles.GroundStompParticle.PlayParticle(new Vector3(transform.position.x, transform.position.y - 0.9f, transform.position.z), null);
             return;
         }
 
@@ -416,6 +419,7 @@ public class PlayerMovement : NetworkBehaviour, IHealth, IPlayerController, IBal
         m_knockback = true;
         m_knockbackTime = 1.0f;
         m_camFOV.InitFOVScale(m_camera.fieldOfView + 2.5f, true);
+        m_particles.PlayParticle(m_particles.KnockbackParticle);
     }
     #endregion
 
