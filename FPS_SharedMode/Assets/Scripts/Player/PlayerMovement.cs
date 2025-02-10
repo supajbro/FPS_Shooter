@@ -226,7 +226,7 @@ public class PlayerMovement : NetworkBehaviour, IHealth, IPlayerController, IBal
     {
         if (m_jumpPressed && m_canJump)
         {
-            m_velocity.y = 0.0f;
+            m_velocity.y = (m_velocity.y < 0.0f) ? 0.0f : m_velocity.y;
             m_jumpPressed = false;
             m_jumpForce = m_maxJumpForce;
         }
