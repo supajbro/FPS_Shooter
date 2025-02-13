@@ -3,25 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMovement : NetworkBehaviour, IHealth, IPlayerController, IBalloons
+public class PlayerMovement : Movement, IHealth
 {
-
-    #region - States -
-    public enum PlayerStates
-    {
-        Idle = 0,
-        Walk,
-        Run,
-        Jump
-    }
-    [SerializeField] private PlayerStates m_currentState;
-    [SerializeField] private PlayerStates m_previousState;
-    public void SetCurrentState(PlayerStates state)
-    {
-        m_previousState = m_currentState;
-        m_currentState = state;
-    }
-    #endregion
 
     [Header("Main Components")]
     private CharacterController m_controller;
@@ -36,7 +19,6 @@ public class PlayerMovement : NetworkBehaviour, IHealth, IPlayerController, IBal
 
     [Header("Camera & Movement")]
     [SerializeField] private Transform m_camPos;
-    [SerializeField] private LayerMask m_groundLayer;
 
     [Header("Weapon Components")]
     [SerializeField] private PlayerWeapon m_weapon;
@@ -44,25 +26,6 @@ public class PlayerMovement : NetworkBehaviour, IHealth, IPlayerController, IBal
     [SerializeField] private Animator m_weaponAnim;
 
     public PlayerWeapon Weapon => m_weapon;
-
-    [Header("Movement")]
-    [SerializeField] private float m_speed = 35f;
-    [SerializeField] private Vector3 m_velocity;
-    private float m_moveVelocity = 0f;
-
-    [Header("Jumping")]
-    [SerializeField] private float m_jumpForce = 2f;
-    [SerializeField] private float m_maxJumpForce = 2f;
-    [SerializeField] private float m_initialMaxJumpForce = 2f;
-
-    #region Player Controller Properties
-    public float Speed => m_speed;
-    public Vector3 Velocity => m_velocity;
-    public float MoveVelocity => m_moveVelocity;
-    public float JumpForce => m_jumpForce;
-    public float MaxJumpForce => m_maxJumpForce;
-    public float InitialMaxJumpForce => m_initialMaxJumpForce;
-    #endregion
 
     [Header("Movement Values")]
     [SerializeField] private float m_speedIncreaseScale = 0.5f;
@@ -84,8 +47,6 @@ public class PlayerMovement : NetworkBehaviour, IHealth, IPlayerController, IBal
     [SerializeField] private float KnockbackPwr = 10.0f;
     private bool m_knockback = false;
     [SerializeField] private float m_knockbackTime = 1.0f;
-
-    public bool IsGrounded => UpdateGroundCheck();
 
     #region - Init Properties -
     private void Awake()
@@ -164,8 +125,6 @@ public class PlayerMovement : NetworkBehaviour, IHealth, IPlayerController, IBal
         RespawnBalloons();
     }
 
-    private Vector3 m_lastMoveOnGround;
-    private float m_speedInAirScaler = 1.0f;
     public override void FixedUpdateNetwork()
     {
         UpdateMoveVelocity();
@@ -280,99 +239,24 @@ public class PlayerMovement : NetworkBehaviour, IHealth, IPlayerController, IBal
         }
         m_controller.Move(move + m_velocity * Runner.DeltaTime);
     }
-
-    private bool UpdateGroundCheck()
-    {
-        const float groundCheckDistance = 1.5f;
-
-        RaycastHit hit;
-        if (Physics.Raycast(transform.position, Vector3.down, out hit, groundCheckDistance, m_groundLayer))
-        {
-            Debug.DrawRay(transform.position, Vector3.down * groundCheckDistance, Color.blue);
-            return true;
-        }
-
-        Debug.DrawRay(transform.position, Vector3.down * groundCheckDistance, Color.red);
-        return false;
-    }
     #endregion
 
     #region - Player Controller States -
-    private void IdleUpdate(ref Vector3 moveInput, ref Vector3 move)
+    public override void IdleUpdate(ref Vector3 moveInput, ref Vector3 move)
     {
-        if(moveInput.magnitude > 0f && IsGrounded)
-        {
-            SetCurrentState(PlayerStates.Walk);
-            return;
-        }
-
-        moveInput = Vector3.zero;
-        move = Vector3.zero;
-        m_velocity = Vector3.zero;
-
+        base.IdleUpdate(ref moveInput, ref move);
         m_weaponAnim.SetInteger("Gun", 0);
     }
 
-    private void WalkUpdate(Vector3 move)
+    public override void WalkUpdate(Vector3 move)
     {
-        if(move.magnitude <= 0.0f && IsGrounded)
-        {
-            SetCurrentState(PlayerStates.Idle);
-        }
-
-        transform.position += move;
+        base.WalkUpdate(move);
         m_weaponAnim.SetInteger("Gun", 1);
     }
 
-    private void JumpUpdate(ref Vector3 move)
+    public override void JumpUpdate(ref Vector3 move)
     {
-        if (IsGrounded)
-        {
-            SetCurrentState(PlayerStates.Idle);
-            m_particles.GroundStompParticle.PlayParticle(new Vector3(transform.position.x, transform.position.y - 0.9f, transform.position.z), null);
-            return;
-        }
-
-        m_moveVelocity = 0.5f;
-
-        // Restrict the movement of the player when in the air
-        if (move.magnitude > 0.75f)
-        {
-            m_speedInAirScaler = (m_speedInAirScaler > 0.75f) ? m_speedInAirScaler - Runner.DeltaTime : 0.75f;
-            move = move.normalized * m_speedInAirScaler;
-        }
-
-        // Change the velocity the player is falling if they are about to fall down and have balloons attached
-        const float InitialFallVelocity = 7.5f;
-        const float LowestFallVelocity = 3.5f; // For 3 balloons
-        const float MiddleFallVelocity = 6f; // For 2 balloons
-        const float HighestFallVelocity = 10f; // For 1 balloons
-
-        float fallForce = InitialFallVelocity;
-
-        if (m_jumpForce > 1.0f)
-        {
-            switch (ActiveBallons)
-            {
-                case 3:
-                    fallForce = LowestFallVelocity;
-                    break;
-                case 2:
-                    fallForce = MiddleFallVelocity;
-                    break;
-                case 1:
-                    fallForce = HighestFallVelocity;
-                    break;
-            }
-        }
-        else if (m_jumpForce < 1.0f) // If player starts falling, change fall velocity dependant if player has balloons
-        {
-            fallForce = (ActiveBallons > 0) ? 2.5f : fallForce * 1.5f;
-        }
-
-        m_jumpForce -= Runner.DeltaTime * fallForce;
-        m_jumpForce = Mathf.Clamp(m_jumpForce, -m_maxJumpForce, m_maxJumpForce);
-
+        base.JumpUpdate(ref move);
         m_weaponAnim.SetInteger("Gun", 2);
     }
     #endregion
@@ -446,18 +330,6 @@ public class PlayerMovement : NetworkBehaviour, IHealth, IPlayerController, IBal
         }
     }
 
-    // Set the jump height by how many balloons you have
-    public void SetJumpHeight()
-    {
-        m_maxJumpForce = m_initialMaxJumpForce;
-        ActiveBallons = m_balloons.Count;
-
-        for (int i = 0; i < ActiveBallons; i++)
-        {
-            m_maxJumpForce += m_ballonHeightIncrease;
-        }
-    }
-
     #region - Health Properties -
     [Header("Health Values")]
     [SerializeField] private float m_currentHealth = 100f;
@@ -477,74 +349,7 @@ public class PlayerMovement : NetworkBehaviour, IHealth, IPlayerController, IBal
     }
     #endregion
 
-    #region - Balloon Properties -
-    [Header("Balloons")]
-    [SerializeField] private List<GameObject> m_balloons;
-    [SerializeField] private List<GameObject> m_destroyedBallons = new();
-    [SerializeField] private int m_maxBalloons = 3;
-    [SerializeField] private float m_ballonHeightIncrease = 1f;
-    [SerializeField] private float m_balloonRespawnTime = 10f;
-
-    public List<GameObject> Balloons => m_balloons;
-    public List<GameObject> DestroyedBalloons => m_destroyedBallons;
-    public int MaxBalloons => m_maxBalloons;
-    public float BalloonHeightIncrease => m_ballonHeightIncrease;
-    public float BalloonRespawnTime => m_balloonRespawnTime;
-
-    [Networked] public int ActiveBallons { get; set; }
-
-    public void DestroyRandomBalloon()
-    {
-        int randBalloon = Random.Range(0, ActiveBallons);
-        RPC_DestroyBalloon(m_balloons[randBalloon].GetComponent<NetworkBehaviour>());
-    }
-
-    public void RespawnBalloons()
-    {
-        if(ActiveBallons >= MaxBalloons)
-        {
-            return;
-        }
-
-        m_balloonRespawnTime -= Time.deltaTime;
-
-        if(m_balloonRespawnTime <= 0.0f)
-        {
-            var balloon = m_destroyedBallons[0];
-            RPC_RespawnBalloon(balloon.GetComponent<NetworkBehaviour>());
-            m_balloonRespawnTime = 10.0f;
-        }
-    }
-    #endregion
-
     #region - RPC Calls -
-    [Rpc(RpcSources.All, RpcTargets.All)]
-    public void RPC_DestroyBalloon(NetworkBehaviour balloon)
-    {
-        var balloonObject = Runner.TryGetNetworkedBehaviourId(balloon);
-        if (balloonObject != null)
-        {
-            m_balloons.Remove(balloon.gameObject);
-            m_destroyedBallons.Add(balloon.gameObject);
-            balloon.GetComponent<MeshRenderer>().enabled = false;
-        }
-
-        SetJumpHeight();
-    }
-
-    [Rpc(RpcSources.All, RpcTargets.All)]
-    public void RPC_RespawnBalloon(NetworkBehaviour balloon)
-    {
-        var balloonObject = Runner.TryGetNetworkedBehaviourId(balloon);
-        if (balloonObject != null)
-        {
-            m_balloons.Add(balloon.gameObject);
-            balloon.GetComponent<MeshRenderer>().enabled = true;
-            m_destroyedBallons.Remove(balloon.gameObject);
-        }
-
-        SetJumpHeight();
-    }
 
     [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
     private void RPC_TakeDamage(float damage)
