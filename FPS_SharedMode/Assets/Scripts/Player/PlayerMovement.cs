@@ -27,22 +27,6 @@ public class PlayerMovement : Movement, IHealth
 
     public PlayerWeapon Weapon => m_weapon;
 
-    [Header("Movement Values")]
-    [SerializeField] private float m_speedIncreaseScale = 0.5f;
-    [SerializeField] private float m_minMoveVelocity = 0.25f;
-    [SerializeField] private float m_maxMoveVelocity = 1f;
-    private float m_timeOffGround = 0.0f;
-    private bool m_canMove = true;
-
-    [Header("Jump Values")]
-    private bool m_jumpPressed;
-    private bool m_canJump = true;
-
-    [Header("Respawn Values")]
-    private bool m_respawning = false;
-    private float m_respawnTimer = 0f;
-    private float m_maxRespawnTime = 3f;
-
     [Header("Knockback Values")]
     [SerializeField] private float KnockbackPwr = 10.0f;
     private bool m_knockback = false;

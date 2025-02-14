@@ -35,6 +35,22 @@ public class Movement : NetworkBehaviour, IPlayerController, IBalloons
     [SerializeField] protected float m_maxJumpForce = 2f;
     [SerializeField] protected float m_initialMaxJumpForce = 2f;
 
+    [Header("Movement Values")]
+    [SerializeField] protected float m_speedIncreaseScale = 0.5f;
+    [SerializeField] protected float m_minMoveVelocity = 0.25f;
+    [SerializeField] protected float m_maxMoveVelocity = 1f;
+    protected float m_timeOffGround = 0.0f;
+    protected bool m_canMove = true;
+
+    [Header("Jump Values")]
+    protected bool m_jumpPressed;
+    protected bool m_canJump = true;
+
+    [Header("Respawn Values")]
+    protected bool m_respawning = false;
+    protected float m_respawnTimer = 0f;
+    protected float m_maxRespawnTime = 3f;
+
     protected Vector3 m_lastMoveOnGround;
     protected float m_speedInAirScaler = 1.0f;
 
