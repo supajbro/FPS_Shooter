@@ -26,11 +26,6 @@ public class PlayerMovement : Movement, IHealth
 
     public PlayerWeapon Weapon => m_weapon;
 
-    [Header("Knockback Values")]
-    [SerializeField] private float KnockbackPwr = 10.0f;
-    private bool m_knockback = false;
-    [SerializeField] private float m_knockbackTime = 1.0f;
-
     #region - Init Properties -
     private void Awake()
     {
@@ -150,6 +145,19 @@ public class PlayerMovement : Movement, IHealth
         KnockbackLogic(ref move);
     }
 
+    public override void KnockPlayerBack()
+    {
+        if (IsGrounded)
+        {
+            return;
+        }
+
+        base.KnockPlayerBack();
+
+        m_camFOV.InitFOVScale(m_camera.fieldOfView + 2.5f, true);
+        m_particles.PlayParticle(m_particles.KnockbackParticle);
+    }
+
     private void RotatePlayer(Quaternion camRotY)
     {
         transform.rotation = camRotY;
@@ -195,52 +203,6 @@ public class PlayerMovement : Movement, IHealth
     {
         base.JumpUpdate(ref move);
         m_weaponAnim.SetInteger("Gun", 2);
-    }
-    #endregion
-
-    #region - Knockback -
-    Vector3 knockbackDirection = Vector3.zero;
-    float initKnockbackDot = 0f;
-    private void KnockbackLogic(ref Vector3 move)
-    {
-        m_knockbackTime = Mathf.Max(m_knockbackTime - Runner.DeltaTime, 0.0f);
-
-        if (!m_knockback || m_knockbackTime <= 0.0f || IsGrounded)
-        {
-            m_knockback = false;
-            return;
-        }
-
-        // First frame set knockback dir and dot product
-        if (m_setInitKnockbackDir)
-        {
-            m_setInitKnockbackDir = false;
-            knockbackDirection = -m_knockbackForwardDir;
-            initKnockbackDot = Vector3.Dot(move.normalized, knockbackDirection);
-        }
-
-        // Apply knockback force
-        float knockbackSpeed = KnockbackPwr;
-        move = (initKnockbackDot > 0) ? move + (knockbackDirection * knockbackSpeed * Runner.DeltaTime) : knockbackDirection * knockbackSpeed * Runner.DeltaTime;
-        m_lastMoveOnGround = move;
-    }
-
-
-    Vector3 m_knockbackForwardDir = Vector3.zero;
-    private bool m_setInitKnockbackDir = false;
-    public void KnockPlayerBack()
-    {
-        if (IsGrounded)
-        {
-            return;
-        }
-
-        m_knockbackForwardDir = transform.forward;
-        m_setInitKnockbackDir = true;
-        m_knockback = true;
-        m_knockbackTime = 1.0f;
-        m_camFOV.InitFOVScale(m_camera.fieldOfView + 2.5f, true);
-        m_particles.PlayParticle(m_particles.KnockbackParticle);
     }
     #endregion
 

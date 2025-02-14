@@ -64,6 +64,11 @@ public class Movement : NetworkBehaviour, IPlayerController, IBalloons
     public float MaxJumpForce => m_maxJumpForce;
     public float InitialMaxJumpForce => m_initialMaxJumpForce;
 
+    [Header("Knockback Values")]
+    [SerializeField] protected float KnockbackPwr = 10.0f;
+    [SerializeField] protected float m_knockbackTime = 1.0f;
+    protected bool m_knockback = false;
+
     public bool IsGrounded => UpdateGroundCheck();
 
     [Header("Balloons")]
@@ -256,6 +261,50 @@ public class Movement : NetworkBehaviour, IPlayerController, IBalloons
             m_balloonRespawnTime = 10.0f;
         }
     }
+
+    #region - Knockback -
+    Vector3 knockbackDirection = Vector3.zero;
+    float initKnockbackDot = 0f;
+    public virtual void KnockbackLogic(ref Vector3 move)
+    {
+        m_knockbackTime = Mathf.Max(m_knockbackTime - Runner.DeltaTime, 0.0f);
+
+        if (!m_knockback || m_knockbackTime <= 0.0f || IsGrounded)
+        {
+            m_knockback = false;
+            return;
+        }
+
+        // First frame set knockback dir and dot product
+        if (m_setInitKnockbackDir)
+        {
+            m_setInitKnockbackDir = false;
+            knockbackDirection = -m_knockbackForwardDir;
+            initKnockbackDot = Vector3.Dot(move.normalized, knockbackDirection);
+        }
+
+        // Apply knockback force
+        float knockbackSpeed = KnockbackPwr;
+        move = (initKnockbackDot > 0) ? move + (knockbackDirection * knockbackSpeed * Runner.DeltaTime) : knockbackDirection * knockbackSpeed * Runner.DeltaTime;
+        m_lastMoveOnGround = move;
+    }
+
+
+    Vector3 m_knockbackForwardDir = Vector3.zero;
+    private bool m_setInitKnockbackDir = false;
+    public virtual void KnockPlayerBack()
+    {
+        if (IsGrounded)
+        {
+            return;
+        }
+
+        m_knockbackForwardDir = transform.forward;
+        m_setInitKnockbackDir = true;
+        m_knockback = true;
+        m_knockbackTime = 1.0f;
+    }
+    #endregion
 
     [Rpc(RpcSources.All, RpcTargets.All)]
     public void RPC_DestroyBalloon(NetworkBehaviour balloon)
