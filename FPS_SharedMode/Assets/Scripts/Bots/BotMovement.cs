@@ -80,7 +80,6 @@ public class BotMovement : Movement
             Vector3 toNextPath = (m_currentPath.NextPath.transform.position - transform.position).normalized;
             float dotProduct = Vector3.Dot(transform.forward, toNextPath);
             bool atCurrentPoint = m_currentPath.NearPathPoint(this);
-            Debug.Log("DOT: " + dotProduct);
             if (dotProduct >= 0.75f && m_currentPath.NextPath.transform.position.y > m_currentPath.transform.position.y && atCurrentPoint && !m_jumpPressed)
             {
                 Debug.Log($"{m_currentPath.NextPath.transform.position.y} / {m_currentPath.transform.position.y}");
