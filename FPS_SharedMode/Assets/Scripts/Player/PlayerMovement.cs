@@ -7,7 +7,6 @@ public class PlayerMovement : Movement, IHealth
 {
 
     [Header("Main Components")]
-    private CharacterController m_controller;
     private Camera m_camera;
     private CamFOV m_camFOV;
     private PlayerParticles m_particles;
@@ -98,6 +97,11 @@ public class PlayerMovement : Movement, IHealth
         if (Input.GetKeyDown(KeyCode.Space))
         {
             m_jumpPressed = true;
+
+            if (!IsGrounded)
+            {
+                m_velocity.y = 10f;
+            }
         }
 
         // DEBUG
@@ -146,42 +150,6 @@ public class PlayerMovement : Movement, IHealth
         return moveInput * m_moveVelocity;
     }
 
-    private void HandleGroundState(ref Vector3 move)
-    {
-        if (IsGrounded)
-        {
-            m_lastMoveOnGround = move;
-            m_speedInAirScaler = 1.0f;
-            m_canJump = true;
-            m_timeOffGround = 0.0f;
-        }
-        else
-        {
-            move = m_lastMoveOnGround;
-            m_timeOffGround += Runner.DeltaTime;
-
-            if (m_timeOffGround > 0.5f)
-            {
-                m_canJump = false;
-            }
-        }
-    }
-
-    private void ProcessJump()
-    {
-        if (m_jumpPressed && m_canJump)
-        {
-            m_velocity.y = (m_velocity.y < 0.0f) ? 0.0f : m_velocity.y;
-            m_jumpPressed = false;
-            m_jumpForce = m_maxJumpForce;
-        }
-
-        if (!IsGrounded)
-        {
-            SetCurrentState(PlayerStates.Jump);
-        }
-    }
-
     private void ApplyKnockback(ref Vector3 move)
     {
         KnockbackLogic(ref move);
@@ -212,16 +180,6 @@ public class PlayerMovement : Movement, IHealth
                 JumpUpdate(ref move);
                 break;
         }
-    }
-
-    private void UpdateVelocity(Vector3 move)
-    {
-        m_velocity.y += m_jumpForce;
-        if (IsGrounded && m_jumpForce != m_maxJumpForce)
-        {
-            m_velocity.y = 0f;
-        }
-        m_controller.Move(move + m_velocity * Runner.DeltaTime);
     }
     #endregion
 

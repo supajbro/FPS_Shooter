@@ -24,6 +24,9 @@ public class Movement : NetworkBehaviour, IPlayerController, IBalloons
     }
     #endregion
 
+    [Header("Main Components")]
+    public CharacterController m_controller;
+
     [Header("Movement")]
     [SerializeField] protected float m_speed = 35f;
     [SerializeField] protected Vector3 m_velocity;
@@ -151,6 +154,37 @@ public class Movement : NetworkBehaviour, IPlayerController, IBalloons
         m_jumpForce = Mathf.Clamp(m_jumpForce, -m_maxJumpForce, m_maxJumpForce);
     }
 
+    public virtual void UpdateVelocity(Vector3 move)
+    {
+        m_velocity.y += m_jumpForce;
+        if (IsGrounded && m_jumpForce != m_maxJumpForce)
+        {
+            m_velocity.y = 0f;
+        }
+        m_controller.Move(move + m_velocity * Runner.DeltaTime);
+    }
+
+    public virtual void HandleGroundState(ref Vector3 move)
+    {
+        if (IsGrounded)
+        {
+            m_lastMoveOnGround = move;
+            m_speedInAirScaler = 1.0f;
+            m_canJump = true;
+            m_timeOffGround = 0.0f;
+        }
+        else
+        {
+            move = m_lastMoveOnGround;
+            m_timeOffGround += Runner.DeltaTime;
+
+            if (m_timeOffGround > 0.5f)
+            {
+                m_canJump = false;
+            }
+        }
+    }
+
     private bool UpdateGroundCheck()
     {
         const float groundCheckDistance = 1.5f;
@@ -164,6 +198,28 @@ public class Movement : NetworkBehaviour, IPlayerController, IBalloons
 
         Debug.DrawRay(transform.position, Vector3.down * groundCheckDistance, Color.red);
         return false;
+    }
+
+    public virtual void ProcessJump()
+    {
+        if (m_jumpPressed && m_canJump)
+        {
+            m_velocity.y = (m_velocity.y < 0.0f) ? 0.0f : m_velocity.y;
+
+            // If player did a koyote jump, give extra upward velocity
+            if (!IsGrounded)
+            {
+                m_velocity.y = 5f;
+            }
+
+            m_jumpPressed = false;
+            m_jumpForce = m_maxJumpForce;
+        }
+
+        if (!IsGrounded)
+        {
+            SetCurrentState(PlayerStates.Jump);
+        }
     }
 
     // Set the jump height by how many balloons you have

@@ -6,7 +6,6 @@ public class BotMovement : Movement
 {
 
     [Header("Main Components")]
-    public CharacterController m_controller;
     private BotPooler m_botPooler;
 
     [Header("Bot Path")]
@@ -159,42 +158,6 @@ public class BotMovement : Movement
         return moveInput * m_moveVelocity;
     }
 
-    private void HandleGroundState(ref Vector3 move)
-    {
-        if (IsGrounded)
-        {
-            m_lastMoveOnGround = move;
-            m_speedInAirScaler = 1.0f;
-            m_canJump = true;
-            m_timeOffGround = 0.0f;
-        }
-        else
-        {
-            move = m_lastMoveOnGround;
-            m_timeOffGround += Runner.DeltaTime;
-
-            if (m_timeOffGround > 0.5f)
-            {
-                m_canJump = false;
-            }
-        }
-    }
-
-    private void ProcessJump()
-    {
-        if (m_jumpPressed && m_canJump)
-        {
-            m_velocity.y = (m_velocity.y < 0.0f) ? 0.0f : m_velocity.y;
-            m_jumpPressed = false;
-            m_jumpForce = m_maxJumpForce;
-        }
-
-        if (!IsGrounded)
-        {
-            SetCurrentState(PlayerStates.Jump);
-        }
-    }
-
     private void ApplyKnockback(ref Vector3 move)
     {
         KnockbackLogic(ref move);
@@ -219,16 +182,6 @@ public class BotMovement : Movement
                 JumpUpdate(ref move);
                 break;
         }
-    }
-
-    private void UpdateVelocity(Vector3 move)
-    {
-        m_velocity.y += m_jumpForce;
-        if (IsGrounded && m_jumpForce != m_maxJumpForce)
-        {
-            m_velocity.y = 0f;
-        }
-        m_controller.Move(move + m_velocity * Runner.DeltaTime);
     }
     #endregion
 
