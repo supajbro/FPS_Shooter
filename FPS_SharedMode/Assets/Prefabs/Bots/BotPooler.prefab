@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_botPrefab: {fileID: 4218669962261549710, guid: 173fa09f09dc2b244a584cb4d47647e1, type: 3}
-  m_botSpawnCount: 1
+  m_botSpawnCount: 5
   m_botPaths: []
   m_bots: []
 --- !u!114 &4645032833555708146

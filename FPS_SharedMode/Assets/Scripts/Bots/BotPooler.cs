@@ -59,9 +59,15 @@ public class BotPooler : NetworkBehaviour
 
     public override void Spawned()
     {
+        StartCoroutine(SpawnBotsDelay());
+    }
+
+    private IEnumerator SpawnBotsDelay()
+    {
         for (int i = 0; i < m_botSpawnCount; i++)
         {
             SpawnBot();
+            yield return new WaitForSeconds(5f); // Wait for 5 seconds before spawning the next bot
         }
     }
 

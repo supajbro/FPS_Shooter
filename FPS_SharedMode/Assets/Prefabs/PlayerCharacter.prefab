@@ -5764,8 +5764,8 @@ MonoBehaviour:
   m_speedIncreaseScale: 0.5
   m_minMoveVelocity: 0.25
   m_maxMoveVelocity: 1
-  KnockbackPwr: 150
-  m_knockbackTime: 1
+  KnockbackPwr: 500
+  m_knockbackTime: 2
   m_balloons:
   - {fileID: 6099745198808206571}
   - {fileID: 255731412502274645}
