@@ -7,9 +7,9 @@ public class RespawnZone : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.TryGetComponent<PlayerMovement>(out PlayerMovement player))
+        if (other.gameObject.TryGetComponent<Movement>(out Movement controller))
         {
-            player.RPC_Respawn();
+            controller.RPC_Respawn();
         }
     }
 

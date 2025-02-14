@@ -33890,6 +33890,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_currentState: 0
   m_previousState: 0
+  m_controller: {fileID: 0}
   m_speed: 35
   m_velocity: {x: 0, y: 0, z: 0}
   m_groundLayer:
@@ -33901,20 +33902,20 @@ MonoBehaviour:
   m_speedIncreaseScale: 0.5
   m_minMoveVelocity: 0.25
   m_maxMoveVelocity: 1
+  KnockbackPwr: 10
+  m_knockbackTime: 1
   m_balloons:
   - {fileID: 2453428334613715126}
   - {fileID: 8305843304598813759}
   - {fileID: 4028221415167800461}
   m_destroyedBallons: []
   m_maxBalloons: 3
-  m_ballonHeightIncrease: 1
+  m_ballonHeightIncrease: 0.025
   m_balloonRespawnTime: 10
   _ActiveBallons: 0
   m_botMesh: {fileID: 0}
   m_botHead: {fileID: 0}
   m_botSpine: {fileID: 0}
-  KnockbackPwr: 10
-  m_knockbackTime: 1
 --- !u!1 &8754517584685057703
 GameObject:
   m_ObjectHideFlags: 0

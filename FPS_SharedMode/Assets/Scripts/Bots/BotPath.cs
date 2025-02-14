@@ -43,6 +43,21 @@ public class BotPath : MonoBehaviour
         return false;
     }
 
+    public bool NearPathPoint(BotMovement bot)
+    {
+        Vector3 botPos = bot.transform.position;
+        botPos.y = 0;
+
+        Vector3 pos = transform.position;
+        pos.y = 0;
+
+        if (Vector3.Distance(botPos, pos) < m_minPathDistance * 2)
+        {
+            return true;
+        }
+        return false;
+    }
+
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;

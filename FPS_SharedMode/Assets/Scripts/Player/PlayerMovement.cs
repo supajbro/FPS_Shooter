@@ -206,29 +206,6 @@ public class PlayerMovement : Movement, IHealth
     }
     #endregion
 
-    public void Respawn()
-    {
-        if (!m_respawning)
-        {
-            return;
-        }
-
-        m_respawnTimer += Runner.DeltaTime;
-        if(m_respawnTimer >= m_maxRespawnTime)
-        {
-            m_controller.enabled = false;
-            var randSpawnPos = Random.Range(0, GameManager.instance.spawnPoints.Count);
-            var pos = GameManager.instance.spawnPoints[randSpawnPos].position;
-            transform.position = pos;
-            m_controller.enabled = true;
-            m_velocity = Vector3.zero;
-            m_currentHealth = m_maxHealth;
-            RPC_ChangeMesh(true);
-            m_respawning = false;
-            m_respawnTimer = 0;
-        }
-    }
-
     #region - Health Properties -
     [Header("Health Values")]
     [SerializeField] private float m_currentHealth = 100f;
@@ -250,6 +227,18 @@ public class PlayerMovement : Movement, IHealth
 
     #region - RPC Calls -
 
+    public override void RPC_Respawn()
+    {
+        m_controller.enabled = false;
+        m_canMove = false;
+        var randSpawnPos = Random.Range(0, GameManager.instance.spawnPoints.Count);
+        var pos = GameManager.instance.spawnPoints[randSpawnPos].position;
+        transform.position = pos;
+        m_controller.enabled = true;
+        m_canMove = true;
+        base.RPC_Respawn();
+    }
+
     [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
     private void RPC_TakeDamage(float damage)
     {
@@ -265,28 +254,6 @@ public class PlayerMovement : Movement, IHealth
             m_respawning = true;
             RPC_ChangeMesh(false);
         }
-    }
-
-    [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
-    public void RPC_Respawn()
-    {
-        m_controller.enabled = false;
-        m_canMove = false;
-        var randSpawnPos = Random.Range(0, GameManager.instance.spawnPoints.Count);
-        var pos = GameManager.instance.spawnPoints[randSpawnPos].position;
-        transform.position = pos;
-        m_controller.enabled = true;
-        m_canMove = true;
-        SetCurrentState(PlayerStates.Idle);
-
-        foreach (var balloon in m_destroyedBallons)
-        {
-            m_balloons.Add(balloon);
-            balloon.GetComponent<MeshRenderer>().enabled = true;
-            m_balloonRespawnTime = 10.0f;
-        }
-        m_destroyedBallons.Clear();
-        SetJumpHeight();
     }
 
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]

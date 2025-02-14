@@ -17,11 +17,6 @@ public class BotMovement : Movement
     [SerializeField] private GameObject m_botHead;
     [SerializeField] private GameObject m_botSpine;
 
-    [Header("Knockback Values")]
-    [SerializeField] private float KnockbackPwr = 10.0f;
-    private bool m_knockback = false;
-    [SerializeField] private float m_knockbackTime = 1.0f;
-
     #region - Init Properties -
     private void Awake()
     {
@@ -79,11 +74,14 @@ public class BotMovement : Movement
     #region - Update Properties -
     private void Update()
     {
-        // TODO: Rework to not take in input (check if bot path has different y axis
         // Jump input check
         if (m_currentPath && m_currentPath.NextPath)
         {
-            if (m_currentPath.NextPath.transform.position.y > m_currentPath.transform.position.y && !m_jumpPressed)
+            Vector3 toNextPath = (m_currentPath.NextPath.transform.position - transform.position).normalized;
+            float dotProduct = Vector3.Dot(transform.forward, toNextPath);
+            bool atCurrentPoint = m_currentPath.NearPathPoint(this);
+            Debug.Log("DOT: " + dotProduct);
+            if (dotProduct >= 0.75f && m_currentPath.NextPath.transform.position.y > m_currentPath.transform.position.y && atCurrentPoint && !m_jumpPressed)
             {
                 Debug.Log($"{m_currentPath.NextPath.transform.position.y} / {m_currentPath.transform.position.y}");
                 m_jumpPressed = true;
@@ -185,49 +183,16 @@ public class BotMovement : Movement
     }
     #endregion
 
-    #region - Knockback -
-    Vector3 knockbackDirection = Vector3.zero;
-    float initKnockbackDot = 0f;
-    private void KnockbackLogic(ref Vector3 move)
+    public override void RPC_Respawn()
     {
-        m_knockbackTime = Mathf.Max(m_knockbackTime - Runner.DeltaTime, 0.0f);
-
-        if (!m_knockback || m_knockbackTime <= 0.0f || IsGrounded)
-        {
-            m_knockback = false;
-            return;
-        }
-
-        // First frame set knockback dir and dot product
-        if (m_setInitKnockbackDir)
-        {
-            m_setInitKnockbackDir = false;
-            knockbackDirection = -m_knockbackForwardDir;
-            initKnockbackDot = Vector3.Dot(move.normalized, knockbackDirection);
-        }
-
-        // Apply knockback force
-        float knockbackSpeed = KnockbackPwr;
-        move = (initKnockbackDot > 0) ? move + (knockbackDirection * knockbackSpeed * Runner.DeltaTime) : knockbackDirection * knockbackSpeed * Runner.DeltaTime;
-        m_lastMoveOnGround = move;
+        SetPath(0);
+        m_controller.enabled = false;
+        m_canMove = false;
+        Vector3 spawnPos = m_currentPath.transform.position;
+        transform.position = spawnPos;
+        m_controller.enabled = true;
+        m_canMove = true;
+        base.RPC_Respawn();
     }
-
-
-    Vector3 m_knockbackForwardDir = Vector3.zero;
-    private bool m_setInitKnockbackDir = false;
-    public void KnockPlayerBack()
-    {
-        if (IsGrounded)
-        {
-            return;
-        }
-
-        m_knockbackForwardDir = transform.forward;
-        m_setInitKnockbackDir = true;
-        m_knockback = true;
-        m_knockbackTime = 1.0f;
-        //m_particles.PlayParticle(m_particles.KnockbackParticle);
-    }
-    #endregion
 
 }
