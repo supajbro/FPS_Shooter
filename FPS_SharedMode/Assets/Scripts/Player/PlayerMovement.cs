@@ -97,11 +97,6 @@ public class PlayerMovement : Movement, IHealth
         if (Input.GetKeyDown(KeyCode.Space))
         {
             m_jumpPressed = true;
-
-            if (!IsGrounded)
-            {
-                m_velocity.y = 10f;
-            }
         }
 
         // DEBUG
