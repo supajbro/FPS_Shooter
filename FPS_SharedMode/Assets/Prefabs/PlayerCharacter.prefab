@@ -5752,28 +5752,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_currentState: 0
   m_previousState: 0
-  m_playerMesh: {fileID: 4543176454799818269}
-  m_playerHead: {fileID: 5421096649283010455}
-  m_playerSpine: {fileID: 6772914610885400448}
-  m_camPos: {fileID: 5899094385578347027}
+  m_controller: {fileID: 0}
+  m_speed: 35
+  m_velocity: {x: 0, y: 0, z: 0}
   m_groundLayer:
     serializedVersion: 2
     m_Bits: 64
-  m_weapon: {fileID: 881574144129456631}
-  m_weaponModel: {fileID: 2807318580548676403}
-  m_weaponAnim: {fileID: 3971665955968364975}
-  m_speed: 35
-  m_velocity: {x: 0, y: 0, z: 0}
   m_jumpForce: 2
   m_maxJumpForce: 2
   m_initialMaxJumpForce: 2
   m_speedIncreaseScale: 0.5
   m_minMoveVelocity: 0.25
   m_maxMoveVelocity: 1
-  KnockbackPwr: 10
+  KnockbackPwr: 150
   m_knockbackTime: 1
-  m_currentHealth: 100
-  m_maxHealth: 100
   m_balloons:
   - {fileID: 6099745198808206571}
   - {fileID: 255731412502274645}
@@ -5783,6 +5775,15 @@ MonoBehaviour:
   m_ballonHeightIncrease: 0.025
   m_balloonRespawnTime: 10
   _ActiveBallons: 0
+  m_playerMesh: {fileID: 4543176454799818269}
+  m_playerHead: {fileID: 5421096649283010455}
+  m_playerSpine: {fileID: 6772914610885400448}
+  m_camPos: {fileID: 5899094385578347027}
+  m_weapon: {fileID: 881574144129456631}
+  m_weaponModel: {fileID: 2807318580548676403}
+  m_weaponAnim: {fileID: 3971665955968364975}
+  m_currentHealth: 100
+  m_maxHealth: 100
 --- !u!95 &5071248153147366421
 Animator:
   serializedVersion: 5

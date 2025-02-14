@@ -283,6 +283,8 @@ public class Movement : NetworkBehaviour, IPlayerController, IBalloons
             initKnockbackDot = Vector3.Dot(move.normalized, knockbackDirection);
         }
 
+        Debug.DrawLine(transform.position, knockbackDirection * 10, Color.blue);
+
         // Apply knockback force
         float knockbackSpeed = KnockbackPwr;
         move = (initKnockbackDot > 0) ? move + (knockbackDirection * knockbackSpeed * Runner.DeltaTime) : knockbackDirection * knockbackSpeed * Runner.DeltaTime;
