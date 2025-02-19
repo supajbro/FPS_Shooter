@@ -27,17 +27,23 @@ public class BotPath : MonoBehaviour
         Vector3 pos = transform.position;
         pos.y = 0;
 
+        Vector3 nextPos = Vector3.zero;
+        if (m_nextPath != null)
+        {
+            nextPos = m_nextPath.transform.position;
+            nextPos.y = 0;
+        }
+
+        // If bot is close to the path
         if (Vector3.Distance(botPos, pos) < m_minPathDistance)
         {
             return true;
         }
 
-        // Check if bot is closer to its next path
-        if (m_nextPath)
+        // If bot is closer to next path
+        if (Vector3.Distance(botPos, nextPos) < Vector3.Distance(botPos, pos))
         {
-            float distToCurrentPath = Vector3.Distance(transform.position, bot.transform.position);
-            float distToNextPath = Vector3.Distance(m_nextPath.transform.position, bot.transform.position);
-            return distToNextPath < distToCurrentPath;
+            return true;
         }
 
         return false;

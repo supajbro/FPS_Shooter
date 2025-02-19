@@ -107,7 +107,7 @@ public class BotMovement : Movement
         Vector3 targetDirection = (m_currentPath.transform.position - transform.position).normalized;
         Vector3 flatDirection = new Vector3(targetDirection.x, 0, targetDirection.z);
         Quaternion targetRotation = Quaternion.LookRotation(flatDirection);
-        Quaternion camRotY = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 25);
+        Quaternion camRotY = Quaternion.Slerp(transform.rotation, targetRotation, Runner.DeltaTime * 20);
 
 
         Vector3 moveInput = GetMoveInput();
