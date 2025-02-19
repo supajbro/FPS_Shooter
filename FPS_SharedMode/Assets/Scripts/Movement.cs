@@ -44,6 +44,7 @@ public class Movement : NetworkBehaviour, IPlayerController, IBalloons
     [SerializeField] protected float m_maxMoveVelocity = 1f;
     protected float m_timeOffGround = 0.0f;
     protected bool m_canMove = true;
+    public bool CanMove => m_canMove;
 
     [Header("Jump Values")]
     protected bool m_jumpPressed;
@@ -157,6 +158,11 @@ public class Movement : NetworkBehaviour, IPlayerController, IBalloons
 
         m_jumpForce -= Runner.DeltaTime * fallForce;
         m_jumpForce = Mathf.Clamp(m_jumpForce, -m_maxJumpForce, m_maxJumpForce);
+    }
+
+    public void SetCanMove(bool check)
+    {
+        m_canMove = check;
     }
 
     public virtual void UpdateVelocity(Vector3 move)

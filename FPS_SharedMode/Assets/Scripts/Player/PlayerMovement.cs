@@ -21,7 +21,6 @@ public class PlayerMovement : Movement, IHealth
 
     [Header("Weapon Components")]
     [SerializeField] private PlayerWeapon m_weapon;
-    [SerializeField] private GameObject m_weaponModel;
     [SerializeField] private Animator m_weaponAnim;
 
     public PlayerWeapon Weapon => m_weapon;

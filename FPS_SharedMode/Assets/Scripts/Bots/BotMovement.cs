@@ -6,6 +6,7 @@ public class BotMovement : Movement
 {
 
     [Header("Main Components")]
+    [SerializeField] private BotWeapon m_weapon;
     private BotPooler m_botPooler;
 
     [Header("Bot Path")]
@@ -101,10 +102,10 @@ public class BotMovement : Movement
         if (m_currentPath && m_currentPath.ReachedPathPoint(this))
         {
             SetPath(m_currentPathIndex + 1);
-            Debug.Log("PATH: " + m_currentPathIndex);
         }
 
-        Vector3 targetDirection = (m_currentPath.transform.position - transform.position).normalized;
+        Vector3 target = (m_weapon.ShootPressed) ? m_weapon.Target.transform.position : m_currentPath.transform.position;
+        Vector3 targetDirection = (target - transform.position).normalized;
         Vector3 flatDirection = new Vector3(targetDirection.x, 0, targetDirection.z);
         Quaternion targetRotation = Quaternion.LookRotation(flatDirection);
         Quaternion camRotY = Quaternion.Slerp(transform.rotation, targetRotation, Runner.DeltaTime * 20);
@@ -150,6 +151,12 @@ public class BotMovement : Movement
         if (moveInput.magnitude == 0f)
         {
             m_moveVelocity = 0f;
+        }
+
+        if (m_weapon.Target != null)
+        {
+            moveInput = Vector3.zero;
+            m_moveVelocity = 0.0f;
         }
 
         return moveInput * m_moveVelocity;

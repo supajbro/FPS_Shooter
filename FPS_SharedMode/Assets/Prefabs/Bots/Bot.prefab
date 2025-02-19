@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4264205442791725300}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: R_Toe_bone_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -40,7 +40,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3217091088975125000}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Guy (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -72,7 +72,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5186235168943902151}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: L_Forearm_bone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -107,7 +107,7 @@ GameObject:
   - component: {fileID: 4118787132191985606}
   - component: {fileID: 3545890004112231666}
   - component: {fileID: 295061438113715562}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Pistol
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -188,7 +188,7 @@ GameObject:
   - component: {fileID: 9049873634202006785}
   - component: {fileID: 7505400987201295757}
   - component: {fileID: 8883862263783490428}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Balloon (3)
   m_TagString: Balloon
   m_Icon: {fileID: 0}
@@ -373,7 +373,7 @@ GameObject:
   - component: {fileID: 5612820831900503712}
   - component: {fileID: 6414907743089548423}
   - component: {fileID: 2718926461567510959}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Balloon (4)
   m_TagString: Balloon
   m_Icon: {fileID: 0}
@@ -551,7 +551,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9116897933351800129}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: R_Hand_bone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -585,7 +585,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5815818876984433778}
   - component: {fileID: 77230889085555757}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: L_Foot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -694,7 +694,7 @@ GameObject:
   m_Component:
   - component: {fileID: 236302993952173357}
   - component: {fileID: 147375369083054955}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: R_Leg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -804,7 +804,7 @@ GameObject:
   - component: {fileID: 1417470792162778486}
   - component: {fileID: 4843698472682244034}
   - component: {fileID: 4774979689070966441}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cylinder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -885,7 +885,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4356972079893457434}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: L_Toe_bone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -918,7 +918,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6310263379049218334}
   - component: {fileID: 2094394168285021979}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Hip
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1026,7 +1026,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5977602107150874769}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Hip_bone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1061,7 +1061,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 905946758751186501}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Weapon_Rotator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1093,7 +1093,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4716547361144381534}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Ballons
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1134,7 +1134,7 @@ GameObject:
   - component: {fileID: 3172466840594301823}
   - component: {fileID: 2377947418997969516}
   - component: {fileID: 4151231733305884851}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: KnockbackParticles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6021,7 +6021,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6427622063544372288}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: R_Forearm_bone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6055,7 +6055,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3802386499015696998}
   - component: {fileID: 529814648511490067}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Chest_bone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6114,7 +6114,7 @@ GameObject:
   - component: {fileID: 8538458667877605827}
   - component: {fileID: 181903906694863993}
   - component: {fileID: 3361808211668077551}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Balloon
   m_TagString: Balloon
   m_Icon: {fileID: 0}
@@ -6293,7 +6293,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2020231779614577888}
   - component: {fileID: 4498820206664607214}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: L_Arm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6401,7 +6401,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5019677466920681785}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Weapon_Position
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6440,7 +6440,7 @@ GameObject:
   - component: {fileID: 366306449115544891}
   - component: {fileID: 6209434927781986693}
   - component: {fileID: 6407520394573194586}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Balloon
   m_TagString: Balloon
   m_Icon: {fileID: 0}
@@ -6618,7 +6618,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5529442216136900513}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: R_Thigh_bone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6658,7 +6658,7 @@ GameObject:
   - component: {fileID: 2829820455796587574}
   - component: {fileID: 3131542030398766858}
   - component: {fileID: 1874772490354334431}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Balloon (2)
   m_TagString: Balloon
   m_Icon: {fileID: 0}
@@ -6837,9 +6837,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1837147139117464071}
   - component: {fileID: 4614294141002627391}
-  - component: {fileID: 3813822889185183662}
   - component: {fileID: 1729655128106455890}
-  m_Layer: 0
+  - component: {fileID: 4887504322346634147}
+  m_Layer: 7
   m_Name: WeaponHolder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6881,24 +6881,9 @@ MonoBehaviour:
   - {fileID: 3545890004112231666}
   - {fileID: 3784308542007465293}
   NetworkedBehaviours:
-  - {fileID: 3813822889185183662}
   - {fileID: 1729655128106455890}
+  - {fileID: 4887504322346634147}
   ForceRemoteRenderTimeframe: 0
---- !u!114 &3813822889185183662
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3499965426283945963}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 38fbd09a017c1a648ac9758e49a355df, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_bulletPrefab:
-    RawGuidValue: e03685ee1b6c78240beb9ea756a15c08
-  m_bulletSpawnPoint: {fileID: 224131101342525183}
 --- !u!114 &1729655128106455890
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6916,6 +6901,26 @@ MonoBehaviour:
   SyncParent: 0
   _autoAOIOverride: 1
   DisableSharedModeInterpolation: 0
+--- !u!114 &4887504322346634147
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3499965426283945963}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30fe5e8014a040c4cb02293fc41e60cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_bulletPrefab:
+    RawGuidValue: e03685ee1b6c78240beb9ea756a15c08
+  m_bulletSpawnPoint: {fileID: 224131101342525183}
+  m_parent: {fileID: 8559049361356651423}
+  m_detectionRadius: 10
+  m_playerLayer:
+    serializedVersion: 2
+    m_Bits: 128
 --- !u!1 &3510580801779761792
 GameObject:
   m_ObjectHideFlags: 0
@@ -6925,7 +6930,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7738297059702391866}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: R_Shoulder_bone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6957,7 +6962,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8141386998348511400}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: L_Toe_bone_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6988,7 +6993,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 651561449640115565}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Head_bone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7023,7 +7028,7 @@ GameObject:
   - component: {fileID: 4033258575408720401}
   - component: {fileID: 4559800209375327249}
   - component: {fileID: 5840590368024842668}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: GroundStomp (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11911,7 +11916,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5611297058899878674}
   - component: {fileID: 2443635299558578408}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: R_Thigh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12021,7 +12026,7 @@ GameObject:
   - component: {fileID: 3282201677213970469}
   - component: {fileID: 734000803824106554}
   - component: {fileID: 5820298731721154174}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: GroundStomp (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -16910,7 +16915,7 @@ GameObject:
   - component: {fileID: 2786436053646563316}
   - component: {fileID: 1049675106114827720}
   - component: {fileID: 7537752929248562890}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: GroundStomp (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -21804,7 +21809,7 @@ GameObject:
   - component: {fileID: 8212669665024123222}
   - component: {fileID: 6467089211873648491}
   - component: {fileID: 9197337026833082104}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Balloon (6)
   m_TagString: Balloon
   m_Icon: {fileID: 0}
@@ -21982,7 +21987,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6839882580159813524}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: L_Thigh_bone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -22015,7 +22020,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4960158453538086731}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: R_Hand_bone_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -22047,7 +22052,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2504442289965102157}
   - component: {fileID: 3838504659297019481}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -22156,7 +22161,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8455112969573108704}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Head_bone_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -22189,7 +22194,7 @@ GameObject:
   - component: {fileID: 4759491553283336652}
   - component: {fileID: 584594828842092091}
   - component: {fileID: 7848918057693594555}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: GroundStomp (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27076,7 +27081,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 508762020230224787}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: R_Arm_bone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27109,7 +27114,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7716622266911702913}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: L_Hand_bone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27145,7 +27150,7 @@ GameObject:
   - component: {fileID: 8046526322033493857}
   - component: {fileID: 1108248594684646040}
   - component: {fileID: 1627440792377839995}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: GroundStomp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -32032,7 +32037,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7732468264980135952}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: R_Toe_bone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -32065,7 +32070,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8824137113626753017}
   - component: {fileID: 6758995153226137881}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: L_Thigh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -32174,7 +32179,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8103161428252549431}
   - component: {fileID: 3279677331746934940}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: R_Arm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -32282,7 +32287,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5008234856138244170}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: GroundStomps
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -32320,7 +32325,7 @@ GameObject:
   - component: {fileID: 4052826931353733850}
   - component: {fileID: 4737688164584844467}
   - component: {fileID: 437129576967752202}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: default
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -32401,7 +32406,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6970085934853623266}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: L_Shoulder_bone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -32433,7 +32438,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4574752363679684305}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: CamPos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -32464,7 +32469,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7281768214216835650}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: L_Arm_bone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -32498,7 +32503,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3367147867366699582}
   - component: {fileID: 8150459818489845048}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: R_Hand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -32607,7 +32612,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7717995032445597306}
   - component: {fileID: 8875931959106457222}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: L_Forearm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -32716,7 +32721,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2950048578026013698}
   - component: {fileID: 2027094384954606985}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: L_Leg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -32825,7 +32830,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1231503875395681904}
   - component: {fileID: 2568723570925338189}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: R_Forearm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -32934,7 +32939,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3217399029204952774}
   - component: {fileID: 2155838839275897318}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: R_Foot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -33042,7 +33047,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8657629725312102091}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Armature
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -33075,7 +33080,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2724486339002948726}
   - component: {fileID: 4869949838260951821}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Chest
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -33183,7 +33188,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7092152466914088588}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: R_Leg_bone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -33216,7 +33221,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 216231351748110707}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: gun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -33255,7 +33260,7 @@ GameObject:
   - component: {fileID: 3168960122961173551}
   - component: {fileID: 3912073999616987496}
   - component: {fileID: 2519486638944188458}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Balloon (5)
   m_TagString: Balloon
   m_Icon: {fileID: 0}
@@ -33440,7 +33445,7 @@ GameObject:
   - component: {fileID: 7604650173163503875}
   - component: {fileID: 1362910073961525050}
   - component: {fileID: 7189683638763284559}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Balloon (1)
   m_TagString: Balloon
   m_Icon: {fileID: 0}
@@ -33618,7 +33623,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7274288206517890033}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: R_Foot_bone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -33660,9 +33665,9 @@ GameObject:
   - component: {fileID: 1562485822934609703}
   - component: {fileID: 7753066711742477515}
   - component: {fileID: 2600352673486302600}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Bot
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -33913,6 +33918,7 @@ MonoBehaviour:
   m_ballonHeightIncrease: 0.025
   m_balloonRespawnTime: 10
   _ActiveBallons: 0
+  m_weapon: {fileID: 4887504322346634147}
   m_botMesh: {fileID: 0}
   m_botHead: {fileID: 0}
   m_botSpine: {fileID: 0}
@@ -33925,7 +33931,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2334010497571423169}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: L_Leg_bone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -33959,7 +33965,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3553523915061244314}
   - component: {fileID: 7395226712840068704}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: L_Hand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -34067,7 +34073,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7432449204388463362}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: L_Foot_bone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -34100,7 +34106,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1238263432724864923}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: L_Hand_bone_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -34133,7 +34139,7 @@ GameObject:
   - component: {fileID: 224131101342525183}
   - component: {fileID: 3784308542007465293}
   - component: {fileID: 9194605228295510319}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: BulletSpawnPos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -34195,7 +34201,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3651649356707703349}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Particles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
