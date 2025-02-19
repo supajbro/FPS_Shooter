@@ -8,16 +8,16 @@ public class Movement : NetworkBehaviour, IPlayerController, IBalloons
 {
 
     #region - States -
-    public enum PlayerStates
+    public enum MovementStates
     {
         Idle = 0,
         Walk,
         Run,
         Jump
     }
-    [SerializeField] protected PlayerStates m_currentState;
-    [SerializeField] protected PlayerStates m_previousState;
-    public void SetCurrentState(PlayerStates state)
+    [SerializeField] protected MovementStates m_currentState;
+    [SerializeField] protected MovementStates m_previousState;
+    public void SetCurrentState(MovementStates state)
     {
         m_previousState = m_currentState;
         m_currentState = state;
@@ -90,7 +90,7 @@ public class Movement : NetworkBehaviour, IPlayerController, IBalloons
     {
         if (moveInput.magnitude > 0f && IsGrounded)
         {
-            SetCurrentState(PlayerStates.Walk);
+            SetCurrentState(MovementStates.Walk);
             return;
         }
 
@@ -103,7 +103,7 @@ public class Movement : NetworkBehaviour, IPlayerController, IBalloons
     {
         if (move.magnitude <= 0.0f && IsGrounded)
         {
-            SetCurrentState(PlayerStates.Idle);
+            SetCurrentState(MovementStates.Idle);
         }
 
         transform.position += move;
@@ -113,7 +113,7 @@ public class Movement : NetworkBehaviour, IPlayerController, IBalloons
     {
         if (IsGrounded)
         {
-            SetCurrentState(PlayerStates.Idle);
+            SetCurrentState(MovementStates.Idle);
             //m_particles.GroundStompParticle.PlayParticle(new Vector3(transform.position.x, transform.position.y - 0.9f, transform.position.z), null);
             return;
         }
@@ -223,7 +223,7 @@ public class Movement : NetworkBehaviour, IPlayerController, IBalloons
 
         if (!IsGrounded)
         {
-            SetCurrentState(PlayerStates.Jump);
+            SetCurrentState(MovementStates.Jump);
         }
     }
 
@@ -265,7 +265,7 @@ public class Movement : NetworkBehaviour, IPlayerController, IBalloons
     #region - Knockback -
     Vector3 knockbackDirection = Vector3.zero;
     float initKnockbackDot = 0f;
-    public virtual void KnockbackLogic(ref Vector3 move)
+    public virtual void KnockbackUpdate(ref Vector3 move)
     {
         m_knockbackTime = Mathf.Max(m_knockbackTime - Runner.DeltaTime, 0.0f);
 
@@ -294,7 +294,7 @@ public class Movement : NetworkBehaviour, IPlayerController, IBalloons
 
     Vector3 m_knockbackForwardDir = Vector3.zero;
     private bool m_setInitKnockbackDir = false;
-    public virtual void KnockPlayerBack()
+    public virtual void InitKnockback()
     {
         if (IsGrounded)
         {
@@ -331,6 +331,7 @@ public class Movement : NetworkBehaviour, IPlayerController, IBalloons
         }
     }
 
+    #region - RPC Calls -
     [Rpc(RpcSources.All, RpcTargets.All)]
     public void RPC_DestroyBalloon(NetworkBehaviour balloon)
     {
@@ -345,7 +346,6 @@ public class Movement : NetworkBehaviour, IPlayerController, IBalloons
         SetJumpHeight();
     }
 
-    #region - RPC Calls -
     [Rpc(RpcSources.All, RpcTargets.All)]
     public void RPC_RespawnBalloon(NetworkBehaviour balloon)
     {
@@ -363,7 +363,7 @@ public class Movement : NetworkBehaviour, IPlayerController, IBalloons
     [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
     public virtual void RPC_Respawn()
     {
-        SetCurrentState(PlayerStates.Idle);
+        SetCurrentState(MovementStates.Idle);
 
         foreach (var balloon in m_destroyedBallons)
         {

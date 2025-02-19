@@ -48,7 +48,7 @@ public class PlayerMovement : Movement, IHealth
     private void InitLocalPlayer()
     {
         GameManager.instance.SetLocalPlayer(this);
-        SetCurrentState(PlayerStates.Idle);
+        SetCurrentState(MovementStates.Idle);
     }
 
     private void ConfigurePlayerVisuals()
@@ -142,17 +142,17 @@ public class PlayerMovement : Movement, IHealth
 
     private void ApplyKnockback(ref Vector3 move)
     {
-        KnockbackLogic(ref move);
+        KnockbackUpdate(ref move);
     }
 
-    public override void KnockPlayerBack()
+    public override void InitKnockback()
     {
         if (IsGrounded)
         {
             return;
         }
 
-        base.KnockPlayerBack();
+        base.InitKnockback();
 
         m_camFOV.InitFOVScale(m_camera.fieldOfView + 2.5f, true);
         m_particles.PlayParticle(m_particles.KnockbackParticle);
@@ -173,13 +173,13 @@ public class PlayerMovement : Movement, IHealth
     {
         switch (m_currentState)
         {
-            case PlayerStates.Idle:
+            case MovementStates.Idle:
                 IdleUpdate(ref moveInput, ref move);
                 break;
-            case PlayerStates.Walk:
+            case MovementStates.Walk:
                 WalkUpdate(move);
                 break;
-            case PlayerStates.Jump:
+            case MovementStates.Jump:
                 JumpUpdate(ref move);
                 break;
         }

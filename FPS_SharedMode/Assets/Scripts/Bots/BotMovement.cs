@@ -47,7 +47,7 @@ public class BotMovement : Movement
 
     private void InitLocalPlayer()
     {
-        SetCurrentState(PlayerStates.Idle);
+        SetCurrentState(MovementStates.Idle);
     }
 
     private void ConfigureBotVisuals()
@@ -137,7 +137,7 @@ public class BotMovement : Movement
     {
         if (!m_canMove || m_knockback) return Vector3.zero;
 
-        if(m_currentState == PlayerStates.Walk)
+        if(m_currentState == MovementStates.Walk)
         {
             movementScale = (movementScale < MaxScale) ? movementScale + Runner.DeltaTime : MaxScale;
         }
@@ -157,7 +157,7 @@ public class BotMovement : Movement
 
     private void ApplyKnockback(ref Vector3 move)
     {
-        KnockbackLogic(ref move);
+        KnockbackUpdate(ref move);
     }
 
     private void RotateBot(Quaternion camRotY)
@@ -169,13 +169,13 @@ public class BotMovement : Movement
     {
         switch (m_currentState)
         {
-            case PlayerStates.Idle:
+            case MovementStates.Idle:
                 IdleUpdate(ref moveInput, ref move);
                 break;
-            case PlayerStates.Walk:
+            case MovementStates.Walk:
                 WalkUpdate(move);
                 break;
-            case PlayerStates.Jump:
+            case MovementStates.Jump:
                 JumpUpdate(ref move);
                 break;
         }
