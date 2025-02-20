@@ -362,6 +362,11 @@ public class Movement : NetworkBehaviour, IPlayerController, IBalloons
         var balloonObject = Runner.TryGetNetworkedBehaviourId(balloon);
         if (balloonObject != null)
         {
+            if (m_destroyedBallons.Contains(balloon.gameObject))
+            {
+                return;
+            }
+
             m_balloons.Remove(balloon.gameObject);
             m_destroyedBallons.Add(balloon.gameObject);
             balloon.GetComponent<MeshRenderer>().enabled = false;
@@ -376,6 +381,11 @@ public class Movement : NetworkBehaviour, IPlayerController, IBalloons
         var balloonObject = Runner.TryGetNetworkedBehaviourId(balloon);
         if (balloonObject != null)
         {
+            if (m_balloons.Contains(balloon.gameObject))
+            {
+                return;
+            }
+
             m_balloons.Add(balloon.gameObject);
             balloon.GetComponent<MeshRenderer>().enabled = true;
             m_destroyedBallons.Remove(balloon.gameObject);
@@ -391,6 +401,11 @@ public class Movement : NetworkBehaviour, IPlayerController, IBalloons
 
         foreach (var balloon in m_destroyedBallons)
         {
+            if (m_balloons.Contains(balloon))
+            {
+                return;
+            }
+
             m_balloons.Add(balloon);
             balloon.GetComponent<MeshRenderer>().enabled = true;
             m_balloonRespawnTime = 10.0f;
