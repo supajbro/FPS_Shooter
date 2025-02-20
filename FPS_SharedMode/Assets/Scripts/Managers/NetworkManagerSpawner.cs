@@ -10,6 +10,6 @@ public class NetworkManagerSpawner : SimulationBehaviour, IPlayerJoined
 
     public void PlayerJoined(PlayerRef player)
     {
-        Runner.Spawn(botPoolerPrefab, new Vector3(0,0,0), Quaternion.identity);
+        //Runner.Spawn(botPoolerPrefab, new Vector3(0,0,0), Quaternion.identity);
     }
 }

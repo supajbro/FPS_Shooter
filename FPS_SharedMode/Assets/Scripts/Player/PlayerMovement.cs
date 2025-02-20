@@ -37,6 +37,7 @@ public class PlayerMovement : Movement, IHealth
         if (!HasStateAuthority) return;
 
         InitLocalPlayer();
+        SpawnBotPooler();
         ConfigurePlayerVisuals();
         InitMovement();
         InitCamera();
@@ -48,6 +49,17 @@ public class PlayerMovement : Movement, IHealth
     {
         GameManager.instance.SetLocalPlayer(this);
         SetCurrentState(MovementStates.Idle);
+        Boss = Runner.IsSharedModeMasterClient;
+    }
+
+    private void SpawnBotPooler()
+    {
+        if (!Boss)
+        {
+            return;
+        }
+
+        GameManager.instance.SpawnBotPooler(Runner);
     }
 
     private void ConfigurePlayerVisuals()
@@ -85,8 +97,9 @@ public class PlayerMovement : Movement, IHealth
     #endregion
 
     #region - Update Properties -
-    private void Update()
+    public override void Update()
     {
+        base.Update();
         // Jump input check
         if (Input.GetKeyDown(KeyCode.Space))
         {

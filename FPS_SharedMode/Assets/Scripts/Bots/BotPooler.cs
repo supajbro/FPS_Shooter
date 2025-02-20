@@ -62,6 +62,11 @@ public class BotPooler : NetworkBehaviour
         StartCoroutine(SpawnBotsDelay());
     }
 
+    public override void Despawned(NetworkRunner runner, bool hasState)
+    {
+        base.Despawned(runner, hasState);
+    }
+
     private IEnumerator SpawnBotsDelay()
     {
         for (int i = 0; i < m_botSpawnCount; i++)

@@ -2846,6 +2846,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 662e4977514c18d439c780329345340b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_botPoolerPrefab: {fileID: 2554523934354737425, guid: 299cb3e1a50601142aaf7536005c52e1, type: 3}
   spawnPoints:
   - {fileID: 699291335}
   - {fileID: 891314995}

@@ -73,8 +73,15 @@ public class BotMovement : Movement
     #endregion
 
     #region - Update Properties -
-    private void Update()
+    public override void BossUpdate()
     {
+        Boss = false;
+        return;
+    }
+
+    public override void Update()
+    {
+        base.Update();
         // Jump input check
         if (m_currentPath && m_currentPath.NextPath)
         {

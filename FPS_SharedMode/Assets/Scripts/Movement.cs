@@ -26,6 +26,7 @@ public class Movement : NetworkBehaviour, IPlayerController, IBalloons
 
     [Header("Main Components")]
     public CharacterController m_controller;
+    [Networked] public bool Boss { get; set; }
 
     [Header("Movement")]
     [SerializeField] protected float m_speed = 35f;
@@ -86,6 +87,23 @@ public class Movement : NetworkBehaviour, IPlayerController, IBalloons
     public float BalloonRespawnTime => m_balloonRespawnTime;
 
     [Networked] public int ActiveBallons { get; set; }
+
+    public virtual void Update(){}
+
+    public override void Render()
+    {
+        BossUpdate();
+    }
+
+    public virtual void BossUpdate()
+    {
+        if (!HasStateAuthority)
+        {
+            return;
+        }
+
+        Boss = Runner.IsSharedModeMasterClient;
+    }
 
     public virtual void IdleUpdate(ref Vector3 moveInput, ref Vector3 move)
     {
