@@ -67,8 +67,15 @@ public class BotWeapon : Weapon
             {
                 closestDistance = distance;
                 closestTarget = target;
-                m_target = closestTarget;
-                m_shootPressed = true;
+
+                // Find the first balloon and shoot it
+                Movement player = closestTarget.GetComponent<Movement>();
+                if (player != null && player.Balloons.Count > 0)
+                {
+                    GameObject balloon = player.Balloons[0];
+                    m_target = balloon.transform;
+                    m_shootPressed = true;
+                }
             }
         }
 
