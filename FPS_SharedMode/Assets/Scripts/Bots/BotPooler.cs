@@ -59,6 +59,11 @@ public class BotPooler : NetworkBehaviour
 
     public override void Spawned()
     {
+        if (!HasStateAuthority)
+        {
+            return;
+        }
+
         StartCoroutine(SpawnBotsDelay());
     }
 
