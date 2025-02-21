@@ -4007,9 +4007,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5068ffba9105d540b25df0300602602, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_target: {fileID: 0}
   m_mouseSensitivity: 10
   m_shootDirection: {fileID: 576587538}
+  m_smoothFactor: 0.25
 --- !u!114 &963194231
 MonoBehaviour:
   m_ObjectHideFlags: 0
