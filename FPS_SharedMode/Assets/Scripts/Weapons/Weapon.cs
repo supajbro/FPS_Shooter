@@ -55,18 +55,23 @@ public class Weapon : NetworkBehaviour
 
     private void SpawnBullet()
     {
-        // Spawn the bullet at the spawn point with the correct rotation
-        NetworkObject bullet = Runner.Spawn(
-            m_bulletPrefab,
-            m_bulletSpawnPoint.position,
-            m_bulletSpawnPoint.rotation,
-            Object.InputAuthority,
-            (runner, obj) =>
-            {
-                m_bullet = obj;
-                m_bullet.GetComponent<Bullet>().SetInit(m_bulletSpawnPoint); // Amy I love you xx
-                m_bullet.transform.parent = m_bulletSpawnPoint;
-            });
+       //Spawn the bullet at the spawn point with the correct rotation
+       NetworkObject bullet = Runner.Spawn(
+           m_bulletPrefab,
+           m_bulletSpawnPoint.position,
+           m_bulletSpawnPoint.rotation,
+           Object.InputAuthority,
+           (runner, obj) =>
+           {
+               m_bullet = obj;
+               m_bullet.GetComponent<Bullet>().SetInit(m_bulletSpawnPoint); // Amy I love you xx
+               m_bullet.transform.parent = m_bulletSpawnPoint;
+           });
+
+        //var bullet = Instantiate(bul, m_bulletSpawnPoint.position,
+        //    m_bulletSpawnPoint.rotation);
+        //bullet.GetComponent<Bullet>().SetInit(m_bulletSpawnPoint); // Amy I love you xx
+        //bullet.transform.parent = m_bulletSpawnPoint;
     }
 
     private void Reload()
@@ -84,6 +89,12 @@ public class Weapon : NetworkBehaviour
             m_ammoCount = m_maxAmmoCount;
             SpawnBullet();
         }
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireSphere(m_bulletSpawnPoint.position, .25f);
     }
 
 }

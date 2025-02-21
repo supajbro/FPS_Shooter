@@ -9,6 +9,7 @@ public class PlayerMovement : Movement, IHealth
     [Header("Main Components")]
     private Camera m_camera;
     private CamFOV m_camFOV;
+    private FirstPersonCamera m_firstPersonCamera;
     private PlayerParticles m_particles;
 
     [Header("Player Body Parts")]
@@ -80,6 +81,8 @@ public class PlayerMovement : Movement, IHealth
         m_camera = Camera.main;
         m_camera.GetComponent<FirstPersonCamera>().SetTarget(m_camPos);
         m_camFOV = m_camera.GetComponent<CamFOV>();
+        m_firstPersonCamera = m_camera.GetComponent<FirstPersonCamera>();
+        m_weapon.Init(m_firstPersonCamera.ShootDirection);
     }
 
     private void ConfigureCursor()

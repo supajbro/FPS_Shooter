@@ -5,11 +5,16 @@ using UnityEngine;
 public class FirstPersonCamera : MonoBehaviour
 {
 
-    [SerializeField] private Transform m_target;
+    [Header("Main Components")]
     [SerializeField] private float m_mouseSensitivity = 10f;
+    [SerializeField] private Transform m_shootDirection;
+    [SerializeField, Range(0f, 1f)] private float m_smoothFactor = 0.5f;
+    private Transform m_target;
 
     private float m_verticalRot;
     private float m_horizontalRot;
+
+    public Transform ShootDirection => m_shootDirection;
 
     public void SetTarget(Transform target)
     {
@@ -35,9 +40,8 @@ public class FirstPersonCamera : MonoBehaviour
         m_horizontalRot += mouseX * m_mouseSensitivity;
 
         // Smooth the rotation using Lerp
-        float smoothFactor = 0.1f;  // Adjust this value for more or less smoothing
-        float smoothedVerticalRot = Mathf.LerpAngle(transform.eulerAngles.x, m_verticalRot, smoothFactor);
-        float smoothedHorizontalRot = Mathf.LerpAngle(transform.eulerAngles.y, m_horizontalRot, smoothFactor);
+        float smoothedVerticalRot = Mathf.LerpAngle(transform.eulerAngles.x, m_verticalRot, m_smoothFactor);
+        float smoothedHorizontalRot = Mathf.LerpAngle(transform.eulerAngles.y, m_horizontalRot, m_smoothFactor);
 
         // Apply the smoothed rotation
         transform.rotation = Quaternion.Euler(smoothedVerticalRot, smoothedHorizontalRot, 0f);

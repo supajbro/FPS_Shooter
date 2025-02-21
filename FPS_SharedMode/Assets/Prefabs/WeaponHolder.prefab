@@ -199,7 +199,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_bulletPrefab:
     RawGuidValue: e03685ee1b6c78240beb9ea756a15c08
+  bul: {fileID: 1030425148323773408, guid: e03685ee1b6c78240beb9ea756a15c08, type: 3}
   m_bulletSpawnPoint: {fileID: 872001739594360440}
+  m_target: {fileID: 0}
 --- !u!114 &1508925300583141396
 MonoBehaviour:
   m_ObjectHideFlags: 0
