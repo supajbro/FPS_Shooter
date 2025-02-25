@@ -22,9 +22,11 @@ public class BotWeapon : Weapon
         m_movement = m_parent.GetComponent<BotMovement>();
     }
 
-    private void Update()
+    public override void Update()
     {
         DetectionUpdate();
+
+        base.Update();
     }
 
     // Checks if another player is within radius

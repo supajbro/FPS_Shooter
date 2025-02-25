@@ -8,8 +8,10 @@ public class Weapon : NetworkBehaviour
 
     [Header("Main Components")]
     [SerializeField] protected NetworkPrefabRef m_bulletPrefab;
+    [SerializeField] protected GameObject m_bulletPrefab1;
     [SerializeField] protected Transform m_bulletSpawnPoint;
     protected NetworkObject m_bullet;
+    protected GameObject m_bullet1;
 
     protected bool m_shootPressed;
 
@@ -35,14 +37,18 @@ public class Weapon : NetworkBehaviour
         Reload();
     }
 
-    public override void FixedUpdateNetwork()
+    public virtual void Update()
     {
+        // Shoot the bullet locally
         if (m_shootPressed && m_ammoCount > 0)
         {
             m_shootPressed = false;
             ShootBullet();
         }
+    }
 
+    public override void FixedUpdateNetwork()
+    {
         if (m_ammoCount == 0)
         {
             m_reloading = true;
@@ -55,23 +61,16 @@ public class Weapon : NetworkBehaviour
 
     private void SpawnBullet()
     {
-       //Spawn the bullet at the spawn point with the correct rotation
-       NetworkObject bullet = Runner.Spawn(
-           m_bulletPrefab,
-           m_bulletSpawnPoint.position,
-           m_bulletSpawnPoint.rotation,
-           Object.InputAuthority,
-           (runner, obj) =>
-           {
-               m_bullet = obj;
-               m_bullet.GetComponent<Bullet>().SetInit(m_bulletSpawnPoint); // Amy I love you xx
-               m_bullet.transform.parent = m_bulletSpawnPoint;
-           });
+        RPC_SpawBullet();
+    }
 
-        //var bullet = Instantiate(bul, m_bulletSpawnPoint.position,
-        //    m_bulletSpawnPoint.rotation);
-        //bullet.GetComponent<Bullet>().SetInit(m_bulletSpawnPoint); // Amy I love you xx
-        //bullet.transform.parent = m_bulletSpawnPoint;
+    [Rpc(RpcSources.All, RpcTargets.All)]
+    public void RPC_SpawBullet()
+    {
+        var bullet = Instantiate(m_bulletPrefab1, m_bulletSpawnPoint.position,
+            m_bulletSpawnPoint.rotation);
+        bullet.transform.parent = m_bulletSpawnPoint;
+        m_bullet1 = bullet;
     }
 
     private void Reload()

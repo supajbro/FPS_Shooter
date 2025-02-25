@@ -12,8 +12,9 @@ public class Bullet : NetworkBehaviour
     [SerializeField] private Vector3 m_direction = Vector3.zero;
     [SerializeField] private float m_lifetime = 3.0f;
     [SerializeField] private float m_damage = 100f;
-    private Transform initPos;
     [Networked] public Vector3 UpdatedPos { get; set; }
+
+    private Vector3 m_pos;
 
     private bool m_isActive => m_direction != Vector3.zero;
     private bool m_hitTarget = false;
@@ -23,34 +24,26 @@ public class Bullet : NetworkBehaviour
         m_direction = dir;
     }
 
-    public void SetInit(Transform pos)
+    public void Update()
     {
-        initPos = pos;
-        //RPC_SetInit();
-    }
-
-    [Rpc(RpcSources.All, RpcTargets.All)]
-    public void RPC_SetInit()
-    {
-        transform.parent = initPos;
+        if (m_direction != Vector3.zero)
+        {
+            transform.localPosition += m_direction * m_speed * Time.deltaTime;
+        }
     }
 
     public override void FixedUpdateNetwork()
     {
-        if (m_direction != Vector3.zero)
-        {
-            transform.localPosition += m_direction * m_speed * Runner.DeltaTime;
-        }
-        else
-        {
-            //transform.localPosition = initPos.position;
-        }
+        //if (m_direction != Vector3.zero)
+        //{
+        //    transform.localPosition += m_direction * m_speed * Runner.DeltaTime;
+        //}
 
-        m_lifetime = (m_direction != Vector3.zero) ? m_lifetime -Runner.DeltaTime : 3.0f;
-        if (m_lifetime <= 0.0f)
-        {
-            Runner.Despawn(m_bullet);
-        }
+        //m_lifetime = (m_direction != Vector3.zero) ? m_lifetime -Runner.DeltaTime : 3.0f;
+        //if (m_lifetime <= 0.0f)
+        //{
+        //    Runner.Despawn(m_bullet);
+        //}
     }
 
     private void OnTriggerEnter(Collider other)

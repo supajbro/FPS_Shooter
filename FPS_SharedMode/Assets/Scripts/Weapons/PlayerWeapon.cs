@@ -14,17 +14,19 @@ public class PlayerWeapon : Weapon
         m_target = target;
     }
 
-    private void Update()
+    public override void Update()
     {
         if (HasStateAuthority && Input.GetMouseButtonDown(0))
         {
             m_shootPressed = true;
         }
+
+        base.Update();
     }
 
     public override void ShootBullet()
     {
-        if (m_bullet == null)
+        if (m_bullet1 == null)
         {
             return;
         }
@@ -40,10 +42,16 @@ public class PlayerWeapon : Weapon
         // Calculate the shoot direction
         Vector3 shootDirection = (targetPoint - m_bulletSpawnPoint.position).normalized;
 
-        m_bullet.transform.parent = null;
-        m_bullet.transform.position = m_bulletSpawnPoint.position;
-        m_bullet.GetComponent<Bullet>().Init(shootDirection); // Amy I love you xx
-        m_bullet = null;
+        RPC_ShootBullet(shootDirection);
+    }
+
+    [Rpc(RpcSources.All, RpcTargets.All)]
+    public void RPC_ShootBullet(Vector3 shootDirection)
+    {
+        m_bullet1.transform.parent = null;
+        m_bullet1.transform.position = m_bulletSpawnPoint.position;
+        m_bullet1.GetComponent<Bullet>().Init(shootDirection); // Amy I love you xx
+        m_bullet1 = null;
         m_ammoCount--;
 
         GetComponentInParent<Movement>().InitKnockback();
