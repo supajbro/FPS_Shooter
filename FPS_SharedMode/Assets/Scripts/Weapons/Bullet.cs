@@ -4,14 +4,14 @@ using UnityEngine;
 public class Bullet : NetworkBehaviour
 {
 
-    [SerializeField] private NetworkObject m_bullet;
+    [SerializeField] protected NetworkObject m_bullet;
     [SerializeField] private GameObject m_bulletModel;
 
     [Header("Values")]
-    [SerializeField] private float m_speed = 10.0f;
-    [SerializeField] private Vector3 m_direction = Vector3.zero;
-    [SerializeField] private float m_lifetime = 3.0f;
-    [SerializeField] private float m_damage = 100f;
+    [SerializeField] protected float m_speed = 10.0f;
+    [SerializeField] protected Vector3 m_direction = Vector3.zero;
+    [SerializeField] protected float m_lifetime = 3.0f;
+    [SerializeField] protected float m_damage = 100f;
     [Networked] public Vector3 UpdatedPos { get; set; }
 
     private Vector3 m_pos;
@@ -24,7 +24,7 @@ public class Bullet : NetworkBehaviour
         m_direction = dir;
     }
 
-    public void Update()
+    public virtual void Update()
     {
         if (m_direction != Vector3.zero)
         {

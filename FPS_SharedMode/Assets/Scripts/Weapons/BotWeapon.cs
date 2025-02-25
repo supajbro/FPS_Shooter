@@ -1,3 +1,4 @@
+using Fusion;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -22,11 +23,36 @@ public class BotWeapon : Weapon
         m_movement = m_parent.GetComponent<BotMovement>();
     }
 
+    public override void SpawnBullet()
+    {
+        //Spawn the bullet at the spawn point with the correct rotation
+        NetworkObject bullet = Runner.Spawn(
+            m_bulletPrefab,
+            m_bulletSpawnPoint.position,
+            m_bulletSpawnPoint.rotation,
+            Object.InputAuthority,
+            (runner, obj) =>
+            {
+                m_bullet = obj;
+                //m_bullet.GetComponent<Bullet>().SetInit(m_bulletSpawnPoint); // Amy I love you xx
+                m_bullet.transform.parent = m_bulletSpawnPoint;
+            });
+    }
+
     public override void Update()
     {
         DetectionUpdate();
+    }
 
-        base.Update();
+    public override void FixedUpdateNetwork()
+    {
+        if (m_shootPressed && m_ammoCount > 0)
+        {
+            m_shootPressed = false;
+            ShootBullet();
+        }
+
+        base.FixedUpdateNetwork();
     }
 
     // Checks if another player is within radius
@@ -86,7 +112,7 @@ public class BotWeapon : Weapon
 
     public override void ShootBullet()
     {
-        if (m_bullet == null)
+        if (m_bullet == null || m_target == null || m_bulletSpawnPoint == null)
         {
             return;
         }

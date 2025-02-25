@@ -59,7 +59,7 @@ public class Weapon : NetworkBehaviour
 
     public virtual void ShootBullet(){}
 
-    private void SpawnBullet()
+    public virtual void SpawnBullet()
     {
         RPC_SpawBullet();
     }

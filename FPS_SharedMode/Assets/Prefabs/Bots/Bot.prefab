@@ -6169,7 +6169,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_bulletPrefab:
-    RawGuidValue: e03685ee1b6c78240beb9ea756a15c08
+    RawGuidValue: 04f8a628b8c71ee4781a88c9e2079cdc
+  m_bulletPrefab1: {fileID: 7587492623368290641, guid: 04f8a628b8c71ee4781a88c9e2079cdc, type: 3}
   m_bulletSpawnPoint: {fileID: 224131101342525183}
   m_parent: {fileID: 8559049361356651423}
   m_detectionRadius: 10
