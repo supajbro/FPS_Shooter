@@ -74,8 +74,7 @@ public class Bullet : NetworkBehaviour
             var balloonNetworkObject = other.GetComponent<NetworkBehaviour>();
             if (balloonNetworkObject != null)
             {
-                other.GetComponentInParent<PlayerMovement>()
-                    .RPC_DestroyBalloon(balloonNetworkObject);
+                other.GetComponentInParent<Movement>().RPC_DestroyBalloon(balloonNetworkObject);
             }
         }
 
