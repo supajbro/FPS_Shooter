@@ -32393,7 +32393,7 @@ MonoBehaviour:
   - {fileID: 8236850273384148945}
   m_destroyedBallons: []
   m_maxBalloons: 3
-  m_ballonHeightIncrease: 0.025
+  m_ballonHeightIncrease: 0.1
   m_balloonRespawnTime: 10
   _ActiveBallons: 0
   m_weapon: {fileID: 4887504322346634147}
