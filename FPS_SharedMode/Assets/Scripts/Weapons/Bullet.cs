@@ -32,20 +32,6 @@ public class Bullet : NetworkBehaviour
         }
     }
 
-    public override void FixedUpdateNetwork()
-    {
-        //if (m_direction != Vector3.zero)
-        //{
-        //    transform.localPosition += m_direction * m_speed * Runner.DeltaTime;
-        //}
-
-        //m_lifetime = (m_direction != Vector3.zero) ? m_lifetime -Runner.DeltaTime : 3.0f;
-        //if (m_lifetime <= 0.0f)
-        //{
-        //    Runner.Despawn(m_bullet);
-        //}
-    }
-
     private void OnTriggerEnter(Collider other)
     {
         if (m_hitTarget)
@@ -65,8 +51,6 @@ public class Bullet : NetworkBehaviour
             {
                 return;
             }
-
-            //player.RPC_TakeDamage(damage: m_damage);
         }
 
         if(other.gameObject.tag == "Balloon")
