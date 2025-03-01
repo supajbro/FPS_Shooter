@@ -16,6 +16,7 @@ public class PlayerMovement : Movement, IHealth
     [SerializeField] private MeshRenderer m_playerMesh;
     [SerializeField] private GameObject m_playerHead;
     [SerializeField] private GameObject m_playerSpine;
+    [SerializeField] private List<GameObject> m_playerRopes;
 
     [Header("Camera & Movement")]
     [SerializeField] private Transform m_camPos;
@@ -67,6 +68,11 @@ public class PlayerMovement : Movement, IHealth
     {
         var skinnedMeshRenderer = m_playerHead.GetComponent<SkinnedMeshRenderer>();
         skinnedMeshRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.ShadowsOnly;
+
+        foreach (var rope in m_playerRopes)
+        {
+            rope.SetActive(false);
+        }
     }
 
     private void InitMovement()

@@ -6,6 +6,7 @@ public class Bullet : NetworkBehaviour
 
     [SerializeField] protected NetworkObject m_bullet;
     [SerializeField] protected GameObject m_bulletModel;
+    [SerializeField] protected Movement m_movement;
 
     [Header("Values")]
     [SerializeField] protected float m_speed = 10.0f;
@@ -21,10 +22,11 @@ public class Bullet : NetworkBehaviour
     private bool m_isActive => m_direction != Vector3.zero;
     protected bool m_hitTarget = false;
 
-    public void Init(Vector3 dir, Vector3 startPos)
+    public void Init(Vector3 dir, Vector3 startPos, Movement movement)
     {
         m_direction = dir;
         m_startPosition = startPos;
+        m_movement = movement;
     }
 
     public virtual void Update()
@@ -82,14 +84,28 @@ public class Bullet : NetworkBehaviour
             return;
         }
 
+        if(m_movement == null)
+        {
+            return;
+        }
+
         if (Physics.Raycast(m_startPosition, m_direction, out RaycastHit hit, 100, m_balloonLayer))
         {
-            Debug.Log("Hit object: " + hit.collider.gameObject.name);
-            var balloonNetworkObject = hit.collider.gameObject.GetComponent<NetworkBehaviour>();
+            NetworkBehaviour balloonNetworkObject = hit.collider.gameObject.GetComponent<NetworkBehaviour>();
+
+            // Don't destroy your own balloon
+            foreach (var balloon in m_movement.Balloons)
+            {
+                NetworkBehaviour _balloon = balloon.GetComponent<NetworkBehaviour>();
+                if(hit.collider.gameObject == _balloon.gameObject)
+                {
+                    return;
+                }
+            }
+
             if (balloonNetworkObject != null)
             {
                 hit.collider.gameObject.GetComponentInParent<Movement>().RPC_DestroyBalloon(balloonNetworkObject);
-
                 m_bulletModel.SetActive(false);
                 m_hitTarget = true;
             }

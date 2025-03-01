@@ -8,6 +8,7 @@ public class PlayerWeapon : Weapon
 {
 
     [SerializeField] private Transform m_target = null;
+    [SerializeField] private Movement m_movement;
 
     public void Init(Transform target)
     {
@@ -50,7 +51,7 @@ public class PlayerWeapon : Weapon
     {
         m_bullet1.transform.parent = null;
         m_bullet1.transform.position = m_bulletSpawnPoint.position;
-        m_bullet1.GetComponent<Bullet>().Init(shootDirection, m_bulletSpawnPoint.position); // Amy I love you xx
+        m_bullet1.GetComponent<Bullet>().Init(shootDirection, m_bulletSpawnPoint.position, m_movement); // Amy I love you xx
         m_bullet1 = null;
         m_ammoCount--;
 

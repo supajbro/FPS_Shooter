@@ -6,90 +6,69 @@ using UnityEngine;
 [RequireComponent(typeof(LineRenderer))]
 public class RopeRenderer : NetworkBehaviour
 {
-    [SerializeField] private Transform m_objectA;
-    [SerializeField] private Transform m_objectB;
+    public Transform startPoint;
+    public Transform endPoint;
+    public GameObject ropeSegmentPrefab;
+    public int segmentCount = 10;
+    public float segmentSpacing = 0.5f;
 
-    [SerializeField] private int m_segmentCount = 10; // Number of rope segments
-    [SerializeField] private float m_ropeWidth = 0.05f; // Thickness of the rope
-    [SerializeField] private float m_ropeTension = 10f; // Spring force (higher = tighter rope)
-
-    private LineRenderer m_lineRenderer;
-    private List<Rigidbody> m_ropeSegments = new List<Rigidbody>();
-
-    public override void Spawned()
-    {
-        base.Spawned();
-        if (HasStateAuthority)
-        {
-            gameObject.SetActive(false);
-        }
-    }
+    private GameObject[] segments;
 
     void Start()
     {
         GenerateRope();
     }
 
-    void Update()
+    void FixedUpdate()
     {
-        UpdateLineRenderer();
+        // Update first and last segment positions dynamically
+        if (segments.Length > 0)
+        {
+            Rigidbody firstRB = segments[0].GetComponent<Rigidbody>();
+            Rigidbody lastRB = segments[segments.Length - 1].GetComponent<Rigidbody>();
+
+            // Forcefully move the first and last segment to follow the targets
+            firstRB.MovePosition(startPoint.position);
+            lastRB.MovePosition(endPoint.position);
+        }
     }
 
     void GenerateRope()
     {
-        // Create a LineRenderer
-        m_lineRenderer = gameObject.AddComponent<LineRenderer>();
-        m_lineRenderer.startWidth = m_ropeWidth;
-        m_lineRenderer.endWidth = m_ropeWidth;
-        m_lineRenderer.positionCount = m_segmentCount;
+        segments = new GameObject[segmentCount];
+        GameObject previousSegment = null;
 
-        // Create Rope Segments
-        Rigidbody previousSegment = m_objectA.transform.GetComponent<Rigidbody>();
-
-        for (int i = 0; i < m_segmentCount; i++)
+        for (int i = 0; i < segmentCount; i++)
         {
-            GameObject segment = new GameObject("RopeSegment" + i);
-            segment.transform.position = Vector3.Lerp(m_objectA.transform.position, m_objectB.transform.position, (float)i / m_segmentCount);
+            // Create evenly spaced rope segments
+            Vector3 position = Vector3.Lerp(startPoint.position, endPoint.position, (float)i / (segmentCount - 1));
+            GameObject segment = Instantiate(ropeSegmentPrefab, position, Quaternion.identity);
+            Rigidbody rb = segment.GetComponent<Rigidbody>();
 
-            Rigidbody rb = segment.AddComponent<Rigidbody>();
-            rb.mass = 0.2f; // Lower mass for a lighter rope
-            rb.drag = 0.1f; // Small drag for damping
-            m_ropeSegments.Add(rb);
-
-            SphereCollider col = segment.AddComponent<SphereCollider>();
-            col.radius = m_ropeWidth * 2; // Small collider to prevent clipping
-
-            // Connect segments with SpringJoint
-            if (previousSegment != null)
+            if (rb == null)
             {
-                SpringJoint joint = segment.AddComponent<SpringJoint>();
-                joint.connectedBody = previousSegment;
-                joint.spring = m_ropeTension; // Adjust for stiffness
-                joint.damper = 0.5f; // Adjust for wobbliness
-                joint.minDistance = 0.1f;
-                joint.maxDistance = 0.2f;
+                Debug.LogError("Rope segment prefab must have a Rigidbody!");
+                return;
             }
 
-            previousSegment = rb;
-        }
+            segments[i] = segment;
 
-        // Attach last segment to the end object
-        SpringJoint finalJoint = m_ropeSegments[m_ropeSegments.Count - 1].gameObject.AddComponent<SpringJoint>();
-        finalJoint.connectedBody = m_objectB.transform.GetComponent<Rigidbody>();
-        finalJoint.spring = m_ropeTension;
-        finalJoint.damper = 0.5f;
-        finalJoint.minDistance = 0.1f;
-        finalJoint.maxDistance = 0.2f;
-    }
+            // Connect with joints
+            if (previousSegment != null)
+            {
+                ConfigurableJoint joint = segment.AddComponent<ConfigurableJoint>();
+                joint.connectedBody = previousSegment.GetComponent<Rigidbody>();
 
-    void UpdateLineRenderer()
-    {
-        if (m_lineRenderer == null || m_ropeSegments.Count == 0) return;
+                // Allow rope-like movement
+                joint.xMotion = ConfigurableJointMotion.Limited;
+                joint.yMotion = ConfigurableJointMotion.Limited;
+                joint.zMotion = ConfigurableJointMotion.Limited;
 
-        m_lineRenderer.positionCount = m_ropeSegments.Count;
-        for (int i = 0; i < m_ropeSegments.Count; i++)
-        {
-            m_lineRenderer.SetPosition(i, m_ropeSegments[i].position);
+                SoftJointLimit limit = new SoftJointLimit { limit = segmentSpacing };
+                joint.linearLimit = limit;
+            }
+
+            previousSegment = segment;
         }
     }
 }
