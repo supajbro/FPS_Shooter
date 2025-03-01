@@ -1,3 +1,4 @@
+using Fusion;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -21,6 +22,42 @@ public class BotBullet : Bullet
         {
             Runner.Despawn(m_bullet);
         }
+    }
+
+    public override void OnTriggerEnter(Collider other)
+    {
+        if (m_hitTarget)
+        {
+            return;
+        }
+
+        if (other.gameObject.tag == "Bullet")
+        {
+            return;
+        }
+
+        if (other.TryGetComponent(out PlayerMovement player) && HasStateAuthority)
+        {
+            // Don't let any of this code run if you hit the local player
+            if (player == GameManager.instance.GetLocalPlayer())
+            {
+                return;
+            }
+        }
+
+        if (other.gameObject.tag == "Balloon")
+        {
+            var balloonNetworkObject = other.GetComponent<NetworkBehaviour>();
+            if (balloonNetworkObject != null)
+            {
+                other.GetComponentInParent<Movement>().RPC_DestroyBalloon(balloonNetworkObject);
+            }
+        }
+
+        Debug.Log("NAME: " + other.name + ", " + transform.position);
+
+        m_bulletModel.SetActive(false);
+        m_hitTarget = true;
     }
 
 }

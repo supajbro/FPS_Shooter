@@ -50,7 +50,7 @@ public class PlayerWeapon : Weapon
     {
         m_bullet1.transform.parent = null;
         m_bullet1.transform.position = m_bulletSpawnPoint.position;
-        m_bullet1.GetComponent<Bullet>().Init(shootDirection); // Amy I love you xx
+        m_bullet1.GetComponent<Bullet>().Init(shootDirection, m_bulletSpawnPoint.position); // Amy I love you xx
         m_bullet1 = null;
         m_ammoCount--;
 

@@ -32763,6 +32763,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5072980637972362306, guid: 9e32cc61f0ebc054aad65661163f5876, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5542597729733065370, guid: 9e32cc61f0ebc054aad65661163f5876, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6331764293120567149, guid: 9e32cc61f0ebc054aad65661163f5876, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6724833378976328117, guid: 9e32cc61f0ebc054aad65661163f5876, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 6731770641625852345, guid: 9e32cc61f0ebc054aad65661163f5876, type: 3}
       propertyPath: m_objectB
       value: 
@@ -32770,6 +32786,10 @@ PrefabInstance:
     - target: {fileID: 7453306142281694739, guid: 9e32cc61f0ebc054aad65661163f5876, type: 3}
       propertyPath: m_Name
       value: BallonsParent
+      objectReference: {fileID: 0}
+    - target: {fileID: 7588268990326964532, guid: 9e32cc61f0ebc054aad65661163f5876, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 7598020752295379256, guid: 9e32cc61f0ebc054aad65661163f5876, type: 3}
       propertyPath: m_objectB
@@ -32782,6 +32802,10 @@ PrefabInstance:
     - target: {fileID: 8233748665513598159, guid: 9e32cc61f0ebc054aad65661163f5876, type: 3}
       propertyPath: m_ropeWidth
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8716393142791688731, guid: 9e32cc61f0ebc054aad65661163f5876, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

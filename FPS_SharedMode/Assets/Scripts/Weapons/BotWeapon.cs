@@ -129,7 +129,7 @@ public class BotWeapon : Weapon
         Vector3 shootDirection = (targetPoint - m_bulletSpawnPoint.position).normalized;
 
         m_bullet.transform.parent = null;
-        m_bullet.GetComponent<Bullet>().Init(shootDirection); // Amy I love you xx
+        m_bullet.GetComponent<Bullet>().Init(shootDirection, m_bulletSpawnPoint.position); // Amy I love you xx
         m_bullet = null;
         m_ammoCount--;
 
