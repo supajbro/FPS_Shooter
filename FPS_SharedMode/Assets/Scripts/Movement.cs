@@ -270,7 +270,7 @@ public class Movement : NetworkBehaviour, IPlayerController, IBalloons
         RPC_DestroyBalloon(m_balloons[randBalloon].GetComponent<NetworkBehaviour>());
     }
 
-    public void RespawnBalloons()
+    public virtual void RespawnBalloons()
     {
         if (ActiveBallons >= MaxBalloons)
         {

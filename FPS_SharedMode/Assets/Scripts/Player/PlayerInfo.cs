@@ -1,21 +1,54 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerInfo : MonoBehaviour
 {
 
-    [SerializeField] private TextMeshProUGUI m_ammoCount;
-    [SerializeField] private TextMeshProUGUI m_ballonCount;
+    [SerializeField] private List<Image> m_balloons;
+    private int m_activeBalloons = 0;
+    private int m_previousActiveBalloons = -1;
+
+    [Header("Animation Values")]
+    [SerializeField] private float m_initPos = -75f;
+    [SerializeField] private float m_moveToPos = 250f;
+
+    public float InitPos => m_initPos;
+    public float MoveToPos => m_moveToPos;
 
     private void Update()
     {
-        if (GameManager.instance.GetLocalPlayer())
+        ActiveBalloonsUpdate();
+    }
+
+    private void ActiveBalloonsUpdate()
+    {
+        if (m_balloons.Count <= 0)
         {
-            m_ammoCount.text = $"{GameManager.instance.GetLocalPlayer().Weapon.AmmoCount}/{GameManager.instance.GetLocalPlayer().Weapon.MaxAmmoCount}";
-            m_ballonCount.text = $"Balloons: {GameManager.instance.GetLocalPlayer().ActiveBallons}";
+            return;
         }
+
+        if (GameManager.instance.GetLocalPlayer() == null)
+        {
+            return;
+        }
+
+        m_activeBalloons = GameManager.instance.GetLocalPlayer().ActiveBallons;
+
+        // Iterate over balloons and set positions based on active balloons count
+        for (int i = 0; i < m_balloons.Count; i++)
+        {
+            float target = (i < m_activeBalloons) ? m_initPos : m_moveToPos;
+            MoveBalloon(i, target, Ease.OutBack);
+        }
+    }
+
+    private void MoveBalloon(int index, float yPos, Ease ease)
+    {
+        m_balloons[index].transform.DOLocalMoveY(yPos, 1.0f).SetEase(ease);
     }
 
 }

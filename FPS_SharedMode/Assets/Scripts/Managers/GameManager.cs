@@ -16,6 +16,9 @@ public class GameManager : MonoBehaviour
     [Header("Bots")]
     [SerializeField] private GameObject m_botPoolerPrefab;
 
+    [Header("UI")]
+    public PlayerInfo PlayerInfo;
+
     [Header("Spawn Points")]
     public List<Transform> spawnPoints;
 

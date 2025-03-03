@@ -7,6 +7,7 @@ public class Balloon : NetworkBehaviour
 {
 
     [SerializeField] private ParticleSystem m_particle;
+    [SerializeField] private AudioSource m_audio;
 
     private void Start()
     {
@@ -20,7 +21,13 @@ public class Balloon : NetworkBehaviour
 
     public void PopBalloon()
     {
-        if(m_particle == null)
+        PlayParticle();
+        PlaySound();
+    }
+
+    private void PlayParticle()
+    {
+        if (m_particle == null)
         {
             return;
         }
@@ -32,6 +39,21 @@ public class Balloon : NetworkBehaviour
 
         m_particle.transform.position = transform.position;
         m_particle.Play();
+    }
+
+    private void PlaySound()
+    {
+        if (m_audio == null)
+        {
+            return;
+        }
+
+        if (m_audio.isPlaying)
+        {
+            return;
+        }
+
+        m_audio.Play();
     }
 
 }
