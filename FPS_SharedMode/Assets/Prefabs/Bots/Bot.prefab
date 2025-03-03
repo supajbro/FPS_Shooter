@@ -32670,6 +32670,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ed93039e1bc52040b0b74c1ecc8041c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_particle: {fileID: 0}
 --- !u!1 &9173752817929107728
 GameObject:
   m_ObjectHideFlags: 0
@@ -32715,6 +32716,10 @@ PrefabInstance:
       propertyPath: SortKey
       value: 1475294411
       objectReference: {fileID: 0}
+    - target: {fileID: 2943095066384691342, guid: 9e32cc61f0ebc054aad65661163f5876, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 2fb77e627945bf54bb8d43141927c0c4, type: 2}
     - target: {fileID: 3008766521886667138, guid: 9e32cc61f0ebc054aad65661163f5876, type: 3}
       propertyPath: SortKey
       value: 1622603018
@@ -32731,6 +32736,10 @@ PrefabInstance:
       propertyPath: SortKey
       value: 3655070197
       objectReference: {fileID: 0}
+    - target: {fileID: 3738629846801345913, guid: 9e32cc61f0ebc054aad65661163f5876, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: e9fa9a30a6373394198f00f95b534a00, type: 2}
     - target: {fileID: 5027817658398227008, guid: 9e32cc61f0ebc054aad65661163f5876, type: 3}
       propertyPath: m_Positions.Array.size
       value: 51

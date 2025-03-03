@@ -370,6 +370,7 @@ public class Movement : NetworkBehaviour, IPlayerController, IBalloons
             m_balloons.Remove(balloon.gameObject);
             m_destroyedBallons.Add(balloon.gameObject);
             balloon.GetComponent<MeshRenderer>().enabled = false;
+            balloon.GetComponent<Balloon>().PopBalloon();
         }
 
         SetJumpHeight();
