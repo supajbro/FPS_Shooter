@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Fusion;
 using static PlayerMovement;
+using DG.Tweening;
 
 public class Movement : NetworkBehaviour, IPlayerController, IBalloons
 {
@@ -388,7 +389,9 @@ public class Movement : NetworkBehaviour, IPlayerController, IBalloons
             }
 
             m_balloons.Add(balloon.gameObject);
+            balloon.gameObject.transform.localScale = Vector3.zero;
             balloon.GetComponent<MeshRenderer>().enabled = true;
+            balloon.gameObject.transform.DOScale(Vector3.one, 1.0f).SetEase(Ease.OutBack);
             m_destroyedBallons.Remove(balloon.gameObject);
         }
 
