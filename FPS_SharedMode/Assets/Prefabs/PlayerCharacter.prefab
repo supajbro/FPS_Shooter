@@ -5284,6 +5284,14 @@ PrefabInstance:
       propertyPath: SortKey
       value: 3875390643
       objectReference: {fileID: 0}
+    - target: {fileID: 3148008751215096959, guid: 9e32cc61f0ebc054aad65661163f5876, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: e9fa9a30a6373394198f00f95b534a00, type: 2}
+    - target: {fileID: 3502190898029734280, guid: 9e32cc61f0ebc054aad65661163f5876, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 2fb77e627945bf54bb8d43141927c0c4, type: 2}
     - target: {fileID: 3671832699702635637, guid: 9e32cc61f0ebc054aad65661163f5876, type: 3}
       propertyPath: SortKey
       value: 1612890526
