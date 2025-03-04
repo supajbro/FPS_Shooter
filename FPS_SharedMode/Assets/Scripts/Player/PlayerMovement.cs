@@ -24,6 +24,7 @@ public class PlayerMovement : Movement, IHealth
     [Header("Weapon Components")]
     [SerializeField] private PlayerWeapon m_weapon;
     [SerializeField] private Animator m_weaponAnim;
+    [SerializeField] private Animator m_walkAnim;
 
     public PlayerWeapon Weapon => m_weapon;
 
@@ -212,12 +213,14 @@ public class PlayerMovement : Movement, IHealth
     {
         base.IdleUpdate(ref moveInput, ref move);
         m_weaponAnim.SetInteger("Gun", 0);
+        RPC_ChangeWalkAnim(0);
     }
 
     public override void WalkUpdate(Vector3 move)
     {
         base.WalkUpdate(move);
         m_weaponAnim.SetInteger("Gun", 1);
+        RPC_ChangeWalkAnim(1);
     }
 
     public override void JumpUpdate(ref Vector3 move)
@@ -258,6 +261,12 @@ public class PlayerMovement : Movement, IHealth
         m_controller.enabled = true;
         m_canMove = true;
         base.RPC_Respawn();
+    }
+
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+    public void RPC_ChangeWalkAnim(int index)
+    {
+        m_walkAnim.SetInteger("Walk", index);
     }
 
     [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
