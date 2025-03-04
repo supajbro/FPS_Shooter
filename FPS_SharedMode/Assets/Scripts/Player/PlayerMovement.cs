@@ -124,6 +124,11 @@ public class PlayerMovement : Movement, IHealth
         {
             DestroyRandomBalloon();
         }
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            RPC_Win();
+            RPC_Respawn();
+        }
 
         RespawnBalloons();
     }
@@ -256,6 +261,11 @@ public class PlayerMovement : Movement, IHealth
     #endregion
 
     #region - RPC Calls -
+
+    public override void RPC_Win()
+    {
+        base.RPC_Win();
+    }
 
     public override void RPC_Respawn()
     {

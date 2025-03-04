@@ -64,7 +64,6 @@ public class GameManager : MonoBehaviour
             if(m_gameOverTimer >= MaxGameOverTime)
             {
                 GetLocalPlayer().GameOver = false;
-                GetLocalPlayer().RPC_Respawn();
             }
         }
         else

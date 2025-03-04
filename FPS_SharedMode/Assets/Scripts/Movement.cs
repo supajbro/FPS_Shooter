@@ -421,7 +421,7 @@ public class Movement : NetworkBehaviour, IPlayerController, IBalloons
     }
 
     [Rpc(RpcSources.All, RpcTargets.All)]
-    public void RPC_Win()
+    public virtual void RPC_Win()
     {
         HasWon = true;
 
