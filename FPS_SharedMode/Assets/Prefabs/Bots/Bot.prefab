@@ -32671,6 +32671,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_particle: {fileID: 0}
+  m_audio: {fileID: 0}
 --- !u!1 &9173752817929107728
 GameObject:
   m_ObjectHideFlags: 0
