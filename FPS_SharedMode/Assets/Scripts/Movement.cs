@@ -28,6 +28,8 @@ public class Movement : NetworkBehaviour, IPlayerController, IBalloons
     [Header("Main Components")]
     public CharacterController m_controller;
     [Networked] public bool Boss { get; set; }
+    [Networked] public bool HasWon { get; set; }
+    [Networked] public bool GameOver { get; set; }
 
     [Header("Movement")]
     [SerializeField] protected float m_speed = 35f;
@@ -416,6 +418,17 @@ public class Movement : NetworkBehaviour, IPlayerController, IBalloons
         }
         m_destroyedBallons.Clear();
         SetJumpHeight();
+    }
+
+    [Rpc(RpcSources.All, RpcTargets.All)]
+    public void RPC_Win()
+    {
+        HasWon = true;
+
+        foreach (var player in GameManager.instance.GetAllPlayers())
+        {
+            player.GameOver = true;
+        }
     }
     #endregion
 }

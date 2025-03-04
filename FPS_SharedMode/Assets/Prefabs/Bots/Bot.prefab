@@ -32374,6 +32374,8 @@ MonoBehaviour:
   m_previousState: 0
   m_controller: {fileID: 0}
   _Boss: 0
+  _HasWon: 0
+  _GameOver: 0
   m_speed: 35
   m_velocity: {x: 0, y: 0, z: 0}
   m_groundLayer:
