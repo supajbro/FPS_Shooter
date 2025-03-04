@@ -44,6 +44,7 @@ public class PlayerWeapon : Weapon
         Vector3 shootDirection = (targetPoint - m_bulletSpawnPoint.position).normalized;
 
         RPC_ShootBullet(shootDirection);
+        GameManager.instance.GetLocalPlayer().RPC_ChangePlayerAnim(2);
     }
 
     [Rpc(RpcSources.All, RpcTargets.All)]

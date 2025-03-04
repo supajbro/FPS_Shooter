@@ -23,8 +23,11 @@ public class PlayerMovement : Movement, IHealth
 
     [Header("Weapon Components")]
     [SerializeField] private PlayerWeapon m_weapon;
+
+    [Header("Animations")]
     [SerializeField] private Animator m_weaponAnim;
     [SerializeField] private Animator m_walkAnim;
+    [SerializeField] private Animator m_playerAnim;
 
     public PlayerWeapon Weapon => m_weapon;
 
@@ -214,6 +217,7 @@ public class PlayerMovement : Movement, IHealth
         base.IdleUpdate(ref moveInput, ref move);
         m_weaponAnim.SetInteger("Gun", 0);
         RPC_ChangeWalkAnim(0);
+        RPC_ChangePlayerAnim(0);
     }
 
     public override void WalkUpdate(Vector3 move)
@@ -221,12 +225,14 @@ public class PlayerMovement : Movement, IHealth
         base.WalkUpdate(move);
         m_weaponAnim.SetInteger("Gun", 1);
         RPC_ChangeWalkAnim(1);
+        RPC_ChangePlayerAnim(1);
     }
 
     public override void JumpUpdate(ref Vector3 move)
     {
         base.JumpUpdate(ref move);
         m_weaponAnim.SetInteger("Gun", 2);
+        RPC_ChangePlayerAnim(3);
     }
     #endregion
 
@@ -267,6 +273,12 @@ public class PlayerMovement : Movement, IHealth
     public void RPC_ChangeWalkAnim(int index)
     {
         m_walkAnim.SetInteger("Walk", index);
+    }
+
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+    public void RPC_ChangePlayerAnim(int index)
+    {
+        m_playerAnim.SetInteger("Player", index);
     }
 
     [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
