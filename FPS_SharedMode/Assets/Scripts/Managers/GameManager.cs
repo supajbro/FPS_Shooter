@@ -26,6 +26,8 @@ public class GameManager : MonoBehaviour
 
     [Header("UI")]
     public PlayerInfo PlayerInfo;
+    public MainMenu MainMenu;
+    [SerializeField] private CanvasGroup m_playerScreen;
     [SerializeField] private CanvasGroup m_gameOverScreen;
     private float m_gameOverTimer = 0.0f;
     private const float MaxGameOverTime = 5.0f;
@@ -48,6 +50,21 @@ public class GameManager : MonoBehaviour
     {
         Runner.Spawn(m_botPoolerPrefab, new Vector3(0, 0, 0), Quaternion.identity);
     }
+
+    public void OpenPlayerScreen()
+    {
+        m_playerScreen.alpha = 1.0f;
+        m_playerScreen.interactable = true;
+        m_playerScreen.blocksRaycasts = true;
+    }
+
+    public void ClosePlayerScreen()
+    {
+        m_playerScreen.alpha = 0.0f;
+        m_playerScreen.interactable = false;
+        m_playerScreen.blocksRaycasts = false;
+    }
+
 
     private void GameOverScreenUpdate()
     {
