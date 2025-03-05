@@ -4,60 +4,116 @@ using Fusion;
 using Fusion.Sockets;
 using System.Threading.Tasks;
 using TMPro;
+using System.Collections.Generic;
+using System;
+using Fusion.Photon.Realtime;
+using System.Text;
+using Unity.Mathematics;
 
 public class MainMenu : MonoBehaviour
 {
-    public TMP_InputField playerNameInput;
-    public Button hostButton;
-    public Button joinButton;
-    public Button quitButton;
 
-    private NetworkRunner networkRunner;
+    [Header("Network")]
+    [SerializeField] private FusionBootstrap m_fusion;
+    public FusionBootstrap Fusion => m_fusion;
 
-    void Start()
+    [SerializeField] private NetworkRunner m_networkRunner;
+
+    [SerializeField] private Button m_startGameButton;
+    [SerializeField] private Button m_joinSessionButton;
+
+    [Header("UI")]
+    public CanvasGroup m_canvasGroup;
+
+    public void OpenMainMenu()
     {
-        networkRunner = FindObjectOfType<NetworkRunner>();
-        if (networkRunner == null)
-        {
-            GameObject go = new GameObject("NetworkRunner");
-            networkRunner = go.AddComponent<NetworkRunner>();
-        }
-
-        hostButton.onClick.AddListener(() => StartGame(GameMode.Shared));
-        //joinButton.onClick.AddListener(() => StartGame(GameMode.Client));
-        quitButton.onClick.AddListener(QuitGame);
+        m_canvasGroup.alpha = 1.0f;
+        m_canvasGroup.interactable = true;
+        m_canvasGroup.blocksRaycasts = true;
     }
 
-    async void StartGame(GameMode mode)
+    public void CloseMainMenu()
     {
-        if (string.IsNullOrEmpty(playerNameInput.text))
+        m_canvasGroup.alpha = 0.0f;
+        m_canvasGroup.interactable = false;
+        m_canvasGroup.blocksRaycasts = false;
+    }
+
+    private void Awake()
+    {
+        m_startGameButton.onClick.AddListener(StartGame);
+        m_joinSessionButton.onClick.AddListener(JoinSession);
+    }
+
+    string m_customLobbyName = "TestLobby";
+
+    private static System.Random random = new System.Random();
+    public static string GenerateRandomString()
+    {
+        const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        const int length = 4;
+        StringBuilder result = new StringBuilder(length);
+
+        for (int i = 0; i < length; i++)
         {
-            Debug.LogWarning("Please enter a username!");
-            return;
+            result.Append(chars[random.Next(chars.Length)]);
         }
 
-        networkRunner.ProvideInput = true;
+        return result.ToString();
+    }
 
-        var result = await networkRunner.StartGame(new StartGameArgs()
+    async void StartGame()
+    {
+        var result = await m_networkRunner.StartGame(new StartGameArgs
         {
-            GameMode = mode,
-            SessionName = "MyGame",
-            //Scene = UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex,
-            PlayerCount = 4
+            SessionName = GenerateRandomString(),
+            CustomLobbyName = m_customLobbyName,
+            EnableClientSessionCreation = true,
+            PlayerCount = 10,
+            IsOpen = true,
+            IsVisible = true,
+            MatchmakingMode = MatchmakingMode.FillRoom,
+            GameMode = GameMode.Shared
         });
 
         if (result.Ok)
         {
-            Debug.Log($"Started game as {mode}");
+            Debug.Log("Game session started successfully!");
         }
         else
         {
-            Debug.LogError($"Failed to start game: {result.ErrorMessage}");
+            Debug.LogError($"Failed to start session: {result.ShutdownReason}");
         }
     }
 
-    void QuitGame()
+    public void JoinSession()
     {
-        Application.Quit();
+        Popup.Instance.Display(true, JoinActiveSession, Popup.Instance.Close, "Enter Session Code", "Join Session", "Close");
+    }
+
+    async void JoinActiveSession()
+    {
+        var result = await m_networkRunner.StartGame(new StartGameArgs
+        {
+            SessionName = Popup.Instance.InputField.text,
+            CustomLobbyName = m_customLobbyName,
+            EnableClientSessionCreation = true,
+            PlayerCount = 10,
+            IsOpen = true,
+            IsVisible = true,
+            MatchmakingMode = MatchmakingMode.FillRoom,
+            GameMode = GameMode.Shared
+        });
+
+        if (result.Ok)
+        {
+            Debug.Log("Game session started successfully!");
+        }
+        else
+        {
+            Debug.LogError($"Failed to start session: {result.ShutdownReason}");
+        }
+
+        Popup.Instance.Close();
     }
 }
