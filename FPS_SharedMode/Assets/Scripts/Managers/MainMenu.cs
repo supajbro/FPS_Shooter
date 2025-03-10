@@ -21,6 +21,7 @@ public class MainMenu : MonoBehaviour
 
     [SerializeField] private Button m_startGameButton;
     [SerializeField] private Button m_joinSessionButton;
+    [SerializeField] private CanvasGroup m_mainMenuUI;
 
     [Header("UI")]
     public CanvasGroup m_canvasGroup;
@@ -62,7 +63,14 @@ public class MainMenu : MonoBehaviour
         return result.ToString();
     }
 
-    async void StartGame()
+    private void StartGame()
+    {
+        GameManager.instance.LoadingVisual.gameObject.SetActive(true);
+        m_mainMenuUI.alpha = 0.0f;
+        StartGameAsync();
+    }
+
+    async void StartGameAsync()
     {
         var result = await m_networkRunner.StartGame(new StartGameArgs
         {
@@ -91,7 +99,14 @@ public class MainMenu : MonoBehaviour
         Popup.Instance.Display(true, JoinActiveSession, Popup.Instance.Close, "Enter Session Code", "Join Session", "Close");
     }
 
-    async void JoinActiveSession()
+    public void JoinActiveSession()
+    {
+        m_mainMenuUI.alpha = 0.0f;
+        GameManager.instance.LoadingVisual.gameObject.SetActive(true);
+        JoinActiveSessionAsync();
+    }
+
+    async void JoinActiveSessionAsync()
     {
         var result = await m_networkRunner.StartGame(new StartGameArgs
         {

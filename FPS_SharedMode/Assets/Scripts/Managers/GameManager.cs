@@ -29,6 +29,7 @@ public class GameManager : MonoBehaviour
     public MainMenu MainMenu;
     [SerializeField] private CanvasGroup m_playerScreen;
     [SerializeField] private CanvasGroup m_gameOverScreen;
+    public LoadingVisual LoadingVisual;
     private float m_gameOverTimer = 0.0f;
     private const float MaxGameOverTime = 5.0f;
 
