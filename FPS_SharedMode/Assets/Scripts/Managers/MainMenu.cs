@@ -67,6 +67,8 @@ public class MainMenu : MonoBehaviour
     {
         GameManager.instance.LoadingVisual.gameObject.SetActive(true);
         m_mainMenuUI.alpha = 0.0f;
+        m_mainMenuUI.blocksRaycasts = false;
+        m_mainMenuUI.interactable = false;
         StartGameAsync();
     }
 
@@ -102,6 +104,8 @@ public class MainMenu : MonoBehaviour
     public void JoinActiveSession()
     {
         m_mainMenuUI.alpha = 0.0f;
+        m_mainMenuUI.blocksRaycasts = false;
+        m_mainMenuUI.interactable = false;
         GameManager.instance.LoadingVisual.gameObject.SetActive(true);
         JoinActiveSessionAsync();
     }
