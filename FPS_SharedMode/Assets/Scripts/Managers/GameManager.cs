@@ -73,9 +73,11 @@ public class GameManager : MonoBehaviour
             return;
         }
 
+        const float FadeSpeed = 2.0f;
+
         if (GetLocalPlayer().GameOver)
         {
-            m_gameOverScreen.alpha += Time.deltaTime;
+            m_gameOverScreen.alpha += Time.deltaTime * FadeSpeed;
             m_gameOverScreen.blocksRaycasts = true;
             m_gameOverScreen.interactable = true;
 
@@ -88,7 +90,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            m_gameOverScreen.alpha -= Time.deltaTime;
+            m_gameOverScreen.alpha -= Time.deltaTime * FadeSpeed;
             m_gameOverScreen.blocksRaycasts = false;
             m_gameOverScreen.interactable = false;
 
