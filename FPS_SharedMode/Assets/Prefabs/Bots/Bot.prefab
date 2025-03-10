@@ -32259,7 +32259,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SortKey: 2297806162
   ObjectInterest: 1
-  Flags: 262145
+  Flags: 131073
   NestedObjects:
   - {fileID: 887368044223166782}
   - {fileID: 2555999475088723016}
@@ -32716,6 +32716,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 2129067653771845595}
     m_Modifications:
     - target: {fileID: 2151826791109204227, guid: 9e32cc61f0ebc054aad65661163f5876, type: 3}
+      propertyPath: Flags
+      value: 131073
+      objectReference: {fileID: 0}
+    - target: {fileID: 2151826791109204227, guid: 9e32cc61f0ebc054aad65661163f5876, type: 3}
       propertyPath: SortKey
       value: 1475294411
       objectReference: {fileID: 0}
@@ -32723,6 +32727,10 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 2fb77e627945bf54bb8d43141927c0c4, type: 2}
+    - target: {fileID: 3008766521886667138, guid: 9e32cc61f0ebc054aad65661163f5876, type: 3}
+      propertyPath: Flags
+      value: 131073
+      objectReference: {fileID: 0}
     - target: {fileID: 3008766521886667138, guid: 9e32cc61f0ebc054aad65661163f5876, type: 3}
       propertyPath: SortKey
       value: 1622603018
@@ -32735,6 +32743,10 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 2fb77e627945bf54bb8d43141927c0c4, type: 2}
+    - target: {fileID: 3671832699702635637, guid: 9e32cc61f0ebc054aad65661163f5876, type: 3}
+      propertyPath: Flags
+      value: 131073
+      objectReference: {fileID: 0}
     - target: {fileID: 3671832699702635637, guid: 9e32cc61f0ebc054aad65661163f5876, type: 3}
       propertyPath: SortKey
       value: 3655070197

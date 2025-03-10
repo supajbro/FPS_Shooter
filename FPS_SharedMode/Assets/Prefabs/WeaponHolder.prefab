@@ -65,6 +65,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_particle: {fileID: 0}
+  m_audio: {fileID: 0}
 --- !u!1 &1397458257018451979
 GameObject:
   m_ObjectHideFlags: 0
@@ -178,7 +179,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SortKey: 1720092272
   ObjectInterest: 1
-  Flags: 262145
+  Flags: 131073
   NestedObjects:
   - {fileID: 1716328543034228265}
   - {fileID: 6120455799512991979}

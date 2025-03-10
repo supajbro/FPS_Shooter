@@ -76,8 +76,8 @@ public class BotPooler : NetworkBehaviour
     {
         for (int i = 0; i < m_botSpawnCount; i++)
         {
+            yield return new WaitForSeconds(10f); // Wait for 5 seconds before spawning the next bot
             SpawnBot();
-            yield return new WaitForSeconds(5f); // Wait for 5 seconds before spawning the next bot
         }
     }
 

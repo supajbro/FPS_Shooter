@@ -53,6 +53,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1931450038609031073, guid: e03685ee1b6c78240beb9ea756a15c08, type: 3}
+      propertyPath: Flags
+      value: 131073
+      objectReference: {fileID: 0}
+    - target: {fileID: 1931450038609031073, guid: e03685ee1b6c78240beb9ea756a15c08, type: 3}
       propertyPath: SortKey
       value: 265986309
       objectReference: {fileID: 0}
@@ -96,6 +100,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_bullet: {fileID: 9064934550689322256}
   m_bulletModel: {fileID: 7587492623368290641}
+  m_movement: {fileID: 0}
   m_speed: 100
   m_direction: {x: 0, y: 0, z: 0}
   m_startPosition: {x: 0, y: 0, z: 0}
