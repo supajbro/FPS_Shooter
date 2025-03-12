@@ -64,16 +64,16 @@ public class BotPath : MonoBehaviour
         return false;
     }
 
-    //private void OnDrawGizmos()
-    //{
-    //    Gizmos.color = Color.red;
-    //    Gizmos.DrawWireSphere(transform.position, m_minPathDistance);
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, m_minPathDistance);
 
-    //    if (m_nextPath)
-    //    {
-    //        Gizmos.color = Color.red;
-    //        Gizmos.DrawLine(transform.position, m_nextPath.transform.position);
-    //    }
-    //}
+        if (m_nextPath)
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawLine(transform.position, m_nextPath.transform.position);
+        }
+    }
 
 }
