@@ -16,6 +16,7 @@ public class MainMenu : MonoBehaviour
     [Header("Network")]
     [SerializeField] private FusionBootstrap m_fusion;
     [SerializeField] private string m_currentSessionName = "";
+    [SerializeField] private string m_playerName = "";
 
     public FusionBootstrap Fusion => m_fusion;
     public string CurrentSessionName => m_currentSessionName;
@@ -25,6 +26,7 @@ public class MainMenu : MonoBehaviour
     [SerializeField] private Button m_startGameButton;
     [SerializeField] private Button m_joinSessionButton;
     [SerializeField] private CanvasGroup m_mainMenuUI;
+    [SerializeField] private TMP_InputField m_playerNameInputField;
 
     [Header("UI")]
     public CanvasGroup m_canvasGroup;
@@ -41,12 +43,16 @@ public class MainMenu : MonoBehaviour
         m_canvasGroup.alpha = 0.0f;
         m_canvasGroup.interactable = false;
         m_canvasGroup.blocksRaycasts = false;
+        PlayerPrefs.SetString("PlayerName", m_playerNameInputField.text);
+        m_playerName = PlayerPrefs.GetString("PlayerName");
+        m_playerNameInputField.text = m_playerName;
     }
 
     private void Awake()
     {
         m_startGameButton.onClick.AddListener(StartGame);
         m_joinSessionButton.onClick.AddListener(JoinSession);
+        m_playerName = PlayerPrefs.GetString("PlayerName");
     }
 
     string m_customLobbyName = "TestLobby";
