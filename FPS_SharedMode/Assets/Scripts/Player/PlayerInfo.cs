@@ -12,6 +12,9 @@ public class PlayerInfo : MonoBehaviour
     private int m_activeBalloons = 0;
     private int m_previousActiveBalloons = -1;
 
+    [Header("Network Values")]
+    [SerializeField] private TextMeshProUGUI m_networkText;
+
     [Header("Animation Values")]
     [SerializeField] private float m_initPos = -75f;
     [SerializeField] private float m_moveToPos = 250f;
@@ -21,6 +24,8 @@ public class PlayerInfo : MonoBehaviour
 
     private void Update()
     {
+        m_networkText.text = "Session: " + GameManager.instance.MainMenu.CurrentSessionName;
+
         ActiveBalloonsUpdate();
     }
 

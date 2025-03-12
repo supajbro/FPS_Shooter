@@ -15,7 +15,10 @@ public class MainMenu : MonoBehaviour
 
     [Header("Network")]
     [SerializeField] private FusionBootstrap m_fusion;
+    [SerializeField] private string m_currentSessionName = "";
+
     public FusionBootstrap Fusion => m_fusion;
+    public string CurrentSessionName => m_currentSessionName;
 
     [SerializeField] private NetworkRunner m_networkRunner;
 
@@ -74,9 +77,11 @@ public class MainMenu : MonoBehaviour
 
     async void StartGameAsync()
     {
+        m_currentSessionName = GenerateRandomString();
+
         var result = await m_networkRunner.StartGame(new StartGameArgs
         {
-            SessionName = GenerateRandomString(),
+            SessionName = m_currentSessionName,
             CustomLobbyName = m_customLobbyName,
             EnableClientSessionCreation = true,
             PlayerCount = 10,
@@ -107,14 +112,16 @@ public class MainMenu : MonoBehaviour
         m_mainMenuUI.blocksRaycasts = false;
         m_mainMenuUI.interactable = false;
         GameManager.instance.LoadingVisual.gameObject.SetActive(true);
+        m_currentSessionName = Popup.Instance.InputField.text.ToUpper();
         JoinActiveSessionAsync();
     }
 
     async void JoinActiveSessionAsync()
     {
+
         var result = await m_networkRunner.StartGame(new StartGameArgs
         {
-            SessionName = Popup.Instance.InputField.text,
+            SessionName = m_currentSessionName,
             CustomLobbyName = m_customLobbyName,
             EnableClientSessionCreation = true,
             PlayerCount = 10,
