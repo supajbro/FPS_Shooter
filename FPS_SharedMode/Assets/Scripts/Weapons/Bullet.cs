@@ -89,6 +89,11 @@ public class Bullet : NetworkBehaviour
             return;
         }
 
+        if (HasStateAuthority)
+        {
+            return;
+        }
+
         if (Physics.Raycast(m_startPosition, m_direction, out RaycastHit hit, 100, m_balloonLayer))
         {
             NetworkBehaviour balloonNetworkObject = hit.collider.gameObject.GetComponent<NetworkBehaviour>();

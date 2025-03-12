@@ -106,17 +106,16 @@ public class BotMovement : Movement
     {
         UpdateMoveVelocity();
 
-        if (m_currentPath && m_currentPath.ReachedPathPoint(this))
+        if (m_currentPath && m_currentPath.ReachedPathPoint(this) && m_currentPathIndex <= m_botPooler.BotPaths.Count)
         {
             SetPath(m_currentPathIndex + 1);
         }
 
-        Vector3 target = (m_weapon.ShootPressed) ? m_weapon.Target.transform.position : m_currentPath.transform.position;
+        Vector3 target = (m_weapon.ShootPressed && m_weapon.Target) ? m_weapon.Target.transform.position : m_currentPath.transform.position;
         Vector3 targetDirection = (target - transform.position).normalized;
         Vector3 flatDirection = new Vector3(targetDirection.x, 0, targetDirection.z);
         Quaternion targetRotation = Quaternion.LookRotation(flatDirection);
         Quaternion camRotY = Quaternion.Slerp(transform.rotation, targetRotation, Runner.DeltaTime * 20);
-
 
         Vector3 moveInput = GetMoveInput();
 
