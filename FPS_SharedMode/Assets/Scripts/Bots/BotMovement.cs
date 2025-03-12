@@ -199,6 +199,7 @@ public class BotMovement : Movement
     public override void RPC_Respawn()
     {
         SetPath(0);
+        m_velocity.y = 0f;
         m_controller.enabled = false;
         m_canMove = false;
         Vector3 spawnPos = m_currentPath.transform.position;

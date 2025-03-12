@@ -271,6 +271,7 @@ public class PlayerMovement : Movement, IHealth
 
     public override void RPC_Respawn()
     {
+        m_velocity.y = 0f;
         m_controller.enabled = false;
         m_canMove = false;
         var randSpawnPos = Random.Range(0, GameManager.instance.spawnPoints.Count);
