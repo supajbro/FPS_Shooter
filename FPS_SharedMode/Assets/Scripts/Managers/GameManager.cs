@@ -4,6 +4,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -29,6 +30,8 @@ public class GameManager : MonoBehaviour
     public MainMenu MainMenu;
     [SerializeField] private CanvasGroup m_playerScreen;
     [SerializeField] private CanvasGroup m_gameOverScreen;
+    [SerializeField] private TextMeshProUGUI m_gameOverText;
+    private string m_winString = "";
     public LoadingVisual LoadingVisual;
     private float m_gameOverTimer = 0.0f;
     private const float MaxGameOverTime = 5.0f;
@@ -88,12 +91,25 @@ public class GameManager : MonoBehaviour
             {
                 GetLocalPlayer().GameOver = false;
             }
+
+            if (m_winString == "")
+            {
+                foreach (var player in GetAllPlayers())
+                {
+                    if (player.HasWon)
+                    {
+                        m_winString = $"Game Over!\r\n {player.PlayerName} has won";
+                        m_gameOverText.text = m_winString;
+                    }
+                }
+            }
         }
         else
         {
             m_gameOverScreen.alpha -= Time.deltaTime * FadeSpeed;
             m_gameOverScreen.blocksRaycasts = false;
             m_gameOverScreen.interactable = false;
+            m_winString = "";
 
             m_gameOverTimer = 0.0f;
         }

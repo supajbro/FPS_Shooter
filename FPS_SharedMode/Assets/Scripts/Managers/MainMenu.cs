@@ -20,6 +20,7 @@ public class MainMenu : MonoBehaviour
 
     public FusionBootstrap Fusion => m_fusion;
     public string CurrentSessionName => m_currentSessionName;
+    public string PlayerName => m_playerName;
 
     [SerializeField] private NetworkRunner m_networkRunner;
 
@@ -53,6 +54,7 @@ public class MainMenu : MonoBehaviour
         m_startGameButton.onClick.AddListener(StartGame);
         m_joinSessionButton.onClick.AddListener(JoinSession);
         m_playerName = PlayerPrefs.GetString("PlayerName");
+        m_playerNameInputField.text = m_playerName;
     }
 
     string m_customLobbyName = "TestLobby";

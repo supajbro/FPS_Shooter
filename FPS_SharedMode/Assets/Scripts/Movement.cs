@@ -30,6 +30,7 @@ public class Movement : NetworkBehaviour, IPlayerController, IBalloons
     [Networked] public bool Boss { get; set; }
     [Networked] public bool HasWon { get; set; }
     [Networked] public bool GameOver { get; set; }
+    [Networked] public string PlayerName { get; set; }
 
     [Header("Movement")]
     [SerializeField] protected float m_speed = 35f;

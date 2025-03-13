@@ -58,6 +58,7 @@ public class PlayerMovement : Movement, IHealth
         Boss = Runner.IsSharedModeMasterClient;
         GameManager.instance.MainMenu.CloseMainMenu();
         GameManager.instance.OpenPlayerScreen();
+        PlayerName = GameManager.instance.MainMenu.PlayerName;
     }
 
     private void SpawnBotPooler()
