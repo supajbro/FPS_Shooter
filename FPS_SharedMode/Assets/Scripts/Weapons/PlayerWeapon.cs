@@ -1,3 +1,4 @@
+using DG.Tweening;
 using Fusion;
 using System.Collections;
 using System.Collections.Generic;
@@ -25,6 +26,7 @@ public class PlayerWeapon : Weapon
         base.Update();
     }
 
+    List<GameObject> bullet = new();
     public override void ShootBullet()
     {
         if (m_bullet1 == null)
@@ -43,6 +45,8 @@ public class PlayerWeapon : Weapon
         // Calculate the shoot direction
         Vector3 shootDirection = (targetPoint - m_bulletSpawnPoint.position).normalized;
 
+        bullet.Add(m_bullet1);
+
         RPC_ShootBullet(shootDirection);
         GameManager.instance.GetLocalPlayer().RPC_ChangePlayerAnim(2);
     }
@@ -57,6 +61,18 @@ public class PlayerWeapon : Weapon
         m_ammoCount--;
 
         GetComponentInParent<Movement>().InitKnockback();
+
+        //DOVirtual.DelayedCall(3.0f, () => RPC_DestroyBullet());
     }
+
+    //[Rpc(RpcSources.All, RpcTargets.All)]
+    //public void RPC_DestroyBullet()
+    //{
+    //    foreach (var b in bullet)
+    //    {
+    //        bullet.Remove(b);
+    //        Destroy(b);
+    //    }
+    //}
 
 }
