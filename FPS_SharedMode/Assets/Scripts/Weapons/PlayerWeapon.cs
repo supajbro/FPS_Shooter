@@ -61,18 +61,6 @@ public class PlayerWeapon : Weapon
         m_ammoCount--;
 
         GetComponentInParent<Movement>().InitKnockback();
-
-        //DOVirtual.DelayedCall(3.0f, () => RPC_DestroyBullet());
     }
-
-    //[Rpc(RpcSources.All, RpcTargets.All)]
-    //public void RPC_DestroyBullet()
-    //{
-    //    foreach (var b in bullet)
-    //    {
-    //        bullet.Remove(b);
-    //        Destroy(b);
-    //    }
-    //}
 
 }
