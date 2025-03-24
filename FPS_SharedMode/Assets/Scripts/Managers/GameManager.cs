@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -87,6 +86,8 @@ public class GameManager : MonoBehaviour
 
             m_gameOverTimer += Time.deltaTime;
 
+            GetLocalPlayer().m_controller.enabled = false;
+
             if(m_gameOverTimer >= MaxGameOverTime)
             {
                 GetLocalPlayer().GameOver = false;
@@ -100,6 +101,13 @@ public class GameManager : MonoBehaviour
                     {
                         m_winString = $"Game Over!\r\n {player.PlayerName} has won";
                         m_gameOverText.text = m_winString;
+                    }
+
+                    if (player != GetLocalPlayer() && player is PlayerMovement _player)
+                    {
+                        _player.RPC_Respawn();
+                        _player.HasWon = false;
+                        _player.GameOver = false;
                     }
                 }
             }

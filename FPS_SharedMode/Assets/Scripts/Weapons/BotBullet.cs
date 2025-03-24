@@ -50,7 +50,11 @@ public class BotBullet : Bullet
             var balloonNetworkObject = other.GetComponent<NetworkBehaviour>();
             if (balloonNetworkObject != null)
             {
-                other.GetComponentInParent<Movement>().RPC_DestroyBalloon(balloonNetworkObject);
+                var movement = other.GetComponentInParent<Movement>();
+                if (movement != null)
+                {
+                    movement.RPC_DestroyBalloon(balloonNetworkObject);
+                }
             }
         }
 
