@@ -19,6 +19,11 @@ public class RespawnZone : MonoBehaviour
                 bot.RPC_Respawn();
             }
         }
+
+        if(other.gameObject.TryGetComponent<PlayerMovement>(out PlayerMovement _player) == GameManager.instance.GetLocalPlayer())
+        {
+            GameManager.instance.PlayTransition();
+        }
     }
 
 }

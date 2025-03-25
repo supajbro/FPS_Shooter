@@ -1,3 +1,4 @@
+using DG.Tweening;
 using Fusion;
 using Fusion.Sockets;
 using System;
@@ -6,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -34,6 +36,7 @@ public class GameManager : MonoBehaviour
     public LoadingVisual LoadingVisual;
     private float m_gameOverTimer = 0.0f;
     private const float MaxGameOverTime = 5.0f;
+    [SerializeField] private Image m_transition;
 
     [Header("Spawn Points")]
     public List<Transform> spawnPoints;
@@ -112,5 +115,15 @@ public class GameManager : MonoBehaviour
 
             m_gameOverTimer = 0.0f;
         }
+    }
+
+    public void PlayTransition()
+    {
+        const float Value = 0.5f;
+        m_transition.DOFillAmount(1.0f, Value).OnComplete(() =>
+        {
+            DOVirtual.DelayedCall(Value, () => m_transition.DOFillAmount(0.0f, Value), true);
+        });
+
     }
 }
