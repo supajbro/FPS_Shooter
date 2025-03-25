@@ -412,17 +412,20 @@ public class Movement : NetworkBehaviour, IPlayerController, IBalloons
     {
         SetCurrentState(MovementStates.Idle);
 
-        foreach (var balloon in m_destroyedBallons)
+        var _list = new List<GameObject>(m_destroyedBallons);
+        foreach (var balloon in _list)
         {
             if (m_balloons.Contains(balloon))
             {
                 return;
             }
 
-            m_balloons.Add(balloon);
-            balloon.GetComponent<MeshRenderer>().enabled = true;
-            m_balloonRespawnTime = 10.0f;
+            //m_balloons.Add(balloon);
+            RPC_RespawnBalloon(balloon.GetComponent<NetworkBehaviour>());
+            //balloon.GetComponent<MeshRenderer>().enabled = true;
+            //m_balloonRespawnTime = 10.0f;
         }
+
         m_destroyedBallons.Clear();
         SetJumpHeight();
     }
