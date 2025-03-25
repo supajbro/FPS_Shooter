@@ -59,6 +59,7 @@ public class PlayerMovement : Movement, IHealth
         GameManager.instance.MainMenu.CloseMainMenu();
         GameManager.instance.OpenPlayerScreen();
         PlayerName = GameManager.instance.MainMenu.PlayerName;
+        gameObject.name = PlayerName;
     }
 
     private void SpawnBotPooler()
@@ -204,6 +205,11 @@ public class PlayerMovement : Movement, IHealth
 
     private void UpdatePlayerState(ref Vector3 moveInput, ref Vector3 move)
     {
+        if (!m_canMove)
+        {
+            return;
+        }
+
         switch (m_currentState)
         {
             case MovementStates.Idle:
@@ -270,17 +276,24 @@ public class PlayerMovement : Movement, IHealth
         base.RPC_Win();
     }
 
-    public override void RPC_Respawn()
+    [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
+    public void RPC_RespawnPlayer()
     {
-        m_velocity.y = 0f;
+        m_velocity = Vector3.zero;
         m_controller.enabled = false;
         m_canMove = false;
-        var randSpawnPos = Random.Range(0, GameManager.instance.spawnPoints.Count);
-        var pos = GameManager.instance.spawnPoints[randSpawnPos].position;
+
+        // Update position
+        Debug.Log("[Pos] Old pos: " + transform.position);
+        int randSpawnPos = Random.Range(0, GameManager.instance.spawnPoints.Count);
+        Vector3 pos = GameManager.instance.spawnPoints[randSpawnPos].position;
         transform.position = pos;
+        Debug.Log("[Pos] New pos: " + transform.position);
+
         m_controller.enabled = true;
         m_canMove = true;
-        base.RPC_Respawn();
+
+        RPC_Respawn();
     }
 
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]

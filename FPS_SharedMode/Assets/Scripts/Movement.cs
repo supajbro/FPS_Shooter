@@ -402,6 +402,12 @@ public class Movement : NetworkBehaviour, IPlayerController, IBalloons
     }
 
     [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
+    public virtual void RPC_StopMovement()
+    {
+        m_controller.enabled = false;
+    }
+
+    [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
     public virtual void RPC_Respawn()
     {
         SetCurrentState(MovementStates.Idle);
