@@ -119,6 +119,7 @@ public class GameManager : MonoBehaviour
 
     public void PlayTransition()
     {
+        return;
         const float Value = 0.5f;
         m_transition.DOFillAmount(1.0f, Value).OnComplete(() =>
         {
