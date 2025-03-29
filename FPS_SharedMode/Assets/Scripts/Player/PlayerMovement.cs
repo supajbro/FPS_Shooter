@@ -355,4 +355,9 @@ public class PlayerMovement : Movement, IHealth
         }
     }
     #endregion
+
+    public void Shutdown()
+    {
+        Runner.Shutdown();
+    }
 }

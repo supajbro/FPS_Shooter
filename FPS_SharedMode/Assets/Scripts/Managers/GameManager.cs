@@ -22,6 +22,7 @@ public class GameManager : MonoBehaviour
     {
         return FindObjectsOfType<Movement>().ToList();
     }
+    public PlayerRef player;
 
     [Header("Bots")]
     [SerializeField] private GameObject m_botPoolerPrefab;
@@ -50,6 +51,11 @@ public class GameManager : MonoBehaviour
     private void Update()
     {
         GameOverScreenUpdate();
+
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            ShutddownGame();
+        }
     }
 
     public void SpawnBotPooler(NetworkRunner Runner)
@@ -115,6 +121,15 @@ public class GameManager : MonoBehaviour
 
             m_gameOverTimer = 0.0f;
         }
+    }
+
+    public void ShutddownGame()
+    {
+        GetLocalPlayer().Shutdown();
+        MainMenu.InitMainMenu();
+        m_playerScreen.alpha = 0;
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
     }
 
     public void PlayTransition()

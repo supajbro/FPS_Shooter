@@ -23,6 +23,7 @@ public class MainMenu : MonoBehaviour
     public string PlayerName => m_playerName;
 
     [SerializeField] private NetworkRunner m_networkRunner;
+    [SerializeField] private NetworkRunner runnerPrefab;
 
     [SerializeField] private Button m_startGameButton;
     [SerializeField] private Button m_joinSessionButton;
@@ -31,6 +32,15 @@ public class MainMenu : MonoBehaviour
 
     [Header("UI")]
     public CanvasGroup m_canvasGroup;
+
+    public void InitMainMenu()
+    {
+        OpenMainMenu();
+        GameManager.instance.LoadingVisual.gameObject.SetActive(false);
+        m_mainMenuUI.alpha = 1.0f;
+        m_mainMenuUI.blocksRaycasts = true;
+        m_mainMenuUI.interactable = true;
+    }
 
     public void OpenMainMenu()
     {
@@ -87,6 +97,12 @@ public class MainMenu : MonoBehaviour
     {
         m_currentSessionName = GenerateRandomString();
 
+        if(m_networkRunner != null)
+        {
+            Destroy(m_networkRunner.gameObject);
+        }
+        m_networkRunner = Instantiate(runnerPrefab);
+
         var result = await m_networkRunner.StartGame(new StartGameArgs
         {
             SessionName = m_currentSessionName,
@@ -126,6 +142,12 @@ public class MainMenu : MonoBehaviour
 
     async void JoinActiveSessionAsync()
     {
+
+        if (m_networkRunner != null)
+        {
+            Destroy(m_networkRunner.gameObject);
+        }
+        m_networkRunner = Instantiate(runnerPrefab);
 
         var result = await m_networkRunner.StartGame(new StartGameArgs
         {

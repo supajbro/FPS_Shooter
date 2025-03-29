@@ -14,6 +14,8 @@ public class PlayerSpawner : SimulationBehaviour, IPlayerJoined
             var randSpawnPos = Random.Range(0, GameManager.instance.spawnPoints.Count);
             var spawnedPlayer = Runner.Spawn(playerPrefab, GameManager.instance.spawnPoints[randSpawnPos].position, Quaternion.identity);
             spawnedPlayer.name += Random.Range(0, 10000);
+
+            GameManager.instance.player = player;
         }
     }
 
