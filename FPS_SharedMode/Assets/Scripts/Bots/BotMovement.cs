@@ -53,6 +53,11 @@ public class BotMovement : Movement
 
     private void ConfigureBotVisuals()
     {
+        if (m_botHead == null)
+        {
+            return;
+        }
+
         var skinnedMeshRenderer = m_botHead.GetComponent<SkinnedMeshRenderer>();
         skinnedMeshRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.ShadowsOnly;
     }
