@@ -1,3 +1,4 @@
+using DG.Tweening;
 using Fusion;
 using System.Collections;
 using System.Collections.Generic;
@@ -122,6 +123,12 @@ public class PlayerMovement : Movement, IHealth
         if (Input.GetKeyDown(KeyCode.Space))
         {
             m_jumpPressed = true;
+        }
+
+        if (RespawnPosition)
+        {
+            RPC_RespawnPlayer();
+            DOVirtual.DelayedCall(1f, () => RespawnPosition = false);
         }
 
         //// DEBUG
@@ -287,7 +294,7 @@ public class PlayerMovement : Movement, IHealth
         {
             foreach (var player in FindObjectsOfType<PlayerMovement>())
             {
-                player.RPC_RespawnPlayer();
+                player.RespawnPosition = true;
             }
         }
     }
@@ -313,7 +320,7 @@ public class PlayerMovement : Movement, IHealth
         transform.position = pos;
         Debug.Log("[Pos] New pos: " + transform.position);
 
-        m_controller.enabled = true;
+        DOVirtual.DelayedCall(1f, () => m_controller.enabled = true);
         m_canMove = true;
 
         RPC_Respawn();

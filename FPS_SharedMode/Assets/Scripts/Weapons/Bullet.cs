@@ -36,6 +36,7 @@ public class Bullet : NetworkBehaviour
             transform.localPosition += m_direction * m_speed * Time.deltaTime;
             //Debug.DrawLine(m_startPosition, transform.localPosition += m_direction * 100, Color.yellow);
             DestroyBalloonLogic();
+            Destroy(gameObject, 1.0f);
         }
     }
 

@@ -31,6 +31,7 @@ public class GameManager : MonoBehaviour
     public PlayerInfo PlayerInfo;
     public MainMenu MainMenu;
     [SerializeField] private CanvasGroup m_playerScreen;
+    [SerializeField] private CanvasGroup m_waitingScreen;
     [SerializeField] private CanvasGroup m_gameOverScreen;
     [SerializeField] private TextMeshProUGUI m_gameOverText;
     private string m_winString = "";
@@ -87,11 +88,28 @@ public class GameManager : MonoBehaviour
 
         const float FadeSpeed = 2.0f;
 
-        if (GetLocalPlayer().GameOver)
+        if (GetLocalPlayer().IsDead)
+        {
+            m_waitingScreen.alpha += Time.deltaTime * FadeSpeed;
+            m_waitingScreen.blocksRaycasts = true;
+            m_waitingScreen.interactable = true;
+
+            m_gameOverScreen.alpha -= Time.deltaTime * FadeSpeed;
+            m_gameOverScreen.blocksRaycasts = false;
+            m_gameOverScreen.interactable = false;
+            m_winString = "";
+
+            m_gameOverTimer = 0.0f;
+        }
+        else if (GetLocalPlayer().GameOver)
         {
             m_gameOverScreen.alpha += Time.deltaTime * FadeSpeed;
             m_gameOverScreen.blocksRaycasts = true;
             m_gameOverScreen.interactable = true;
+
+            m_waitingScreen.alpha -= Time.deltaTime * FadeSpeed;
+            m_waitingScreen.blocksRaycasts = false;
+            m_waitingScreen.interactable = false;
 
             m_gameOverTimer += Time.deltaTime;
 
@@ -118,6 +136,10 @@ public class GameManager : MonoBehaviour
             m_gameOverScreen.blocksRaycasts = false;
             m_gameOverScreen.interactable = false;
             m_winString = "";
+
+            m_waitingScreen.alpha -= Time.deltaTime * FadeSpeed;
+            m_waitingScreen.blocksRaycasts = false;
+            m_waitingScreen.interactable = false;
 
             m_gameOverTimer = 0.0f;
         }
