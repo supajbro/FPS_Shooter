@@ -30,6 +30,7 @@ public class Movement : NetworkBehaviour, IPlayerController, IBalloons
     [Networked] public bool Boss { get; set; }
     [Networked] public bool HasWon { get; set; }
     [Networked] public bool GameOver { get; set; }
+    [Networked] public bool IsDead { get; set; }
     [Networked] public string PlayerName { get; set; }
 
     [Header("Movement")]
@@ -97,6 +98,8 @@ public class Movement : NetworkBehaviour, IPlayerController, IBalloons
     public override void Render()
     {
         BossUpdate();
+
+        RespawnPlayer();
     }
 
     public virtual void BossUpdate()
@@ -107,6 +110,10 @@ public class Movement : NetworkBehaviour, IPlayerController, IBalloons
         }
 
         Boss = Runner.IsSharedModeMasterClient;
+    }
+
+    public virtual void RespawnPlayer()
+    {
     }
 
     public virtual void IdleUpdate(ref Vector3 moveInput, ref Vector3 move)
@@ -291,6 +298,12 @@ public class Movement : NetworkBehaviour, IPlayerController, IBalloons
         //}
     }
 
+    public virtual void SetDead()
+    {
+        IsDead = true;
+        m_controller.enabled = false;
+    }
+
     #region - Knockback -
     Vector3 knockbackDirection = Vector3.zero;
     float initKnockbackDot = 0f;
@@ -412,6 +425,8 @@ public class Movement : NetworkBehaviour, IPlayerController, IBalloons
     public virtual void RPC_Respawn()
     {
         SetCurrentState(MovementStates.Idle);
+
+        IsDead = false;
 
         var _list = new List<GameObject>(m_destroyedBallons);
         foreach (var balloon in _list)

@@ -9,15 +9,16 @@ public class RespawnZone : MonoBehaviour
     {
         if (other.gameObject.TryGetComponent<Movement>(out Movement controller))
         {
-            if (controller is PlayerMovement player)
-            {
-                player.RPC_RespawnPlayer();
-            }
-            else if (controller is BotMovement bot)
-            {
-                Debug.Log($"[Respawn] Bot respawned {bot.PlayerName}");
-                bot.RPC_Respawn();
-            }
+            controller.SetDead();
+            //if (controller is PlayerMovement player)
+            //{
+            //    player.RPC_RespawnPlayer();
+            //}
+            //else if (controller is BotMovement bot)
+            //{
+            //    Debug.Log($"[Respawn] Bot respawned {bot.PlayerName}");
+            //    bot.RPC_Respawn();
+            //}
         }
 
         if(other.gameObject.TryGetComponent<PlayerMovement>(out PlayerMovement _player) == GameManager.instance.GetLocalPlayer())

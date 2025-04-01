@@ -209,6 +209,23 @@ public class BotMovement : Movement
     }
     #endregion
 
+    public override void RespawnPlayer()
+    {
+        base.RespawnPlayer();
+        bool allPlayesFinished = true;
+        foreach (var player in GameManager.instance.GetAllPlayers())
+        {
+            if (!player.IsDead)
+            {
+                allPlayesFinished = false;
+            }
+        }
+        if (allPlayesFinished)
+        {
+            RPC_Respawn();
+        }
+    }
+
     public override void RPC_Respawn()
     {
         SetPath(0);

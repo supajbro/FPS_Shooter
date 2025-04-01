@@ -7003,6 +7003,7 @@ GameObject:
   - component: {fileID: 7066580843728934027}
   - component: {fileID: 5071248153147366421}
   - component: {fileID: 1553676261403546715}
+  - component: {fileID: 6529843937171044738}
   m_Layer: 7
   m_Name: PlayerCharacter
   m_TagString: Player
@@ -7126,6 +7127,7 @@ MonoBehaviour:
   NetworkedBehaviours:
   - {fileID: 248784798051762077}
   - {fileID: 7066580843728934027}
+  - {fileID: 6529843937171044738}
   - {fileID: 832346869998829976}
   ForceRemoteRenderTimeframe: 0
 --- !u!143 &6358476555307218304
@@ -7189,6 +7191,7 @@ MonoBehaviour:
   _Boss: 0
   _HasWon: 0
   _GameOver: 0
+  _IsDead: 0
   _PlayerName: 
   m_speed: 35
   m_velocity: {x: 0, y: 0, z: 0}
@@ -7269,6 +7272,19 @@ MonoBehaviour:
     - {fileID: 1150422009705655180}
     particlesInUse: []
     parent: {fileID: 0}
+--- !u!114 &6529843937171044738
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7362558426982565977}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50a2b6b7bca3ba744a9f336fba2e3f76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ground: {fileID: 3538287966051874771, guid: 20a35658ac357c746a090f9f3d184952, type: 3}
 --- !u!1 &7505547905103455949
 GameObject:
   m_ObjectHideFlags: 0

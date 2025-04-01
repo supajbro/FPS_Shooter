@@ -32376,6 +32376,7 @@ MonoBehaviour:
   _Boss: 0
   _HasWon: 0
   _GameOver: 0
+  _IsDead: 0
   _PlayerName: 
   m_speed: 35
   m_velocity: {x: 0, y: 0, z: 0}

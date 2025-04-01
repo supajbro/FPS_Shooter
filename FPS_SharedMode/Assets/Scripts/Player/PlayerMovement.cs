@@ -60,6 +60,7 @@ public class PlayerMovement : Movement, IHealth
         GameManager.instance.OpenPlayerScreen();
         PlayerName = GameManager.instance.MainMenu.PlayerName;
         gameObject.name = PlayerName;
+        GetComponent<NetworkEnvironmentSpawner>().SpawnNetworkedEnvironments();
     }
 
     private void SpawnBotPooler()
@@ -270,6 +271,26 @@ public class PlayerMovement : Movement, IHealth
         m_currentHealth += amount;
     }
     #endregion
+
+    public override void RespawnPlayer()
+    {
+        base.RespawnPlayer();
+        bool allPlayesFinished = true;
+        foreach (var player in GameManager.instance.GetAllPlayers())
+        {
+            if (!player.IsDead)
+            {
+                allPlayesFinished = false;
+            }
+        }
+        if (allPlayesFinished)
+        {
+            foreach (var player in FindObjectsOfType<PlayerMovement>())
+            {
+                player.RPC_RespawnPlayer();
+            }
+        }
+    }
 
     #region - RPC Calls -
 
