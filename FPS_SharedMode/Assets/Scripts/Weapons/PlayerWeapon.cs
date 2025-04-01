@@ -18,7 +18,7 @@ public class PlayerWeapon : Weapon
 
     public override void Update()
     {
-        if (HasStateAuthority && Input.GetMouseButtonDown(0))
+        if (HasStateAuthority && Input.GetMouseButton(0))
         {
             m_shootPressed = true;
         }

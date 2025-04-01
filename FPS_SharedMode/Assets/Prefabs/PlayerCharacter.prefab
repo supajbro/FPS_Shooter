@@ -7210,7 +7210,7 @@ MonoBehaviour:
   m_destroyedBallons: []
   m_maxBalloons: 3
   m_ballonHeightIncrease: 0.5
-  m_balloonRespawnTime: 10
+  m_balloonRespawnTime: 2.5
   _ActiveBallons: 0
   m_playerMesh: {fileID: 4543176454799818269}
   m_playerHead: {fileID: 5421096649283010455}

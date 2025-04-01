@@ -25,7 +25,7 @@ public class Weapon : NetworkBehaviour
     [Header("Reload")]
     protected bool m_reloading = false;
     protected float m_reloadTime = 0f;
-    protected float m_maxReloadTime = 1f;
+    protected const float m_maxReloadTime = 0.25f;
 
     public virtual void Awake()
     {

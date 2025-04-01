@@ -176,11 +176,13 @@ public class PlayerMovement : Movement, IHealth
 
     private void ApplyKnockback(ref Vector3 move)
     {
+        return;
         KnockbackUpdate(ref move);
     }
 
     public override void InitKnockback()
     {
+        return;
         if (IsGrounded)
         {
             return;

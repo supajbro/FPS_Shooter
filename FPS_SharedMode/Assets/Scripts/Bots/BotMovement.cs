@@ -28,14 +28,14 @@ public class BotMovement : Movement
 
     public void SetPath(int pathIndex)
     {
-        if (pathIndex < 0 || pathIndex >= m_botPooler.BotPaths.Count)
-        {
-            Debug.LogWarning($"SetPath: pathIndex {pathIndex} is out of bounds");
-            return;
-        }
+        //if (pathIndex < 0 || pathIndex >= m_botPooler.BotPaths.Count)
+        //{
+        //    Debug.LogWarning($"SetPath: pathIndex {pathIndex} is out of bounds");
+        //    return;
+        //}
 
-        m_currentPath = m_botPooler.BotPaths[pathIndex];
-        m_currentPathIndex = pathIndex;
+        //m_currentPath = m_botPooler.BotPaths[pathIndex];
+        //m_currentPathIndex = pathIndex;
     }
 
     public override void Spawned()
@@ -107,16 +107,25 @@ public class BotMovement : Movement
         RespawnBalloons();
     }
 
+    private Transform FindClosestPlayer()
+    {
+        foreach (var player in FindObjectsOfType<PlayerMovement>())
+        {
+            return player.transform;
+        }
+        return null;
+    }
+
     public override void FixedUpdateNetwork()
     {
         UpdateMoveVelocity();
 
-        if (m_currentPath && m_currentPath.ReachedPathPoint(this) && m_currentPathIndex <= m_botPooler.BotPaths.Count)
-        {
-            SetPath(m_currentPathIndex + 1);
-        }
+        //if (m_currentPath && m_currentPath.ReachedPathPoint(this) && m_currentPathIndex <= m_botPooler.BotPaths.Count)
+        //{
+        //    SetPath(m_currentPathIndex + 1);
+        //}
 
-        Vector3 target = (m_weapon.ShootPressed && m_weapon.Target) ? m_weapon.Target.transform.position : m_currentPath.transform.position;
+        Vector3 target = (m_weapon.ShootPressed && m_weapon.Target) ? m_weapon.Target.transform.position : FindClosestPlayer().position;
         Vector3 targetDirection = (target - transform.position).normalized;
         Vector3 flatDirection = new Vector3(targetDirection.x, 0, targetDirection.z);
         Quaternion targetRotation = Quaternion.LookRotation(flatDirection);
