@@ -6271,11 +6271,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8217514831394072736, guid: 6e339fe15c033a84aa517a72ea32419a, type: 3}
       propertyPath: m_LocalScale.x
-      value: 50
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 8217514831394072736, guid: 6e339fe15c033a84aa517a72ea32419a, type: 3}
       propertyPath: m_LocalScale.z
-      value: 50
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 8217514831394072736, guid: 6e339fe15c033a84aa517a72ea32419a, type: 3}
       propertyPath: m_LocalPosition.x
