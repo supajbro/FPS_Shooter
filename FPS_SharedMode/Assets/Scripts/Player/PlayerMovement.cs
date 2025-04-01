@@ -123,16 +123,16 @@ public class PlayerMovement : Movement, IHealth
             m_jumpPressed = true;
         }
 
-        // DEBUG
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            DestroyRandomBalloon();
-        }
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            RPC_Win();
-            RPC_Respawn();
-        }
+        //// DEBUG
+        //if (Input.GetKeyDown(KeyCode.Q))
+        //{
+        //    DestroyRandomBalloon();
+        //}
+        //if (Input.GetKeyDown(KeyCode.E))
+        //{
+        //    RPC_Win();
+        //    RPC_Respawn();
+        //}
 
         RespawnBalloons();
     }

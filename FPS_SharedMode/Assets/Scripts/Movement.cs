@@ -143,10 +143,11 @@ public class Movement : NetworkBehaviour, IPlayerController, IBalloons
 
         m_moveVelocity = 0.5f;
 
+        const float MinRange = 0.25f;
         // Restrict the movement of the player when in the air
-        if (move.magnitude > 0.75f)
+        if (move.magnitude > MinRange)
         {
-            m_speedInAirScaler = (m_speedInAirScaler > 0.75f) ? m_speedInAirScaler - Runner.DeltaTime : 0.75f;
+            m_speedInAirScaler = (m_speedInAirScaler > MinRange) ? m_speedInAirScaler - Runner.DeltaTime : MinRange;
             move = move.normalized * m_speedInAirScaler;
         }
 
@@ -208,7 +209,7 @@ public class Movement : NetworkBehaviour, IPlayerController, IBalloons
         }
         else
         {
-            move = m_lastMoveOnGround;
+            //move = m_lastMoveOnGround;
             m_timeOffGround += Runner.DeltaTime;
 
             if (m_timeOffGround > 0.5f)
