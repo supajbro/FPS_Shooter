@@ -40,6 +40,10 @@ public class GameManager : MonoBehaviour
     private const float MaxGameOverTime = 5.0f;
     [SerializeField] private Image m_transition;
 
+    [Header("Waiting UI")]
+    [SerializeField] private TextMeshProUGUI m_playerAliveText;
+    [SerializeField] private TextMeshProUGUI m_playerDeadText;
+
     [Header("Spawn Points")]
     public List<Transform> spawnPoints;
 
@@ -93,6 +97,7 @@ public class GameManager : MonoBehaviour
             m_waitingScreen.alpha += Time.deltaTime * FadeSpeed;
             m_waitingScreen.blocksRaycasts = true;
             m_waitingScreen.interactable = true;
+            UpdateWaitingUI();
 
             m_gameOverScreen.alpha -= Time.deltaTime * FadeSpeed;
             m_gameOverScreen.blocksRaycasts = false;
@@ -143,6 +148,27 @@ public class GameManager : MonoBehaviour
 
             m_gameOverTimer = 0.0f;
         }
+    }
+
+    private void UpdateWaitingUI()
+    {
+        List<string> aliveNames = new();
+        List<string> deadNames = new();
+
+        foreach (var player in GetAllPlayers())
+        {
+            if (player.IsDead)
+            {
+                deadNames.Add(player.PlayerName);
+            }
+            else
+            {
+                aliveNames.Add(player.PlayerName);
+            }
+        }
+
+        m_playerAliveText.text = string.Join("\n", aliveNames);
+        m_playerDeadText.text = string.Join("\n", deadNames);
     }
 
     public void ShutddownGame()

@@ -69,10 +69,18 @@ public class BotMovement : Movement
         m_canMove = true;
     }
 
+    List<string> botNames = new List<string>
+    {
+        "BotAlpha", "BotBravo", "BotCharlie", "BotDelta", "BotEcho",
+        "BotFoxtrot", "BotGamma", "BotHunter", "BotInferno", "BotJoker"
+    };
+
+
     private void InitBotStats()
     {
         //m_currentHealth = m_maxHealth;
         ActiveBallons = m_balloons.Count;
+        PlayerName = botNames[Random.Range(0, botNames.Count)];
         SetJumpHeight();
     }
     #endregion
