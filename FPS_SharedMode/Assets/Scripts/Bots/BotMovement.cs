@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -80,7 +81,7 @@ public class BotMovement : Movement
     {
         //m_currentHealth = m_maxHealth;
         ActiveBallons = m_balloons.Count;
-        PlayerName = botNames[Random.Range(0, botNames.Count)];
+        PlayerName = botNames[UnityEngine.Random.Range(0, botNames.Count)];
         SetJumpHeight();
     }
     #endregion
@@ -92,20 +93,28 @@ public class BotMovement : Movement
         return;
     }
 
+    float randomJumpTime = -1.0f;
+    private void SetJumpTime()
+    {
+        randomJumpTime = UnityEngine.Random.Range(3.0f, 15.0f);
+    }
+
     public override void Update()
     {
         base.Update();
+        randomJumpTime -= Time.deltaTime;
         // Jump input check
-        if (m_currentPath && m_currentPath.NextPath)
+        if (randomJumpTime <= 0.0f)
         {
-            Vector3 toNextPath = (m_currentPath.NextPath.transform.position - transform.position).normalized;
-            float dotProduct = Vector3.Dot(transform.forward, toNextPath);
-            bool atCurrentPoint = m_currentPath.NearPathPoint(this);
-            if (dotProduct >= 0.75f && m_currentPath.NextPath.transform.position.y > m_currentPath.transform.position.y && atCurrentPoint && !m_jumpPressed)
+            //Vector3 toNextPath = (m_currentPath.NextPath.transform.position - transform.position).normalized;
+            //float dotProduct = Vector3.Dot(transform.forward, toNextPath);
+            //bool atCurrentPoint = m_currentPath.NearPathPoint(this);
+            //if (dotProduct >= 0.75f && m_currentPath.NextPath.transform.position.y > m_currentPath.transform.position.y && atCurrentPoint && !m_jumpPressed)
             {
-                Debug.Log($"{m_currentPath.NextPath.transform.position.y} / {m_currentPath.transform.position.y}");
+                //Debug.Log($"{m_currentPath.NextPath.transform.position.y} / {m_currentPath.transform.position.y}");
                 m_jumpPressed = true;
             }
+            SetJumpTime();
         }
         else
         {
