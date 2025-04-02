@@ -7,41 +7,58 @@ public class NetworkEnvironmentSpawner : NetworkBehaviour
 {
 
     public GameObject ground;
-    private NetworkObject m_ground;
     private Vector3 m_initScale = Vector3.zero;
     private Vector3 m_newScale = Vector3.zero;
 
-    public void SpawnNetworkedEnvironments()
+    //public void SpawnNetworkedEnvironments()
+    //{
+    //    {
+    //        Runner.Spawn(ground);
+    //        m_initScale = transform.localScale;
+    //        m_newScale = m_initScale;
+    //    }
+    //}
+
+    public override void Spawned()
     {
         base.Spawned();
 
-        if(HasStateAuthority && GameManager.instance.GetLocalPlayer().Boss)
-        {
-            m_ground = Runner.Spawn(ground);
-            m_initScale = m_ground.transform.localScale;
-            m_newScale = m_initScale;
-        }
+        m_initScale = transform.localScale;
+        m_newScale = m_initScale;
     }
 
     public override void FixedUpdateNetwork()
     {
+        //if (!HasStateAuthority)
+        //{
+        //    return;
+        //}
+
         base.FixedUpdateNetwork();
 
-        if (m_ground != null)
+        bool restart = true;
+        foreach (var player in GameManager.instance.GetAllPlayers())
         {
-            if (!GameManager.instance.GetLocalPlayer().IsDead)
+            if (!player.IsDead)
             {
-                const float ScaleSpeed = 0.75f;
+                restart = false;
+                break;
+            }
+        }
 
-                m_newScale.x = (m_newScale.x > 0.0f) ? m_newScale.x - (Runner.DeltaTime * ScaleSpeed) : 0.0f;
-                m_newScale.z = (m_newScale.z > 0.0f) ? m_newScale.z - (Runner.DeltaTime * ScaleSpeed) : 0.0f;
-                m_ground.transform.localScale = m_newScale;
-            }
-            else
-            {
-                m_ground.transform.localScale = m_initScale;
-                m_newScale = m_initScale;
-            }
+        if (!restart)
+        {
+            const float ScaleSpeed = 0.75f;
+            //const float ScaleSpeed = 5.0f;
+
+            m_newScale.x = (m_newScale.x > 0.0f) ? m_newScale.x - (Runner.DeltaTime * ScaleSpeed) : 0.0f;
+            m_newScale.z = (m_newScale.z > 0.0f) ? m_newScale.z - (Runner.DeltaTime * ScaleSpeed) : 0.0f;
+            transform.localScale = m_newScale;
+        }
+        else
+        {
+            transform.localScale = m_initScale;
+            m_newScale = m_initScale;
         }
     }
 }

@@ -61,9 +61,9 @@ public class PlayerMovement : Movement, IHealth
         GameManager.instance.OpenPlayerScreen();
         PlayerName = GameManager.instance.MainMenu.PlayerName;
         gameObject.name = PlayerName;
-        GetComponent<NetworkEnvironmentSpawner>().SpawnNetworkedEnvironments();
     }
 
+    [SerializeField] private NetworkEnvironmentSpawner m_enviroSpawner;
     private void SpawnBotPooler()
     {
         if (!Boss)
@@ -72,6 +72,7 @@ public class PlayerMovement : Movement, IHealth
         }
 
         GameManager.instance.SpawnBotPooler(Runner);
+        Runner.Spawn(m_enviroSpawner);
     }
 
     private void ConfigurePlayerVisuals()
