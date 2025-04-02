@@ -29,11 +29,19 @@ public class NetworkEnvironmentSpawner : NetworkBehaviour
 
         if (m_ground != null)
         {
-            const float ScaleSpeed = 0.75f;
+            if (!GameManager.instance.GetLocalPlayer().IsDead)
+            {
+                const float ScaleSpeed = 0.75f;
 
-            m_newScale.x = (m_newScale.x > 0.0f) ? m_newScale.x - (Runner.DeltaTime * ScaleSpeed) : 0.0f;
-            m_newScale.z = (m_newScale.z > 0.0f) ? m_newScale.z - (Runner.DeltaTime * ScaleSpeed) : 0.0f;
-            m_ground.transform.localScale = m_newScale;
+                m_newScale.x = (m_newScale.x > 0.0f) ? m_newScale.x - (Runner.DeltaTime * ScaleSpeed) : 0.0f;
+                m_newScale.z = (m_newScale.z > 0.0f) ? m_newScale.z - (Runner.DeltaTime * ScaleSpeed) : 0.0f;
+                m_ground.transform.localScale = m_newScale;
+            }
+            else
+            {
+                m_ground.transform.localScale = m_initScale;
+                m_newScale = m_initScale;
+            }
         }
     }
 }
