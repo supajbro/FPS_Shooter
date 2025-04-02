@@ -39,6 +39,8 @@ public class GameManager : MonoBehaviour
     private float m_gameOverTimer = 0.0f;
     private const float MaxGameOverTime = 5.0f;
     [SerializeField] private Image m_transition;
+    [SerializeField] private Toggle m_fullScreenToggle;
+    public Slider sensitivity;
 
     [Header("Waiting UI")]
     [SerializeField] private TextMeshProUGUI m_playerAliveText;
@@ -51,6 +53,17 @@ public class GameManager : MonoBehaviour
     {
         instance = this;
         Application.targetFrameRate = 60;
+
+        // Ensure the toggle reflects the current fullscreen state
+        m_fullScreenToggle.isOn = Screen.fullScreen;
+
+        // Add a listener to handle toggle changes
+        m_fullScreenToggle.onValueChanged.AddListener(SetFullscreen);
+    }
+
+    private void SetFullscreen(bool isFullscreen)
+    {
+        Screen.fullScreen = isFullscreen;
     }
 
     private void Update()

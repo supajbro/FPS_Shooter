@@ -28,6 +28,8 @@ public class FirstPersonCamera : MonoBehaviour
             return;
         }
 
+        m_mouseSensitivity = GameManager.instance.sensitivity.value;
+
         transform.position = m_target.position;
 
         float mouseX = Input.GetAxis("Mouse X");
