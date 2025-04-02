@@ -132,6 +132,7 @@ public class MainMenu : MonoBehaviour
 
     public void JoinActiveSession()
     {
+        Popup.Instance.Close();
         m_mainMenuUI.alpha = 0.0f;
         m_mainMenuUI.blocksRaycasts = false;
         m_mainMenuUI.interactable = false;

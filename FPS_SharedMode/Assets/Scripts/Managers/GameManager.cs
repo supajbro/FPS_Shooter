@@ -72,7 +72,7 @@ public class GameManager : MonoBehaviour
 
         if(Input.GetKeyDown(KeyCode.Escape))
         {
-            ShutddownGame();
+            OpenShutdownPopup();
         }
     }
 
@@ -184,8 +184,16 @@ public class GameManager : MonoBehaviour
         m_playerDeadText.text = string.Join("\n", deadNames);
     }
 
+    public void OpenShutdownPopup()
+    {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+        Popup.Instance.Display(false, ShutddownGame, Popup.Instance.Close, "Do you want to exit the game?", "Exit Game", "Close");
+    }
+
     public void ShutddownGame()
     {
+        Popup.Instance.Close();
         GetLocalPlayer().Shutdown();
         MainMenu.InitMainMenu();
         m_playerScreen.alpha = 0;

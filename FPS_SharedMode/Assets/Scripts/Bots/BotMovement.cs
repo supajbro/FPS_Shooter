@@ -1,3 +1,5 @@
+using DG.Tweening;
+using Fusion;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -102,6 +104,13 @@ public class BotMovement : Movement
     public override void Update()
     {
         base.Update();
+
+        if (RespawnPosition)
+        {
+            RPC_RespawnBot();
+            DOVirtual.DelayedCall(1f, () => RespawnPosition = false);
+        }
+
         randomJumpTime -= Time.deltaTime;
         // Jump input check
         if (randomJumpTime <= 0.0f)
@@ -245,30 +254,39 @@ public class BotMovement : Movement
     {
         base.RespawnPlayer();
         bool allPlayesFinished = true;
+        int index = 0;
         foreach (var player in GameManager.instance.GetAllPlayers())
         {
             if (!player.IsDead)
             {
                 allPlayesFinished = false;
             }
+            index++;
         }
         if (allPlayesFinished)
         {
-            RPC_Respawn();
+            RespawnPosition = true;
+        }
+
+        if (IsDead && allPlayesFinished && index <= 1)
+        {
+            RPC_RespawnBot();
         }
     }
 
-    public override void RPC_Respawn()
+    [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
+    public void RPC_RespawnBot()
     {
-        SetPath(0);
+        //SetPath(0);
         m_velocity.y = 0f;
         m_controller.enabled = false;
         m_canMove = false;
-        Vector3 spawnPos = m_currentPath.transform.position;
+        var rand = UnityEngine.Random.Range(0, GameManager.instance.spawnPoints.Count);
+        Vector3 spawnPos = GameManager.instance.spawnPoints[rand].transform.position;
         transform.position = spawnPos;
         m_controller.enabled = true;
         m_canMove = true;
-        base.RPC_Respawn();
+        RPC_Respawn();
     }
 
 }

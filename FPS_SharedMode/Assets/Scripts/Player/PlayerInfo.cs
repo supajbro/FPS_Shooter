@@ -41,7 +41,10 @@ public class PlayerInfo : MonoBehaviour
             return;
         }
 
-        m_activeBalloons = GameManager.instance.GetLocalPlayer().ActiveBallons;
+        if (GameManager.instance.GetLocalPlayer())
+        {
+            m_activeBalloons = GameManager.instance.GetLocalPlayer().ActiveBallons;
+        }
 
         // Iterate over balloons and set positions based on active balloons count
         for (int i = 0; i < m_balloons.Count; i++)

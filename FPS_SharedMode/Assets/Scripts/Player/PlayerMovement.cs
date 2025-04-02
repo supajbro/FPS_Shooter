@@ -284,6 +284,7 @@ public class PlayerMovement : Movement, IHealth
     {
         base.RespawnPlayer();
         bool allPlayesFinished = true;
+        int index = 0;
         foreach (var player in GameManager.instance.GetAllPlayers())
         {
             if (!player.IsDead)
@@ -296,6 +297,20 @@ public class PlayerMovement : Movement, IHealth
             foreach (var player in FindObjectsOfType<PlayerMovement>())
             {
                 player.RespawnPosition = true;
+                index++;
+            }
+        }
+
+        if(IsDead && allPlayesFinished && index <= 1)
+        {
+            RPC_RespawnPlayer();
+
+            if (Boss)
+            {
+                foreach (var bot in FindObjectsOfType<BotMovement>())
+                {
+                    bot.RPC_RespawnBot();
+                }
             }
         }
     }
