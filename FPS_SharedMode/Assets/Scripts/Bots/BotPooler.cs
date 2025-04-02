@@ -9,7 +9,8 @@ public class BotPooler : NetworkBehaviour
 
     [SerializeField] private NetworkObject m_botPrefab;
     [SerializeField] private int m_botSpawnCount = 5;
-    [SerializeField] private List<BotMovement> m_bots = new(); 
+    [SerializeField] private List<BotMovement> m_bots = new();
+    [SerializeField] private float m_spawnDelay = 5.0f;
 
     #region - Getters -
     public List<BotMovement> Bots => m_bots;
@@ -40,7 +41,7 @@ public class BotPooler : NetworkBehaviour
     {
         for (int i = 0; i < m_botSpawnCount; i++)
         {
-            yield return new WaitForSeconds(10f); // Wait for 5 seconds before spawning the next bot
+            yield return new WaitForSeconds(m_spawnDelay); // Wait for 5 seconds before spawning the next bot
             SpawnBot();
         }
     }

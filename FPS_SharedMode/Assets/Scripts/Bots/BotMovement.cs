@@ -109,7 +109,7 @@ public class BotMovement : Movement
         }
         else
         {
-            movementScale = 0.0f;
+            //movementScale = 0.0f;
         }
 
         RespawnBalloons();
@@ -117,13 +117,27 @@ public class BotMovement : Movement
 
     private Transform FindClosestPlayer()
     {
+        Transform closest = null;
+        PlayerMovement previousPlayer = null;
+
         foreach (var player in FindObjectsOfType<PlayerMovement>())
         {
-            return player.transform;
+            if (player.IsDead)
+            {
+                continue;
+            }
+
+            if(previousPlayer == null || Vector3.Distance(transform.position, player.transform.position) < Vector3.Distance(transform.position, previousPlayer.transform.position))
+            {
+                closest = player.transform;
+            }
+
+            previousPlayer = player;
         }
-        return null;
+        return closest;
     }
 
+    Vector3 move;
     public override void FixedUpdateNetwork()
     {
         UpdateMoveVelocity();
@@ -133,7 +147,8 @@ public class BotMovement : Movement
         //    SetPath(m_currentPathIndex + 1);
         //}
 
-        Vector3 target = (m_weapon.ShootPressed && m_weapon.Target) ? m_weapon.Target.transform.position : FindClosestPlayer().position;
+        Vector3 pos = (FindClosestPlayer() != null) ? FindClosestPlayer().transform.position : Vector3.zero;
+        Vector3 target = (m_weapon.ShootPressed && m_weapon.Target) ? m_weapon.Target.transform.position : pos;
         Vector3 targetDirection = (target - transform.position).normalized;
         Vector3 flatDirection = new Vector3(targetDirection.x, 0, targetDirection.z);
         Quaternion targetRotation = Quaternion.LookRotation(flatDirection);
@@ -141,7 +156,7 @@ public class BotMovement : Movement
 
         Vector3 moveInput = GetMoveInput();
 
-        Vector3 move = camRotY * moveInput * Runner.DeltaTime * m_speed;
+        move = camRotY * moveInput * Runner.DeltaTime * m_speed;
 
         HandleGroundState(ref move);
         ProcessJump();
@@ -160,8 +175,8 @@ public class BotMovement : Movement
     }
 
     private float movementScale = 0.25f;
-    const float MinScale = 0.25f;
-    const float MaxScale = 0.75f;
+    const float MinScale = 0.1f;
+    const float MaxScale = 0.5f;
     private Vector3 GetMoveInput()
     {
         if (!m_canMove || m_knockback) return Vector3.zero;
